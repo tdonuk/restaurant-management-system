@@ -15,7 +15,7 @@ public class RestaurantManagementSystemApplication {
         Properties props = new Properties();
 
         props.put("spring.datasource.username","postgres");
-        props.put("spring.datasource.password","1qa2ws3ed");
+        props.put("spring.datasource.password","password");
         props.put("spring.datasource.driver-class-name","org.postgresql.Driver");
         props.put("spring.datasource.url","jdbc:postgresql://localhost:5432/postgres");
         props.put("spring.jpa.generate-ddl", "true");
