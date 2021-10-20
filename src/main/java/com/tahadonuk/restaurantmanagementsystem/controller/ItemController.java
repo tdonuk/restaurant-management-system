@@ -2,42 +2,41 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.item.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.item.ItemType;
-import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
+import com.tahadonuk.restaurantmanagementsystem.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 
-@RestController(value = "/item")
+@RestController
 public class ItemController {
 
     @Autowired
-    ItemRepository itemRepo;
+    ItemService itemService;
 
-    /*
-    @GetMapping(path = "item/beverage/{abc}")
-    public void saveBeverage(@PathVariable String abc) {
+    @PostMapping(path = "items/add")
+    @ResponseBody
+    public ResponseEntity<HttpStatus> saveItem(@RequestBody Item item) {
+        itemService.saveItem(item);
 
-    }
-    */
-
-    @PostMapping(path = "item/add")
-    public void saveItem(@RequestBody Item item) {
-        System.out.println("------------ITEMS------------");
-        System.out.println(item.getName());
-        System.out.println(item.getDescription());
-        System.out.println(item.getPrice());
-        System.out.println(item.getItemType());
-
-        itemRepo.save(item);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "items/{type}")
-    public String saveItem(@PathVariable ItemType type) {
-        Set<Item> items = itemRepo.findAll().stream().collect(Collectors.toSet());
+    @GetMapping(path = "items/type/{type}")
+    @ResponseBody
+    public ResponseEntity<List<Item>> getByType(@PathVariable String type) {
+        ItemType itemType = ItemType.valueOf(type.toUpperCase());
+        List<Item> items = itemService.getByType(itemType);
 
-        return items.toString();
+        return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "items/{id}")
+    @ResponseBody
+    public ResponseEntity<Item> getById(@PathVariable long id) {
+        return new ResponseEntity<>(itemService.getItemById(id), HttpStatus.OK);
     }
 }
