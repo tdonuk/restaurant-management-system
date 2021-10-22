@@ -1,6 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Customer;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.customer.Customer;
 import com.tahadonuk.restaurantmanagementsystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class CustomerController {
 
     @GetMapping(path = "customer/{id}")
     @ResponseBody
-    public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
+    public ResponseEntity<Customer> getById(@PathVariable long id) {
         return new ResponseEntity<>(customerService.getById(id), HttpStatus.OK);
     }
 

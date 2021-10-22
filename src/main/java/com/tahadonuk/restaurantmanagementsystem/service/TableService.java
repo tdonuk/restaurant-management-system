@@ -25,4 +25,11 @@ public class TableService {
     public List<RestaurantTable> getByCapacity(int capacity) {
         return ListUtils.getListFromOptionals(tableRepo.findByCapacity(capacity));
     }
+
+    public RestaurantTable getById(long id) {
+        if(tableRepo.existsById(id)) {
+            return tableRepo.findById(id).get();
+        }
+        else return null;
+    }
 }

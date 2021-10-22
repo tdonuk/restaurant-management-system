@@ -1,10 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Email;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Employee;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.EmployeeRole;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Name;
-import com.tahadonuk.restaurantmanagementsystem.data.repository.EmployeeRepository;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.employee.Employee;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.employee.EmployeeRole;
 import com.tahadonuk.restaurantmanagementsystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class EmployeeController {
@@ -41,7 +37,7 @@ public class EmployeeController {
         return new ResponseEntity<>(empService.getEmployeeByNumber(phoneNumber), HttpStatus.OK);
     }
 
-    @GetMapping(path = "employees/byRole/{role}")
+    @GetMapping(path = "employees/role/{role}")
     @ResponseBody
     public ResponseEntity<List<Employee>> getEmployeeByName(@PathVariable String role) {
         EmployeeRole empRole = EmployeeRole.valueOf(role.toUpperCase());

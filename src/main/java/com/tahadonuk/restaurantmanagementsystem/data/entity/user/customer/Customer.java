@@ -1,6 +1,8 @@
-package com.tahadonuk.restaurantmanagementsystem.data.entity.user;
+package com.tahadonuk.restaurantmanagementsystem.data.entity.user.customer;
 
 import com.sun.istack.NotNull;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Email;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Name;
 import lombok.Data;
 
 import javax.persistence.*;

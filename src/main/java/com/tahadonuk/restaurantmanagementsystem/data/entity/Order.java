@@ -9,17 +9,16 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.*;
 
-@Entity
 @Table(name = "orders")
 @Data
+@Entity
 public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ID")
     private long orderId;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "item_entity", joinColumns = @JoinColumn(name = "ITEM_ID"))
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Item> items;
 
     @Column(name = "ORDER_DATE")

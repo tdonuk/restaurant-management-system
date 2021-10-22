@@ -1,6 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.data.entity;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Customer;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.customer.Customer;
 import lombok.Data;
 
 import javax.persistence.*;

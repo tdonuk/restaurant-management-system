@@ -1,4 +1,4 @@
-package com.tahadonuk.restaurantmanagementsystem.data.entity.user;
+package com.tahadonuk.restaurantmanagementsystem.data.entity.user.employee;
 
 import lombok.Data;
 

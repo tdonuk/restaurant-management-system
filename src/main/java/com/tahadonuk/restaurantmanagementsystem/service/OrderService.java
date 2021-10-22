@@ -1,6 +1,8 @@
 package com.tahadonuk.restaurantmanagementsystem.service;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.item.Item;
+import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.OrderRepository;
 import com.tahadonuk.restaurantmanagementsystem.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,19 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepo;
 
+    @Autowired
+    ItemRepository itemRepository;
+
     public void saveOrder(Order order) {
+        double price = 0;
+
+        for (Item item : order.getItems()) {
+            item = itemRepository.getById(item.getItemId());
+            price += item.getPrice();
+        }
+
+        order.setTotalPrice(price);
+
         orderRepo.save(order);
     }
 
@@ -40,6 +54,16 @@ public class OrderService {
             return orderRepo.findById(id).get();
         }
         else return null;
+    }
+
+    public void deleteOrder(long id) {
+        if(orderRepo.existsById(id)) {
+            orderRepo.deleteById(id);
+        }
+    }
+
+    public int count(final Item items) {
+        return orderRepo.countAllByItemsIsContaining(items);
     }
 
 }

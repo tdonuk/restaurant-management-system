@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Reservation;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Customer;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.customer.Customer;
 import com.tahadonuk.restaurantmanagementsystem.service.CustomerService;
 import com.tahadonuk.restaurantmanagementsystem.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,4 +43,14 @@ public class ReservationController {
         return new ResponseEntity<>(resService.getById(id), HttpStatus.OK);
     }
 
+    @PostMapping(path = "reservations/interval")
+    @ResponseBody
+    public ResponseEntity<HttpStatus> getByDateBetween(@RequestBody Reservation reservation) {
+        Customer customer = reservation.getCustomer();
+
+        customerService.saveCustomer(customer);
+        resService.saveReservation(reservation);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

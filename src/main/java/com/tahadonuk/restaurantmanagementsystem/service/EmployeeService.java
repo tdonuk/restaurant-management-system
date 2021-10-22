@@ -1,17 +1,12 @@
 package com.tahadonuk.restaurantmanagementsystem.service;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Employee;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.EmployeeRole;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.employee.Employee;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.employee.EmployeeRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Name;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.EmployeeRepository;
 import com.tahadonuk.restaurantmanagementsystem.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;

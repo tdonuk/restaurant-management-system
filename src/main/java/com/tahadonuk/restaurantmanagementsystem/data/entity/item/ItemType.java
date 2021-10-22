@@ -1,5 +1,5 @@
 package com.tahadonuk.restaurantmanagementsystem.data.entity.item;
 
 public enum ItemType {
-    MEAL, BEVERAGE
+    MEAL, BEVERAGE, DESSERT, SOUP
 }

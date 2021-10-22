@@ -35,4 +35,10 @@ public class TableController {
     public ResponseEntity<List<RestaurantTable>> getByCapacity(@PathVariable int capacity) {
         return new ResponseEntity<>(tableService.getByCapacity(capacity), HttpStatus.OK);
     }
+
+    @GetMapping(path = "tables/{id}")
+    @ResponseBody
+    public ResponseEntity<RestaurantTable> getById(@PathVariable long id) {
+        return new ResponseEntity<>(tableService.getById(id), HttpStatus.OK);
+    }
 }

@@ -1,6 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.service;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Customer;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.customer.Customer;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
