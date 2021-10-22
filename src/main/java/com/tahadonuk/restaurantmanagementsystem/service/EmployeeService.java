@@ -34,9 +34,9 @@ public class EmployeeService {
 
     public List<Employee> getEmployeesByName(Name name) {
         if(empRepo.existsByName(name)) {
-            List<Optional<Employee>> employeeOptionals = empRepo.findEmployeesByName(name);
+            List<Employee> employees = empRepo.findEmployeesByName(name);
 
-            return ListUtils.getListFromOptionals(employeeOptionals);
+            return employees;
         }
         else return null;
     }
@@ -51,9 +51,9 @@ public class EmployeeService {
 
     public List<Employee> getEmployeesByRole(EmployeeRole role) {
         if(empRepo.existsByRole(role)) {
-            List<Optional<Employee>> employeeOptionals = empRepo.findEmployeesByRole(role);
+            List<Employee> employees = empRepo.findEmployeesByRole(role);
 
-            return ListUtils.getListFromOptionals(employeeOptionals);
+            return employees;
         }
         else return null;
     }

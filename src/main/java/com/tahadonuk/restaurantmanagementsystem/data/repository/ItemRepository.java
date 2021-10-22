@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    List<Optional<Item>> findByItemType(ItemType type);
+    List<Item> findByItemType(ItemType type);
     boolean existsByItemType(ItemType type);
 
-    List<Optional<Item>> findByName(String  name);
-    boolean existsByName(String name);
+    List<Item> findAllByNameContains(String  name);
+    boolean existsByNameContains(String name);
 }

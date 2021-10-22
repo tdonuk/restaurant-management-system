@@ -10,6 +10,7 @@ import java.io.Serializable;
 @javax.persistence.Table(name = "tables")
 @Data
 public class RestaurantTable implements Serializable {
+    @NotNull
     @Id
     @Column(name = "TABLE_ID")
     private long tableId;

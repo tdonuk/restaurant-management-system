@@ -25,19 +25,19 @@ public class ItemService {
     }
 
     public List<Item> findByName(String name) throws NoSuchElementException {
-        if(itemRepo.existsByName(name)) {
-            List<Optional<Item>> itemOptionals = itemRepo.findByName(name);
+        if(itemRepo.existsByNameContains(name)) {
+            List<Item> items = itemRepo.findAllByNameContains(name);
 
-            return ListUtils.getListFromOptionals(itemOptionals);
+            return items;
         }
         else return null;
     }
 
     public List<Item> getByType(ItemType type) throws NoSuchElementException {
         if(itemRepo.existsByItemType(type)) {
-            List<Optional<Item>> itemOptionals = itemRepo.findByItemType(type);
+            List<Item> items = itemRepo.findByItemType(type);
 
-            return ListUtils.getListFromOptionals(itemOptionals);
+            return items;
         }
         else return null;
     }
