@@ -1,4 +1,4 @@
-package com.tahadonuk.restaurantmanagementsystem.data.entity.user;
+package com.tahadonuk.restaurantmanagementsystem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +10,10 @@ import javax.persistence.Embeddable;
 public class Email {
     private String email;
 
-    public Email() {}
-
     public Email(String email) {
         this.email = email;
     }
+
+    public Email() {}
+
 }

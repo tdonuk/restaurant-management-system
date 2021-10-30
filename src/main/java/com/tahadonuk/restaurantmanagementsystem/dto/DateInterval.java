@@ -7,14 +7,14 @@ import java.time.Period;
 import java.util.Date;
 
 @Data
-public class intervalDatesHolder {
+public class DateInterval {
     private Date startDate;
     private Date finishDate;
     private LocalDate start;
     private LocalDate end;
     private Period period;
 
-     public intervalDatesHolder(Date startDate, Date finishDate) {
+     public DateInterval(Date startDate, Date finishDate) {
          this.startDate = startDate;
          this.finishDate = finishDate;
 

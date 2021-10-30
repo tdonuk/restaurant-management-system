@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Reservation;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.customer.Customer;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Customer;
 import com.tahadonuk.restaurantmanagementsystem.service.CustomerService;
 import com.tahadonuk.restaurantmanagementsystem.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;

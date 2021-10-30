@@ -1,7 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.data.entity;
 
 import com.sun.istack.NotNull;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.item.Item;
 import lombok.Data;
 
 import javax.persistence.*;

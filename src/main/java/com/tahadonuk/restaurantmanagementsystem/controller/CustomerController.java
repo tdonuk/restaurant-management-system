@@ -1,30 +1,39 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.customer.Customer;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Customer;
 import com.tahadonuk.restaurantmanagementsystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @GetMapping(path = "customer/{id}")
+    @GetMapping(path = "api/customer/{id}")
     @ResponseBody
     public ResponseEntity<Customer> getById(@PathVariable long id) {
-        return new ResponseEntity<>(customerService.getById(id), HttpStatus.OK);
+        ResponseEntity<Customer> response;
+        try {
+            response = new ResponseEntity<>(customerService.getById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return response;
     }
 
-    @GetMapping(path = "customer/delete/{id}")
+    @GetMapping(path = "api/customer/delete")
     @ResponseBody
-    public ResponseEntity<Customer> deleteCustomer(@PathVariable long id) {
-        customerService.deleteCustomer(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Customer> deleteCustomer(@RequestParam("id") long id) {
+        ResponseEntity<Customer> response;
+        try {
+            customerService.deleteCustomer(id);
+            response = new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return response;
     }
 }

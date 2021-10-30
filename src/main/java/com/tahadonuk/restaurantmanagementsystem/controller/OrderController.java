@@ -1,8 +1,8 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.item.Item;
-import com.tahadonuk.restaurantmanagementsystem.dto.intervalDatesHolder;
+import com.tahadonuk.restaurantmanagementsystem.dto.DateInterval;
+import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class OrderController {
@@ -18,7 +17,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @PostMapping(value = "/orders/create")
+    @PostMapping(value = "api/orders/create")
     @ResponseBody
     public ResponseEntity<HttpStatus> createOrder(@RequestBody Order order) {
         orderService.saveOrder(order);
@@ -26,28 +25,41 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/orders/{id}")
+    @GetMapping(value = "api/orders/{id}")
     @ResponseBody
     public ResponseEntity<Order> getById(@PathVariable long id) {
-        return new ResponseEntity<>(orderService.getById(id), HttpStatus.OK);
+        ResponseEntity<Order> response;
+        try {
+            response = new ResponseEntity<>(orderService.getById(id), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return response;
     }
 
-    @GetMapping(value = "/orders/{id}/delete")
+    @GetMapping(value = "api/orders/delete")
     @ResponseBody
-    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable long id) {
-        orderService.deleteOrder(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Order> deleteOrder(@RequestParam("id") long id) {
+        ResponseEntity<Order> response;
+        try {
+            orderService.deleteOrder(id);
+            response = new ResponseEntity<>(HttpStatus.OK);
+        } catch (NotFoundException e) {
+            response = new ResponseEntity<>(HttpStatus.OK);
+        }
+        return response;
     }
 
-    @PostMapping(value = "/orders/count")
+    @GetMapping(value = "api/orders/stats")
     @ResponseBody
-    public ResponseEntity<Integer> countByItem(@RequestBody Item item) {
-        return new ResponseEntity<>(orderService.count(item), HttpStatus.OK);
+    public ResponseEntity<Integer> getStats() {
+        // TODO: do the basic stats, assign it to a custom object and return it
+        return null;
     }
 
-    @PostMapping(value = "/orders/interval")
+    @PostMapping(value = "api/orders/interval")
     @ResponseBody
-    public ResponseEntity<List<Order>> findByDateInterval(@RequestBody intervalDatesHolder dates) {
+    public ResponseEntity<List<Order>> findByDateInterval(@RequestBody DateInterval dates) {
         return new ResponseEntity<>(orderService.getBetween(dates.getStartDate(), dates.getFinishDate()), HttpStatus.OK);
     }
 }

@@ -1,9 +1,10 @@
 package com.tahadonuk.restaurantmanagementsystem.service;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.item.Item;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.OrderRepository;
+import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,12 +33,9 @@ public class OrderService {
     }
 
     public List<Order> getBetween(Date date1, Date date2) throws NoSuchElementException {
-        if(orderRepo.existsByOrderDateBetween(date1, date2)) {
-            List<Optional<Order>> orderOptionals = orderRepo.findByOrderDateBetween(date1,date2);
+        List<Optional<Order>> orderOptionals = orderRepo.findByOrderDateBetween(date1,date2);
 
-            return ListUtils.getListFromOptionals(orderOptionals);
-        }
-        else return null;
+        return ListUtils.getListFromOptionals(orderOptionals);
     }
 
     public List<Order> getByDate(Date date) {
@@ -49,17 +47,18 @@ public class OrderService {
         else return null;
     }
 
-    public Order getById(long id) {
+    public Order getById(long id) throws NotFoundException {
         if(orderRepo.existsById(id)) {
             return orderRepo.findById(id).get();
         }
-        else return null;
+        else throw new NotFoundException("No such order with given id");
     }
 
-    public void deleteOrder(long id) {
+    public void deleteOrder(long id) throws NotFoundException {
         if(orderRepo.existsById(id)) {
             orderRepo.deleteById(id);
         }
+        else throw new NotFoundException("No such order with given id");
     }
 
     public int count(final Item items) {

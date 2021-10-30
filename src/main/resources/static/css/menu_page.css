@@ -79,6 +79,69 @@ nav ul li {
 }
 
 
+.menu-box {
+    display: flex;
+    justify-content: center;
+    height: auto;
+    overflow: auto;
+}
+
+.inner-menu-box {
+    display: flexbox;
+    align-self: center;
+    width: 100%;
+    font-size: 1.5rem;
+    overflow: hidden;
+    height: fit-content;
+    transition: 0.3s all ease;
+    text-align: center;
+}
+
+.item-box {
+    padding: 5px;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(168, 36, 13, 0.76);
+    color: whitesmoke;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    margin: 10px;
+    border-radius: 10px;
+    transition: 0.3s all ease;
+}
+
+.item-box:hover {
+    border-radius: 20px;
+    transform: rotate(5deg) scale(1.07);
+    cursor: pointer;
+}
+
+.item-box h3 {
+    padding: 0 10px;
+}
+
+.beverages-box {
+    display: flexbox;
+    justify-self: center;
+    border: 2px black solid;
+    height: auto;
+    width: fit-content;
+}
+
+.inner-beverage-box {
+    display: flexbox;
+    align-self: center;
+    width: 100%;
+    font-size: 1.5rem;
+    overflow: hidden;
+    height: fit-content;
+    text-align: center;
+    transition: 0.3s all ease;
+}
+
+
 
 
 

@@ -1,8 +1,10 @@
-package com.tahadonuk.restaurantmanagementsystem.data.entity.user.employee;
+package com.tahadonuk.restaurantmanagementsystem.data.entity.user;
 
 import com.sun.istack.NotNull;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Email;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Name;
+import com.tahadonuk.restaurantmanagementsystem.data.EmployeeRole;
+import com.tahadonuk.restaurantmanagementsystem.dto.Address;
+import com.tahadonuk.restaurantmanagementsystem.dto.Email;
+import com.tahadonuk.restaurantmanagementsystem.dto.Name;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -53,4 +55,10 @@ public class Employee implements Serializable {
 
     @Column(name = "SALARY")
     private double salary;
+
+    @Column(name = "JOIN_DATE")
+    private Date joinDate;
+
+    @Column("PASSWORD")
+    private char[] password;
 }

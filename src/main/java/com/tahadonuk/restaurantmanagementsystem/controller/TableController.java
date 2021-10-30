@@ -2,6 +2,7 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.RestaurantTable;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.TableRepository;
+import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ public class TableController {
     @Autowired
     TableService tableService;
 
-    @PostMapping(path = "tables/add")
+    @PostMapping(path = "api/tables/add")
     @ResponseBody
     public ResponseEntity<HttpStatus> addTable(@RequestBody RestaurantTable table) {
         tableService.addTable(table);
@@ -24,21 +25,27 @@ public class TableController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "tables")
+    @GetMapping(path = "api/tables")
     @ResponseBody
     public ResponseEntity<List<RestaurantTable>> getTables() {
         return new ResponseEntity<>(tableService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "tables/bycap/{capacity}")
+    @GetMapping(path = "api/tables")
     @ResponseBody
-    public ResponseEntity<List<RestaurantTable>> getByCapacity(@PathVariable int capacity) {
+    public ResponseEntity<List<RestaurantTable>> getByCapacity(@RequestParam("capacity") int capacity) {
         return new ResponseEntity<>(tableService.getByCapacity(capacity), HttpStatus.OK);
     }
 
-    @GetMapping(path = "tables/{id}")
+    @GetMapping(path = "api/tables/{id}")
     @ResponseBody
     public ResponseEntity<RestaurantTable> getById(@PathVariable long id) {
-        return new ResponseEntity<>(tableService.getById(id), HttpStatus.OK);
+        ResponseEntity<RestaurantTable> response;
+        try {
+            response = new ResponseEntity<>(tableService.getById(id), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return response;
     }
 }
