@@ -5,6 +5,7 @@ import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.OrderRepository;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
+import com.tahadonuk.restaurantmanagementsystem.exception.OrderNotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,17 +52,17 @@ public class OrderService {
         if(orderRepo.existsById(id)) {
             return orderRepo.findById(id).get();
         }
-        else throw new NotFoundException("No such order with given id");
+        else throw new OrderNotFoundException("No such order with id: '" + id + "'");
     }
 
     public void deleteOrder(long id) throws NotFoundException {
         if(orderRepo.existsById(id)) {
             orderRepo.deleteById(id);
         }
-        else throw new NotFoundException("No such order with given id");
+        else throw new OrderNotFoundException("No such order with id: '" + id + "'");
     }
 
-    public int count(final Item items) {
+    public int countByItem(final Item items) {
         return orderRepo.countAllByItemsIsContaining(items);
     }
 

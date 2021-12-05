@@ -3,9 +3,11 @@ package com.tahadonuk.restaurantmanagementsystem;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
 import java.util.Properties;
 
+@ServletComponentScan
 @SpringBootApplication(exclude = {R2dbcAutoConfiguration.class})
 public class RestaurantManagementSystemApplication {
 

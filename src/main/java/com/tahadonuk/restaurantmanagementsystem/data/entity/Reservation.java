@@ -21,7 +21,7 @@ public class Reservation {
     private Customer customer; // customer who created the reservation request
 
     @Column(name = "REQUEST_DATE")
-    private Date proccessDate; // request date
+    private Date processDate; // request date
 
     @Column(name = "RESERVATION_DATE")
     private Date reservationDate; // reservation date

@@ -4,6 +4,8 @@ import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.exception.ConflictException;
+import com.tahadonuk.restaurantmanagementsystem.exception.ItemConflictException;
+import com.tahadonuk.restaurantmanagementsystem.exception.ItemNotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,20 +18,20 @@ public class ItemService {
     @Autowired
     ItemRepository itemRepo;
 
-    public void saveItem(Item item) throws Exception{
-        if(isExists(item.getName(), item.getDescription())) {
-            throw new ConflictException("An item with given name and description [ " + item.getName() + ", " + item.getDescription() + " ] is already exists");
+    public void saveItem(Item item) {
+        if(isExists(item.getName())) {
+            throw new ItemConflictException("An item with given info for '" + item.getName() + "' is already exists");
         }
         else {
             itemRepo.save(item);
         }
     }
 
-    public Item getItemById(long id) throws Exception{
+    public Item getItemById(long id) {
         if(isExists(id)) {
             return itemRepo.findById(id).get();
         }
-        else throw new NotFoundException("No such item with given id");
+        else throw new ItemNotFoundException("No such item with id '" + id + "'");
     }
 
     public List<Item> getItemsByName(String name) {

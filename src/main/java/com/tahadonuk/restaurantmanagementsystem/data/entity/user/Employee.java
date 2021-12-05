@@ -40,9 +40,6 @@ public class Employee implements Serializable {
     @Column(name = "DATE_OF_BIRTH")
     private Date dateOfBirth;
 
-    @Column(name = "NATIONALITY")
-    private String nationality;
-
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "street", column = @Column(name = "STREET")),
@@ -59,6 +56,6 @@ public class Employee implements Serializable {
     @Column(name = "JOIN_DATE")
     private Date joinDate;
 
-    @Column("PASSWORD")
+    @Column(name = "PASSWORD")
     private char[] password;
 }

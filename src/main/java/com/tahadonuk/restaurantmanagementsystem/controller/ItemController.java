@@ -2,6 +2,7 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
+import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
 import com.tahadonuk.restaurantmanagementsystem.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -18,39 +20,33 @@ public class ItemController {
     @Autowired
     ItemService itemService;
 
-    @PostMapping(path = "api/items/save")
+    @PostMapping(path = "api/item/save")
     @ResponseBody
-    public String saveItem(@RequestBody Item item) {
+    public ResponseEntity<Object> saveItem(@RequestBody Item item) {
         try {
             itemService.saveItem(item);
-            return "Item saved successfully";
+            return ResponseEntity.ok(new StringResponse("Item "+item.getItemId()+" saved successfully"));
         } catch (Exception e) {
-            return "Item is not saved with reason: " + e.getMessage();
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
     }
 
-    @GetMapping(path = "api/items")
+    @GetMapping(path = "api/item")
     @ResponseBody
-    public ResponseEntity<List<Item>> getByType(@RequestParam("type") String type) {
+    public ResponseEntity<List<Item>> getByType(@RequestParam("type") String type, HttpServletRequest request) {
         ItemType itemType = ItemType.valueOf(type.toUpperCase());
         List<Item> items = itemService.getByType(itemType);
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Access-Control-Allow-Origin","*");
-
-        return new ResponseEntity<>(items, responseHeaders, HttpStatus.OK);
+        return ResponseEntity.ok(items);
     }
 
-    @GetMapping(path = "api/items/{id}")
+    @GetMapping(path = "api/item/{id}")
     @ResponseBody
-    public ResponseEntity<Item> getById(@PathVariable long id) {
-        ResponseEntity<Item> response;
+    public ResponseEntity<Object> getById(@PathVariable long id) {
         try {
-            response = new ResponseEntity<>(itemService.getItemById(id), HttpStatus.OK);
+            return ResponseEntity.ok(itemService.getItemById(id));
         } catch (Exception e) {
-            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            System.out.println("ERROR\t" + e.getMessage());
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
-        return response;
     }
 }

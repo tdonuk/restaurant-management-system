@@ -14,8 +14,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Optional<Reservation>> findAllByTable(RestaurantTable table);
     boolean existsByTable(RestaurantTable table);
 
-    List<Optional<Reservation>> findAllByProccessDateBetween(Date proccessDate, Date proccessDate2);
-    boolean existsByProccessDateBetween(Date proccessDate, Date proccessDate2);
+    List<Optional<Reservation>> findAllByProcessDateBetween(Date processDate, Date processDate2);
+    boolean existsByProcessDateBetween(Date processDate, Date processDate2);
 
     List<Optional<Reservation>> findAllByCustomer_CustomerId(long customerId);
     boolean existsByCustomer_CustomerId(long customerId);

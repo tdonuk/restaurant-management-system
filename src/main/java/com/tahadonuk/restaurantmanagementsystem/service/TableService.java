@@ -4,10 +4,13 @@ import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.RestaurantTable;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.TableRepository;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
+import com.tahadonuk.restaurantmanagementsystem.exception.TableConflictException;
 import com.tahadonuk.restaurantmanagementsystem.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.comparator.Comparators;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -17,11 +20,19 @@ public class TableService {
     TableRepository tableRepo;
 
     public void addTable(RestaurantTable table) {
-        tableRepo.save(table);
+        if(isExists(table.getTableId())) {
+            throw new TableConflictException("A table is already exists with given id: '" + table.getTableId() + "'");
+        }
+        else {
+            tableRepo.save(table);
+        }
     }
 
     public List<RestaurantTable> getAll() {
-        return tableRepo.findAll();
+        List<RestaurantTable> list = tableRepo.findAll();
+        list.sort(Comparator.comparingLong(RestaurantTable::getTableId));
+
+        return list;
     }
 
     public List<RestaurantTable> getByCapacity(int capacity) {
@@ -40,6 +51,14 @@ public class TableService {
             tableRepo.updateTableStatus(tableId, status);
         }
         else throw new NotFoundException("No such table with given ID");
+    }
+
+    public List<RestaurantTable> getAllByStatus(TableStatus status) {
+        return tableRepo.findAllByStatus(status);
+    }
+
+    public int countByStatus(TableStatus status) {
+        return tableRepo.countByStatus(status);
     }
 
     public boolean isExists(long id) {

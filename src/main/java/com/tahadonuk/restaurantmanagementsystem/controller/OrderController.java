@@ -2,11 +2,13 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
 import com.tahadonuk.restaurantmanagementsystem.dto.DateInterval;
+import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,49 +19,49 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @PostMapping(value = "api/orders/create")
+    @PostMapping(value = "api/order/create")
     @ResponseBody
-    public ResponseEntity<HttpStatus> createOrder(@RequestBody Order order) {
+    public ResponseEntity<Object> createOrder(@RequestBody Order order) {
         orderService.saveOrder(order);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(new StringResponse("Order has successfully created. Order Id: "+ order.getOrderId() + "."));
     }
 
-    @GetMapping(value = "api/orders/{id}")
+    @GetMapping(value = "api/order/{id}")
     @ResponseBody
-    public ResponseEntity<Order> getById(@PathVariable long id) {
-        ResponseEntity<Order> response;
+    public ResponseEntity<Object> getById(@PathVariable long id) {
         try {
-            response = new ResponseEntity<>(orderService.getById(id), HttpStatus.OK);
-        } catch (NotFoundException e) {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.ok(orderService.getById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
-        return response;
     }
 
-    @GetMapping(value = "api/orders/delete")
+    @DeleteMapping(value = "api/order")
     @ResponseBody
-    public ResponseEntity<Order> deleteOrder(@RequestParam("id") long id) {
-        ResponseEntity<Order> response;
+    public ResponseEntity<Object> deleteOrder(@RequestParam("id") long id) {
         try {
             orderService.deleteOrder(id);
-            response = new ResponseEntity<>(HttpStatus.OK);
-        } catch (NotFoundException e) {
-            response = new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok(new StringResponse("Order "+id+" has deleted successfully."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
-        return response;
     }
 
     @GetMapping(value = "api/orders/stats")
     @ResponseBody
-    public ResponseEntity<Integer> getStats() {
-        // TODO: do the basic stats, assign it to a custom object and return it
-        return null;
+    public ResponseEntity<Object> getStats() {
+        try {
+            // TODO
+            return null;
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
+        }
     }
 
     @PostMapping(value = "api/orders/interval")
     @ResponseBody
     public ResponseEntity<List<Order>> findByDateInterval(@RequestBody DateInterval dates) {
-        return new ResponseEntity<>(orderService.getBetween(dates.getStartDate(), dates.getFinishDate()), HttpStatus.OK);
+        return ResponseEntity.ok(orderService.getBetween(dates.getStartDate(), dates.getFinishDate()));
     }
 }

@@ -2,6 +2,8 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.Employee;
 import com.tahadonuk.restaurantmanagementsystem.data.EmployeeRole;
+import com.tahadonuk.restaurantmanagementsystem.dto.Email;
+import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
 import com.tahadonuk.restaurantmanagementsystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,49 +18,43 @@ public class EmployeeController {
     @Autowired
     EmployeeService empService;
 
-     @PostMapping(path = "api/employees/save")
+     @PostMapping(path = "api/employee/save")
      @ResponseBody
-    public String saveEmployee(@RequestBody Employee emp) {
+    public ResponseEntity<Object> saveEmployee(@RequestBody Employee emp) {
          try {
              empService.saveEmployee(emp);
-             return "Employee saved successfully";
+             return ResponseEntity.ok().body(new StringResponse("Employee saved successfully. ID: " +emp.getEmployeeId()));
          } catch (Exception e) {
-             return "Employee is not saved with reason: " + e.getMessage();
+             return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
          }
     }
 
-    @GetMapping(path = "api/employees/{id}")
+    @GetMapping(path = "api/employee/{id}")
     @ResponseBody
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable long id) {
-         ResponseEntity<Employee> response;
+    public ResponseEntity<Object> getEmployeeById(@PathVariable long id) {
         try {
-            response = new ResponseEntity<>(empService.getEmployeeById(id), HttpStatus.OK);
-            return response;
+            return ResponseEntity.ok().body(empService.getEmployeeById(id));
         } catch (Exception e) {
-            System.out.println("ERROR \t" + e.getMessage());
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            return response;
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
     }
 
 
-    @PostMapping(path = "api/employees")
+    @PostMapping(path = "api/employee/")
     @ResponseBody
-    public ResponseEntity<Employee> getEmployeeByNumber(@RequestParam("number") String phoneNumber) {
-         ResponseEntity<Employee> response;
+    public ResponseEntity<Object> getEmployeeByNumber(@RequestParam("email") Email email) {
         try {
-            response = new ResponseEntity<>(empService.getEmployeeByNumber(phoneNumber), HttpStatus.OK);
+            return ResponseEntity.ok().body(empService.getEmployeeByEmail(email));
         } catch (Exception e) {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
-        return response;
     }
 
-    @GetMapping(path = "api/employees")
+    @GetMapping(path = "api/employee/role")
     @ResponseBody
     public ResponseEntity<List<Employee>> getEmployeesByRole(@RequestParam("role") String role) {
         EmployeeRole empRole = EmployeeRole.valueOf(role.toUpperCase());
 
-        return new ResponseEntity<>(empService.getEmployeesByRole(empRole), HttpStatus.OK);
+        return ResponseEntity.ok(empService.getEmployeesByRole(empRole));
     }
 }

@@ -1,5 +1,14 @@
 package com.tahadonuk.restaurantmanagementsystem.data;
 
 public enum TableStatus {
-    EMPTY, ORDER_PENDING, ORDER_PLACED, PAYMENT_PENDING
+    AVAILABLE("Available"), FULL("Full"), OUT_OF_SERVICE("Out of service");
+
+    private final String statusText;
+    TableStatus(String statusText) {
+        this.statusText = statusText;
+    }
+
+    public String getStatusText() {
+        return statusText;
+    }
 }

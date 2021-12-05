@@ -8,5 +8,5 @@ import javax.persistence.Embeddable;
 @Data
 public class Address {
     private String street;
-    private String address;
+    private String apt;
 }

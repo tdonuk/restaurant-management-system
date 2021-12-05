@@ -3,47 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Restaurant</title>
+    <link rel="stylesheet" href="../static/css/main.css">
     <link rel="stylesheet" href="../static/css/main_page.css">
 </head>
-<body background="../static/img/mainbg.jpg">
-    <div class="header">
-        <nav>
-            <div class="logo">
-                <a href="/templates/main_page.html" class="title">Some Header</a>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <h1 class="tittle">Admin Panel</h1>
+            <a href="../templates/login.html" class="logout">
+                Logged as Taha
+            </a>
+        </div>
+        <div class="navlist-container nav">
+            <div class="navlist-inner-container">
+                <h5 class="nav-title">Navigation</h5>
+                <div class="navlist">
+                    <div class="nav-item-container">
+                        <a href="/orders" class="nav-item">Orders</a>
+                    </div>
+                    <div class="nav-item-container">
+                        <a href="/items" class="nav-item">Items</a>
+                    </div>
+                    <div class="nav-item-container">
+                        <a href="/tables" class="nav-item">Tables</a>
+                    </div>
+                    <div class="nav-item-container">
+                        <a href="/employees" class="nav-item">Employees</a>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <ul>
-                <li>
-                    <a href="">Log In</a>
-                </li>
-                <li>
-                    <a href="">Reservation</a>
-                </li>
-                <li>
-                    <a href="/templates/menu_page.html">Menu</a>
-                </li>
-                <li>
-                    <a href="">About</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-    <div class="main">
-        <div class="wrapper">
-            <div class="table-box-container">
-                
+        <div class="statistics-container">
+            <div class="under-construction">
+                <img src="../static/img/under_construction.jpg" alt="">
+                <p>
+                    Under development. This area will show general information about restaurants day-to-day statistics.
+                </p>    
             </div>
         </div>
     </div>
-
-    <div class="footer">
-        <h4>Some footer information about restaurant and menus.</h4>
-        <div class="copyright">
-            <h5>Copyright ©2021 by Resul Taha Dönük</h5>
-        </div>
-    </div>
-
-    <script src="../static/js/menu_page.js"></script>
+    <script src="../static/js/main_page.js"></script>
 </body>
 </html>

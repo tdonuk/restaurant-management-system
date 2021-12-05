@@ -6,6 +6,8 @@ import com.tahadonuk.restaurantmanagementsystem.dto.Email;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.EmployeeRepository;
 import com.tahadonuk.restaurantmanagementsystem.exception.ConflictException;
+import com.tahadonuk.restaurantmanagementsystem.exception.EmployeeConflictException;
+import com.tahadonuk.restaurantmanagementsystem.exception.EmployeeNotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,41 +22,41 @@ public class EmployeeService {
 
     public void saveEmployee(Employee emp) throws Exception{
         if(isExists(emp.getEmail())) {
-            throw new ConflictException("An employee with email [ " + emp.getEmail().getEmail() + " ] is already exists.");
+            throw new EmployeeConflictException("An employee with email  '" + emp.getEmail().getEmail() + "' is already exists.");
         } else {
             empRepo.save(emp);
         }
     }
 
-    public void deleteEmployee(long id) throws Exception{
+    public void deleteEmployee(long id) {
         if(isExist(id)) {
             empRepo.deleteById(id);
         }
-        else throw new NotFoundException("There is no such employee with given ID.");
+        else throw new EmployeeNotFoundException("There is no such employee with given id: '" + id + "'");
     }
 
-    public Employee getEmployeeById(long id) throws Exception{
+    public Employee getEmployeeById(long id) {
         if(isExist(id)) {
             return empRepo.findById(id).get();
         }
-        else throw new NotFoundException("There is no such employee with given ID");
+        else throw new EmployeeNotFoundException("There is no such employee with given id: '" + id + "'");
     }
 
-    public List<Employee> getEmployeesByName(Name name) throws Exception{
+    public List<Employee> getEmployeesByName(Name name) {
         if(empRepo.existsByName(name)) {
             List<Employee> employees = empRepo.findEmployeesByName(name);
 
             return employees;
         }
-        else throw new NotFoundException("There is no employee with name [ " + name.getFirstName() + " " + name.getLastName() + " ].");
+        else throw new EmployeeNotFoundException("There is no employee with name '" + name.getFirstName() + " " + name.getLastName() + "'");
     }
 
-    public Employee getEmployeeByNumber(String phoneNumber) throws Exception{
+    public Employee getEmployeeByNumber(String phoneNumber) {
         if(empRepo.existsByPhoneNumber(phoneNumber)) {
             Optional<Employee> emp = empRepo.findEmployeeByPhoneNumber(phoneNumber);
             return emp.get();
         }
-        else throw new NotFoundException("There is no employee with given phone number.");
+        else throw new EmployeeNotFoundException("There is no employee with given phone number: '" + phoneNumber + "'");
     }
 
     public List<Employee> getEmployeesByRole(EmployeeRole role) {
@@ -62,11 +64,11 @@ public class EmployeeService {
         return employees;
     }
 
-    public Employee getEmployeeByEmail(Email email) throws Exception{
+    public Employee getEmployeeByEmail(Email email) {
         if(isExists(email)) {
             return empRepo.findEmployeeByEmail(email).get();
         }
-        else throw new NotFoundException("There is no such employee with email [ " + email.getEmail() + " ].");
+        else throw new NotFoundException("There is no employee with email: '" + email.getEmail() + "'");
     }
 
     public boolean isExist(long id) {
