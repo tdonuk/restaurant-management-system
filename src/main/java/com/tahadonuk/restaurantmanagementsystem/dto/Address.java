@@ -8,5 +8,14 @@ import javax.persistence.Embeddable;
 @Data
 public class Address {
     private String street;
-    private String apt;
+    private String apartment;
+
+    public Address(String street, String apartment) {
+        this.street = street;
+        this.apartment = apartment;
+    }
+
+    public Address() {
+
+    }
 }

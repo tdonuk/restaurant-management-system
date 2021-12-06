@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.data.entity.user;
 
 import com.sun.istack.NotNull;
-import com.tahadonuk.restaurantmanagementsystem.data.EmployeeRole;
+import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
 import com.tahadonuk.restaurantmanagementsystem.dto.Email;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
@@ -10,29 +10,27 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
-@Table(name = "employees")
+@Table(name = "users")
 @Data
-public class Employee implements Serializable {
+public class AppUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EMPLOYEE_ID")
-    private long employeeId;
+    @Column(name = "USER_ID")
+    private long userId;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride( name = "firstName", column = @Column(name = "EMPLOYEE_FIRST_NAME")),
-            @AttributeOverride( name = "lastName", column = @Column(name = "EMPLOYEE_LAST_NAME"))
+            @AttributeOverride( name = "firstName", column = @Column(name = "FIRST_NAME")),
+            @AttributeOverride( name = "lastName", column = @Column(name = "LAST_NAME"))
     })
     private Name name;
 
     @NotNull
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride( name = "email", column = @Column(name = "EMPLOYEE_EMAIL"))
-    })
-    private Email email;
+    @Column(name = "EMAIL")
+    private String email;
 
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
@@ -43,12 +41,12 @@ public class Employee implements Serializable {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "street", column = @Column(name = "STREET")),
-            @AttributeOverride( name = "address", column = @Column(name = "ADDRESS"))
+            @AttributeOverride( name = "apartment", column = @Column(name = "APARTMENT"))
     })
     private Address address;
 
     @Column(name = "ROLE")
-    private EmployeeRole role;
+    private UserRole role;
 
     @Column(name = "SALARY")
     private double salary;
@@ -57,5 +55,6 @@ public class Employee implements Serializable {
     private Date joinDate;
 
     @Column(name = "PASSWORD")
-    private char[] password;
+    private String password;
+
 }

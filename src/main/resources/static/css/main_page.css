@@ -6,6 +6,11 @@
     grid-template-rows: min-content auto;
 }
 
+button-no-style {
+    border: none;
+    background: none;
+}
+
 .statistics-container {
     font-size: 1.8rem;
 

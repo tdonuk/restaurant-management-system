@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlsn="www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Restaurant</title>
-    <link rel="stylesheet" href="../static/css/main.css">
-    <link rel="stylesheet" href="../static/css/main_page.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main_page.css">
 </head>
 <body>
     <div class="wrapper">
         <div class="header">
             <h1 class="tittle">Admin Panel</h1>
-            <a href="../templates/login.html" class="logout">
-                Logged as Taha
-            </a>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" th:value="'Logged as '+${user}" class="button-no-style">
+                </input>
+            </form>
         </div>
         <div class="navlist-container nav">
             <div class="navlist-inner-container">
@@ -28,7 +29,7 @@
                         <a href="/tables" class="nav-item">Tables</a>
                     </div>
                     <div class="nav-item-container">
-                        <a href="/employees" class="nav-item">Employees</a>
+                        <a href="/users" class="nav-item">Employees</a>
                     </div>
                 </div>
             </div>
@@ -36,7 +37,7 @@
 
         <div class="statistics-container">
             <div class="under-construction">
-                <img src="../static/img/under_construction.jpg" alt="">
+                <img src="/img/under_construction.jpg" alt="">
                 <p>
                     Under development. This area will show general information about restaurants day-to-day statistics.
                 </p>    

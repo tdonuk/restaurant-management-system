@@ -1,57 +1,83 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
+import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
+import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class HomeController {
 
     @Autowired
     TableService tableService;
+    @Autowired
+    UserService userService;
 
     @GetMapping(value = "/")
     @ResponseBody
-    public ModelAndView getHomePage(Model model) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("main_page.html");
-        return modelAndView;
+    public ModelAndView getHomePage(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+
+        String currentUserEmail = request.getRemoteUser();
+        AppUser user = userService.getUserByEmail(currentUserEmail);
+
+        mav.getModel().put("user", user.getName().getFirstName());
+
+        mav.setViewName("main_page");
+        return mav;
     }
 
     @GetMapping(value = "/tables")
     @ResponseBody
-    public ModelAndView getTablesPage(Model model) {
-
-        model.addAttribute("tableList",tableService.getAll());
-        model.addAttribute("totalCount",tableService.getAll().size());
-        model.addAttribute("availableCount", tableService.countByStatus(TableStatus.AVAILABLE));
-        model.addAttribute("fullCount", tableService.countByStatus(TableStatus.FULL));
-        model.addAttribute("outserviceCount", tableService.countByStatus(TableStatus.OUT_OF_SERVICE));
+    public ModelAndView getTablesPage(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
 
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("tables.html");
-        return modelAndView;
+        String currentUserEmail = request.getRemoteUser();
+        AppUser user = userService.getUserByEmail(currentUserEmail);
+
+        mav.getModel().put("user", user.getName().getFirstName());
+        mav.getModel().put("tableList",tableService.getAll());
+        mav.getModel().put("totalCount",tableService.getAll().size());
+        mav.getModel().put("availableCount", tableService.countByStatus(TableStatus.AVAILABLE));
+        mav.getModel().put("fullCount", tableService.countByStatus(TableStatus.FULL));
+        mav.getModel().put("outserviceCount", tableService.countByStatus(TableStatus.OUT_OF_SERVICE));
+
+        mav.setViewName("tables");
+
+        return mav;
     }
 
     @GetMapping(value = "/menu")
     @ResponseBody
     public ModelAndView getMenuPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("menu_page.html");
+        modelAndView.setViewName("menu_page");
         return modelAndView;
     }
 
     @GetMapping(value = "/login")
     @ResponseBody
     public ModelAndView getLoginPage() {
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("login");
+        return mav;
+    }
+
+    @GetMapping(value = "/signup")
+    @ResponseBody
+    public ModelAndView getRegisterPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("*.html");
+        modelAndView.setViewName("signup");
+        modelAndView.getModel().put("appUser", new UserDTO());
         return modelAndView;
     }
 }
