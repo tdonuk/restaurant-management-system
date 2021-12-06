@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Management</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/tables.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <h1 class="tittle">Admin Panel / Tables</h1>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" th:value="'Logged as '+${user}" class="button-no-style">
+                -
+                </input>
+            </form>
+        </div>
+
+        <div class="navlist-container nav">
+            <div class="navlist-inner-container">
+                <h5 class="nav-title">Navigation</h5>
+                <div class="navlist">
+                    <div class="nav-item-container">
+                        <a href="/orders" class="nav-item">Orders</a>
+                    </div>
+                    <div class="nav-item-container">
+                        <a href="/items" class="nav-item">Items</a>
+                    </div>
+                    <div class="nav-item-container">
+                        <a href="/tables" class="nav-item"><b>Tables</b></a>
+                    </div>
+                    <div class="nav-item-container">
+                        <a href="/users" class="nav-item">Employees</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-info">
+            <h1 class="section-title">Table Management</h1>
+
+            <div class="info-wrapper">
+                <label for="totalCount">Total: </label>
+                <span id="totalCount" class="info-text" th:text="${totalCount}">-1</span>
+            </div>
+
+            <div class="info-wrapper">
+                <label for="availableCount">Available: </label>
+                <span id="availableCount" class="info-text" th:text="${availableCount}">-1</span>
+            </div>
+
+            <div class="info-wrapper">
+                <label for="outserviceCount">Out of service: </label>
+                <span id="outserviceCount" class="info-text" th:text="${outserviceCount}">-1</span>
+            </div>
+
+            <div class="info-wrapper">
+                <label for="fullCount">Full: </label>
+                <span id="fullCount" class="info-text" th:text="${fullCount}">-1</span>
+            </div>
+        </div>
+
+        <div class="section-status" id="status-section">
+            <div class="title-wrapper">
+                <span class="section-title">Table Status</span>
+    
+                <div class="search-wrapper">
+                    <input type="button" value="Refresh" id="refresh-button">
+                    <input type="search" name="" id="searchBar" placeholder="search">
+                </div>
+            </div>
+            <div class="table-wrapper" id="tables-wrapper">
+                <div th:each="table: ${tableList}" th:onclick="'javascript:createSideSection('+${table.tableId}+');'" class="table-box" th:classappend="${#strings.toLowerCase(table.status).replaceAll('_','-')}">
+                    <div class="table-title" >
+                        <span th:text="'Table ' + ${table.tableId}"></span>
+                    </div>
+                    <div class="table-status">
+                        <span th:text="${table.status.statusText}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="tables-row">
+                <div class="tables-column">
+                    <button id="table-add-button" class="table-button">Add Table</button>
+                    <button disabled id="table-remove-button" class="table-button">Remove</button>
+                </div>
+            </div>
+            <div class="table-controls" id="table-controls">
+                <div class="table-form">
+                    <div class="form-header">
+                        <h2 class="form-title" id="sideFormTitle">Table</h2>
+                    </div>
+                    <div class="form-body">
+                        <label for="idField">Table Id:</label>
+                        <span id="idField"></span>
+
+                        <br/>
+
+                        <label for="capacityField">Capacity:</label>
+                        <span id="capacityField"></span>
+
+                        <br/>
+
+                        <label for="statusField">Status:</label>
+                        <span id="statusField"></span>
+                    </div>
+                    <div class="form-footer">
+                        <select id="statusSelect">
+                            <option th:each="status: ${T(com.tahadonuk.restaurantmanagementsystem.data.TableStatus).values()}" th:text="${status.statusText}"></option>
+                        </select>
+                        <button id="setStatusButton">Set</button>
+                    </div>
+                </div>
+                <a class="clear-selection">Clear Selection</a>
+            </div>
+        </div>
+    </div>
+    <script src="/js/modal_utils.js" th:src="@{/js/modal_utils.js}"></script>
+    <script src="/js/tables_page.js" th:src="@{/js/tables_page.js}"></script>
+</body>
+</html>

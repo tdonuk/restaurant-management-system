@@ -1,0 +1,95 @@
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    font-family: sans-serif;
+}
+
+.wrapper {
+    display: block;
+}
+
+body {
+    margin: 0;
+    background: wheat;
+}
+
+.login-container {
+    height: 100%;
+    display: flex;
+}
+
+.login-title-text {
+    font-size: 2.5rem;
+
+    border-bottom: 1px solid gray;
+}
+
+.login-body {
+    width: fit-content;
+
+    max-height: 400px;
+    min-width: 250px;
+
+    padding: 30px;
+    border: 1px solid gray;
+    margin: auto auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border-radius: 5px;
+
+    background:whitesmoke;
+}
+
+.login-input-box {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    justify-content: space-evenly;
+    font-size: 0.8rem;
+
+    border-bottom: 1px solid gray;
+}
+
+input, button {
+    display: block;
+    padding: 5px;
+}
+
+
+#login-isManager {
+    display: inline;
+    margin: 10px 0;
+}
+
+label {
+    width: fit-content;
+    margin: 3px;
+    font-weight: bold;
+}
+
+label:hover {
+    cursor: pointer;
+}
+
+#login-submit {
+    min-width: 100px;
+    max-width: 150px;
+    align-self: center;
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+.manager-checkbox {
+    width: fit-content;
+}
+
+.signup {
+    font-size: 0.8rem;
+
+    margin-top: 10px;
+    
+    text-align: center;
+}
