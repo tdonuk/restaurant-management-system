@@ -1,96 +1,101 @@
 html {
-    margin: 0;
-    padding: 0;
-
     font-family: sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 body {
     margin: 0;
     padding: 0;
 
+    width: 100vw;
     height: 100vh;
 }
 
-.tittle {
-    padding: 0 20px;
-    font-size: 2rem;
-    align-self: center;
+.wrapper {
+    max-height: 100%;
+    min-height: 100%;
+
+    max-width: 100%;
+    min-width: 100%;
+
+    background: white;
+
+    display: grid;
+
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content auto;
 }
 
-.logout {
-    padding: 20px;
-    font-size: 1rem;
-    text-decoration: none;
-    color: black;
-    align-self: center;
-}
+.side-nav {
+    background: whitesmoke;
+    padding: 10px 20px;
+    margin-top: 5px;
+    border: 1px solid gray;
 
-.navlist-container {
-    border-right: 1px solid black;
-
-    width: fit-content;
+    grid-column-start: 1;
+    grid-column-end: 2;
 
     grid-row-start: 2;
     grid-row-end: 3;
 }
 
-.navlist-inner-container {
-    display: flexbox;
-    text-align: center;
-}
-
-.nav-title {
-    font-size: 1rem;
-    border-bottom: 1px solid darkgrey;
-}
-
-.nav-item-container {
-    text-align: left;
-}
-
 .nav-item {
-    font-size: 1.1rem;
+    display: block;
     text-decoration: none;
-
-    color: black;
-
-    margin: 20px;
-
-    box-shadow: 0,0,10px,3px gray;
-
-    display: flex;
-    justify-content: space-around;
-
-    width: fit-content;
-
-    transition: 0.1s;
-}
-
-.nav-item:hover {
     cursor: pointer;
-    color: rgb(39, 38, 49);
-    text-decoration: underline 1px;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: black;
+}
+.nav-item:hover {
+    text-decoration: underline black;
 }
 
-.header {
-    background: rgba(220, 220, 220, 0.534);
+.page-header {
+    background: whitesmoke;
+
     display: flex;
     justify-content: space-between;
-    position: sticky;
-    top: 0;
-    left:0;
-    text-decoration: none;
 
-    height: 100px;
-    
-    min-height: fit-content;
-
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid gray;
 
     grid-column-start: 1;
     grid-column-end: 3;
 
     grid-row-start: 1;
     grid-row-end: 2;
+}
+
+.main {
+    grid-column-start: 2;
+    grid-column-end: 3;
+
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    overflow-y: auto;
+}
+
+.big-title {
+    font-size: 2.2rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    padding: 40px 20px;
+}
+
+.corner-container {
+    display: inline-flex;
+}
+
+#logoutButton {
+    width: 100%;
+    height: 100%;
+
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+#logoutForm {
+    padding: 10px;
 }

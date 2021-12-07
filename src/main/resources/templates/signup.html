@@ -4,62 +4,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/signup.css">
-    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/form.css">
     <title>Signup</title>
 </head>
 <body>
     <div class="wrapper">
-        <div class="signup-container">
-            <h1 th:text="${error}"></h1>
-            <form action="#" th:action="@{/register}" th:object="${appUser}" method="post">
-                <div class="signup-body">
-                    <div class="signup-title">
-                        <h1 class="signup-title-text">
-                            Sign Up
-                        </h1>
-                    </div>
-                    <div class="signup-input-box">
-                        <label for="signup-firstName">First Name</label>
-                        <input type="text" name="firstName" id="signup-firstName" placeholder="Firstname" th:field="*{firstName}">
-
-                        <label for="signup-lastName">Last Name</label>
-                        <input type="text" name="lastName" id="signup-lastName" placeholder="Lastname" th:field="*{lastName}">
-
-                        <label for="signup-tel">Phone</label>
-                        <input type="tel" name="phone" id="signup-tel" placeholder="Phone" th:field="*{phoneNumber}">
-
-                        <label for="signup-birthdate">Date of Birth</label>
-                        <input type="date" name="birthdate" id="signup-birthdate" th:field="*{dateOfBirth}">
-
-                        <label for="signup-address-street">Street Address</label>
-                        <input type="text" name="street" id="signup-address-street" placeholder="Address" th:field="*{street}">
-
-                        <label for="signup-address-apartment">Apartment Information</label>
-                        <input type="text" name="apartment" id="signup-address-apartment" placeholder="Address" th:field="*{apartment}">
-
-                        <label for="input-email">E-Mail</label>
-                        <input type="email" name="emailField" id="input-email" placeholder="E-Mail" th:field="*{email}">
-
-                        <label for="input-password">Password</label>
-                        <input type="password" name="passwordField" id="input-password" placeholder="Password" th:field="*{password}">
-
-                        <label for="confirm-password">Confirm Password</label>
-                        <input type="password" name="passwordField" id="confirm-password" placeholder="Confirm Password">
-
-                        <input type="submit" id="signup-submit" value="Sign Up"/>
-                    </div>
-                    <div class="info">
-                        <p>
-                            This is a request form. By clicking <b>Sign Up</b>, you are requesting the system for creating an employee account. Your authentication will be provided by managers.
-                        </p>
-                    </div>
+        <form action="#" th:action="@{/register}" method="post" th:object="${userData}">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2 class="big-title">Register</h2>
+                    <h3 class="small-title">For an employee account</h3>
                 </div>
-            </form>
+                <div class="form-body">
+                    <label for="firstName">First Name</label>
+                    <input type="text" name="firstName" id="firstName" placeholder="Firstname" th:field="*{firstName}">
 
-        </div>
+                    <label for="lastName">Last Name</label>
+                    <input type="text" name="lastName" id="lastName" placeholder="Lastname" th:field="*{lastName}">
+
+                    <label for="tel">Phone</label>
+                    <input type="tel" name="phone" id="tel" placeholder="Phone" th:field="*{phoneNumber}">
+
+                    <label for="birthdate">Date of Birth</label>
+                    <input type="date" name="birthdate" id="birthdate" th:field="*{dateOfBirth}">
+
+                    <label for="address-street">Street Address</label>
+                    <input type="text" name="street" id="address-street" placeholder="Address" th:field="*{street}">
+
+                    <label for="address-apartment">Apartment Information</label>
+                    <input type="text" name="apartment" id="address-apartment" placeholder="Address" th:field="*{apartment}">
+
+                    <label for="input-email">E-Mail</label>
+                    <input type="email" name="emailField" id="input-email" placeholder="E-Mail" th:field="*{email}">
+
+                    <label for="input-password">Password</label>
+                    <input type="password" name="passwordField" id="input-password" placeholder="Password" th:field="*{password}">
+
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" name="passwordField" id="confirm-password" placeholder="Confirm Password">
+
+                    <input type="submit" id="submitButton" value="Sign Up"/>
+                </div>
+                <div class="form-footer">
+                    <p class="alert">This is a request information form. By filling this form, you are requesting for an employee account. Your authorisation will be assigned by managers</p>
+                </div>
+            </div>
+        </form>
     </div>
-    <script src="../static/js/modal_utils.js"></script>
-    <script src="../static/js/signup.js"></script>
+    <script src="/js/modal_utils.js"></script>
+    <script src="/js/signup.js"></script>
 </body>
 </html>

@@ -12,31 +12,12 @@ refreshButton.onclick = function() {
     window.location = "/tables";
 }
 
-const procSection = document.getElementById("table-controls"); // sideSection
-
 
 const idField = document.getElementById("idField");
 const statusField = document.getElementById("statusField");
 const capacityField = document.getElementById("capacityField");
 const formTitle = document.getElementById("sideFormTitle");
 
-
-function createSideSection(tableId) {
-    appendPopup(createPopup("info", "Please wait, your request is in process, this may take a few seconds.", "Loading", "Loading.."));
-
-    fetch("/api/table/"+tableId)
-        .then(response => response.json())
-        .then(table => {
-            clearAllPopups();
-
-            procSection.classList.add("expanded");
-            formTitle.innerText = "Table " + tableId;
-            idField.innerText = table["tableId"];
-            statusField.innerText = table["status"];
-            capacityField.innerText = table["capacity"];
-        });
-
-}
 
 async function setTableStatus(id, status) {
     appendPopup(createPopup("info", "This may take few seconds.", "Loading", "Processing.."));

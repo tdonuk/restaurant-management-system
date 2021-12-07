@@ -12,7 +12,7 @@ signupButton.onclick = function(e) {
 
     if(!isOk) {
         const error = createModal("error", "Please fill all of the information in the form", "Error", "Incorrect Input");
-        document.body.appendChild(error);
+        appendPopup(error)
     };
 
 }

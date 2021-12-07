@@ -5,117 +5,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Management</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/modal.css">
-    <link rel="stylesheet" href="/css/tables.css">
+    <link rel="stylesheet" href="/css/modal.css" th:href="@{/css/modal.css}">
+    <link rel="stylesheet" href="/css/tables.css" th:href="@{/css/tables.css}">
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
 </head>
 <body>
     <div class="wrapper">
-        <div class="header">
-            <h1 class="tittle">Admin Panel / Tables</h1>
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" th:value="'Logged as '+${user}" class="button-no-style">
-                -
-                </input>
-            </form>
-        </div>
-
-        <div class="navlist-container nav">
-            <div class="navlist-inner-container">
-                <h5 class="nav-title">Navigation</h5>
-                <div class="navlist">
-                    <div class="nav-item-container">
-                        <a href="/orders" class="nav-item">Orders</a>
-                    </div>
-                    <div class="nav-item-container">
-                        <a href="/items" class="nav-item">Items</a>
-                    </div>
-                    <div class="nav-item-container">
-                        <a href="/tables" class="nav-item"><b>Tables</b></a>
-                    </div>
-                    <div class="nav-item-container">
-                        <a href="/users" class="nav-item">Employees</a>
-                    </div>
-                </div>
+        <div class="page-header">
+            <a class="big-title" href="/">Admin Panel / Tables</a> <!-- Title !-->
+            <div class="corner-container">
+                <form id="logoutForm" th:action="@{/logout}" method="post"> <!-- Logged user details !-->
+                    <input type="submit" id="logoutButton" value="Logout">
+                </form>
             </div>
         </div>
-
-        <div class="section-info">
-            <h1 class="section-title">Table Management</h1>
-
-            <div class="info-wrapper">
-                <label for="totalCount">Total: </label>
-                <span id="totalCount" class="info-text" th:text="${totalCount}">-1</span>
-            </div>
-
-            <div class="info-wrapper">
-                <label for="availableCount">Available: </label>
-                <span id="availableCount" class="info-text" th:text="${availableCount}">-1</span>
-            </div>
-
-            <div class="info-wrapper">
-                <label for="outserviceCount">Out of service: </label>
-                <span id="outserviceCount" class="info-text" th:text="${outserviceCount}">-1</span>
-            </div>
-
-            <div class="info-wrapper">
-                <label for="fullCount">Full: </label>
-                <span id="fullCount" class="info-text" th:text="${fullCount}">-1</span>
-            </div>
+        <div class="nav side-nav">
+            <a class="nav-item" href="/">Home</a>
+            <a class="nav-item" th:each="nav : ${navlist}" th:text="${nav}" th:href="${'/'+nav.toLowerCase()}"></a>
         </div>
-
-        <div class="section-status" id="status-section">
-            <div class="title-wrapper">
-                <span class="section-title">Table Status</span>
-    
-                <div class="search-wrapper">
-                    <input type="button" value="Refresh" id="refresh-button">
-                    <input type="search" name="" id="searchBar" placeholder="search">
+        <div class="main">
+            <div class="section" id="greetingSection">
+                <h3 class="big-title">Table Management</h3>
+                <h4 class="small-title" th:text="'Hello, '+${user.firstName}+'. currently there are '+${stats.totalCount}+' entry of table and '+${stats.availableCount}+' of them are available now.'"></h4>
+            </div>
+            <div class="section" id="tableDetailsSection">
+                <div class="sub-section">
+                    <h2 class="small-title">Current Status</h2>
+                    <div class="information-wrapper">
+                        <label>Total:</label>
+                        <span th:text="${stats.totalCount}"></span>
+                    </div>
+                    <div class="information-wrapper">
+                        <label>Available:</label>
+                        <span th:text="${stats.availableCount}"></span>
+                    </div>
+                    <div class="information-wrapper">
+                        <label>Full:</label>
+                        <span th:text="${stats.fullCount}"></span>
+                    </div>
+                    <div class="information-wrapper">
+                        <label>Out of service:</label>
+                        <span th:text="${stats.outOfServiceCount}"></span>
+                    </div>
+                </div>
+                <div class="sub-section">
+                    <div id="tablesWrapper">
+                        <div th:each="table : ${tableList}" class="table-box" th:classappend="${table.status.getStatusText().toLowerCase().replaceAll(' ','-')}">
+                            <span th:text="'Table '+${table.tableId}"></span>
+                            <span th:text="${table.status.getStatusText()}"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="table-wrapper" id="tables-wrapper">
-                <div th:each="table: ${tableList}" th:onclick="'javascript:createSideSection('+${table.tableId}+');'" class="table-box" th:classappend="${#strings.toLowerCase(table.status).replaceAll('_','-')}">
-                    <div class="table-title" >
-                        <span th:text="'Table ' + ${table.tableId}"></span>
-                    </div>
-                    <div class="table-status">
-                        <span th:text="${table.status.statusText}"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="tables-row">
-                <div class="tables-column">
-                    <button id="table-add-button" class="table-button">Add Table</button>
-                    <button disabled id="table-remove-button" class="table-button">Remove</button>
-                </div>
-            </div>
-            <div class="table-controls" id="table-controls">
-                <div class="table-form">
-                    <div class="form-header">
-                        <h2 class="form-title" id="sideFormTitle">Table</h2>
-                    </div>
-                    <div class="form-body">
-                        <label for="idField">Table Id:</label>
-                        <span id="idField"></span>
+            <div class="section" id="tableControlsSection">
 
-                        <br/>
-
-                        <label for="capacityField">Capacity:</label>
-                        <span id="capacityField"></span>
-
-                        <br/>
-
-                        <label for="statusField">Status:</label>
-                        <span id="statusField"></span>
-                    </div>
-                    <div class="form-footer">
-                        <select id="statusSelect">
-                            <option th:each="status: ${T(com.tahadonuk.restaurantmanagementsystem.data.TableStatus).values()}" th:text="${status.statusText}"></option>
-                        </select>
-                        <button id="setStatusButton">Set</button>
-                    </div>
-                </div>
-                <a class="clear-selection">Clear Selection</a>
             </div>
         </div>
     </div>

@@ -1,40 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlsn="www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/form.css">
     <title>Login</title>
 </head>
 <body>
     <div class="wrapper">
-        <h2 th:if="${param.error}">Invalid email or password</h2>
-        <h2 th:if="${param.logout}">You have been logged out</h2>
-        <div class="login-container">
-            <div class="login-body">
-                <form th:action="@{/login}" method="post">
-                    <div class="login-title">
-                        <h1 class="login-title-text">
-                            Log In
-                        </h1>
-                    </div>
-                    <div class="login-input-box">
-                        <label for="input-email">E-Mail</label>
-                        <input type="email" name="email" id="input-email" placeholder="E-Mail">
+        <form id="loginForm" th:action="@{/login}" method="post">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2 class="big-title">Login</h2>
+                    <h3 class="small-title">To Admin Panel</h3>
+                </div>
 
-                        <label for="input-password">Password</label>
-                        <input type="password" name="password" id="input-password" placeholder="Password">
-                        <input type="submit" id="login-submit" value="Login"/>
-                    </div>
-                    <div class="signup">
-                        <a href="/signup" class="signup-link">
-                            Create a signup request
-                        </a>
-                    </div>
-                </form>
+                <h3 class="alert alert-error" th:if="${param.error}">Invalid email or password</h3>
+                <h3 class="alert alert-warn" th:if="${param.logout}">You have been logged out</h3>
+
+                <div class="form-body">
+                    <label for="emailField">E-Mail</label>
+                    <input id="emailField" type="email" name="email" placeholder="Email"/>
+
+                    <label for="passwordField">Password</label>
+                    <input id="passwordField" type="password" name="password" placeholder="Password"/>
+
+                    <input id="submitButton" type="submit" value="Login">
+                </div>
+
+                <div class="form-footer">
+                    <a id="signupLink" href="/signup">Or create a register request</a>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </body>
 </html>

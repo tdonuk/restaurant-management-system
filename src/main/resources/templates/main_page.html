@@ -8,42 +8,34 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="header">
-            <h1 class="tittle">Admin Panel</h1>
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" th:value="'Logged as '+${user}" class="button-no-style">
-                </input>
-            </form>
+        <div class="page-header">
+            <a class="big-title" href="/">Admin Panel</a> <!-- Title !-->
+            <div class="corner-container">
+                <form id="logoutForm" th:action="@{/logout}" method="post"> <!-- Logged user details !-->
+                    <input type="submit" id="logoutButton" value="Logout">
+                </form>
+            </div>
         </div>
-        <div class="navlist-container nav">
-            <div class="navlist-inner-container">
-                <h5 class="nav-title">Navigation</h5>
-                <div class="navlist">
-                    <div class="nav-item-container">
-                        <a href="/orders" class="nav-item">Orders</a>
-                    </div>
-                    <div class="nav-item-container">
-                        <a href="/items" class="nav-item">Items</a>
-                    </div>
-                    <div class="nav-item-container">
-                        <a href="/tables" class="nav-item">Tables</a>
-                    </div>
-                    <div class="nav-item-container">
-                        <a href="/users" class="nav-item">Employees</a>
-                    </div>
+        <div class="nav side-nav">
+            <a class="nav-item" href="/">Home</a>
+            <a class="nav-item" th:each="nav : ${navlist}" th:text="${nav}" th:href="${'/'+nav.toLowerCase()}"></a>
+        </div>
+        <div class="main">
+            <div class="section">
+                <div class="section" id="greetingSection">
+                    <h3 class="big-title" th:text="'Welcome, ' + ${user.firstName}"></h3>
+                    <h4 class="small-title" th:text="' You have logged with authority: ' + ${user.role}"></h4>
+                </div>
+            </div>
+            <div class="section">
+                <div class="under-construction">
+                    <img class="full-bg" src="/img/under_construction.jpg" alt="">
+                    <p class="medium-message">
+                        Under development. This area will show general information about restaurants day-to-day statistics.
+                    </p>
                 </div>
             </div>
         </div>
-
-        <div class="statistics-container">
-            <div class="under-construction">
-                <img src="/img/under_construction.jpg" alt="">
-                <p>
-                    Under development. This area will show general information about restaurants day-to-day statistics.
-                </p>    
-            </div>
-        </div>
     </div>
-    <script src="../static/js/main_page.js"></script>
 </body>
 </html>
