@@ -12,13 +12,10 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(AppUser emp) {
         this.emp = emp;
-        emp.getEmail();
-
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         return null;
     }
 
