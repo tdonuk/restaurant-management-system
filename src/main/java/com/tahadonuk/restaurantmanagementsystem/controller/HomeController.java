@@ -2,6 +2,8 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
+import com.tahadonuk.restaurantmanagementsystem.dto.StatusStatsDTO;
+import com.tahadonuk.restaurantmanagementsystem.dto.TableDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 @RestController
 public class HomeController {
@@ -28,11 +31,15 @@ public class HomeController {
         String currentUserEmail = request.getRemoteUser();
         AppUser user = userService.getUserByEmail(currentUserEmail);
 
-        mav.getModel().put("user", user.getName().getFirstName());
+        UserDTO userData = userService.getUserFromEntity(user);
+
+        mav.getModel().put("user", userData);
+        mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
         mav.setViewName("main_page");
         return mav;
     }
+
 
     @GetMapping(value = "/tables")
     @ResponseBody
@@ -43,13 +50,20 @@ public class HomeController {
         String currentUserEmail = request.getRemoteUser();
         AppUser user = userService.getUserByEmail(currentUserEmail);
 
-        mav.getModel().put("user", user.getName().getFirstName());
-        mav.getModel().put("tableList",tableService.getAll());
-        mav.getModel().put("totalCount",tableService.getAll().size());
-        mav.getModel().put("availableCount", tableService.countByStatus(TableStatus.AVAILABLE));
-        mav.getModel().put("fullCount", tableService.countByStatus(TableStatus.FULL));
-        mav.getModel().put("outserviceCount", tableService.countByStatus(TableStatus.OUT_OF_SERVICE));
+        //Do not transfer the actual user entity to the model. instead, use a data transfer object to transfer only required data
+        UserDTO userData = userService.getUserFromEntity(user);
 
+        mav.getModel().put("user", userData);
+        mav.getModel().put("tableList",tableService.getAll());
+
+        StatusStatsDTO currentStats = new StatusStatsDTO(tableService.countByStatus(TableStatus.FULL), tableService.countByStatus(TableStatus.AVAILABLE)
+                                                ,tableService.countByStatus(TableStatus.OUT_OF_SERVICE), tableService.getAll().size());
+
+        mav.getModel().put("stats", currentStats);
+
+        mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
+
+        mav.getModel().put("tableData",new TableDTO());
         mav.setViewName("tables");
 
         return mav;
@@ -72,12 +86,20 @@ public class HomeController {
         return mav;
     }
 
+    @GetMapping(value = "/logout")
+    @ResponseBody
+    public ModelAndView logOutRedirect() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/login?logout");
+        return modelAndView;
+    }
+
     @GetMapping(value = "/signup")
     @ResponseBody
     public ModelAndView getRegisterPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("signup");
-        modelAndView.getModel().put("appUser", new UserDTO());
+        modelAndView.getModel().put("userData", new UserDTO());
         return modelAndView;
     }
 }

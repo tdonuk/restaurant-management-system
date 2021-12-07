@@ -10,7 +10,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -35,9 +34,6 @@ public class AppUser implements Serializable {
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 
-    @Column(name = "DATE_OF_BIRTH")
-    private Date dateOfBirth;
-
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "street", column = @Column(name = "STREET")),
@@ -53,6 +49,12 @@ public class AppUser implements Serializable {
 
     @Column(name = "JOIN_DATE")
     private Date joinDate;
+
+    @Column(name = "DATE_OF_BIRTH")
+    private Date dateOfBirth;
+
+    @Column(name = "LAST_LOGIN")
+    private Date lastLoginDate;
 
     @Column(name = "PASSWORD")
     private String password;

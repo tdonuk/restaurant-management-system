@@ -10,34 +10,31 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import javax.annotation.security.PermitAll;
-import java.util.Collection;
 
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+    @Autowired LoginSuccessHandler loginSuccessHandler;
+    @Autowired
+    LogoutHandler logoutHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/home", "/tables")
+                    .antMatchers("/","/tables","/employees","/items","/orders")
                     .authenticated()
                     .and()
                 .formLogin().loginPage("/login").usernameParameter("email")
-                    .permitAll()
-                    .and()
-                .formLogin().defaultSuccessUrl("/")
+                    .successHandler(loginSuccessHandler)
                     .and()
                 .formLogin().failureUrl("/login?error")
                     .and()
-                .logout().permitAll();
+                .logout().logoutSuccessHandler(logoutHandler)
+                .permitAll();
     }
 
     @Override

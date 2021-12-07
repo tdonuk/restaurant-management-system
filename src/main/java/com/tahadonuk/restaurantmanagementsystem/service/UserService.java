@@ -50,6 +50,23 @@ public class UserService {
         }
     }
 
+    public void updateLoginDate(final String email) {
+        if(isExists(email)) {
+            userRepository.updateLastLogin(new Date(), email);
+        }
+    }
+
+    public UserDTO getUserFromEntity(AppUser user) {
+        UserDTO userData = new UserDTO();
+
+        userData.setFirstName(user.getName().getFirstName());
+        userData.setLastName(user.getName().getLastName());
+        userData.setEmail(user.getEmail());
+        userData.setRole(user.getRole().toString());
+
+        return userData;
+    }
+
     public void deleteUser(long id) {
         if(isExist(id)) {
             userRepository.deleteById(id);

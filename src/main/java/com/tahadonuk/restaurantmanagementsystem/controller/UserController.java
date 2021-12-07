@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-     @PostMapping(path = "api/employee/save")
+     @PostMapping(path = "api/user/save")
      @ResponseBody
     public ResponseEntity<Object> saveEmployee(@RequestBody UserDTO emp) {
          try {
@@ -33,7 +33,7 @@ public class UserController {
          }
     }
 
-    @GetMapping(path = "api/employee/{id}")
+    @GetMapping(path = "api/user/{id}")
     @ResponseBody
     public ResponseEntity<Object> getEmployeeById(@PathVariable long id) {
         try {
@@ -44,7 +44,7 @@ public class UserController {
     }
 
 
-    @PostMapping(path = "api/employee")
+    @PostMapping(path = "api/user")
     @ResponseBody
     public ResponseEntity<Object> getEmployeeByNumber(@RequestParam("email") String email) {
         try {
@@ -54,12 +54,21 @@ public class UserController {
         }
     }
 
-    @GetMapping(path = "api/employee/role")
+    @GetMapping(path = "api/user/role")
     @ResponseBody
     public ResponseEntity<List<AppUser>> getEmployeesByRole(@RequestParam("role") String role) {
         UserRole userRole = UserRole.valueOf(role.toUpperCase());
 
         return ResponseEntity.ok(userService.getUsersByRole(userRole));
+    }
+
+    @GetMapping(path = "api/user/login")
+    @ResponseBody
+    public ModelAndView getEmployeesByRole(HttpServletRequest request) {
+        String username = request.getRemoteUser();
+        System.out.println(username);
+
+        return new ModelAndView("redirect:/");
     }
 
     @PostMapping(path = "/register")
@@ -68,10 +77,10 @@ public class UserController {
         try {
             AppUser appUser = userService.saveUser(user);
             request.logout();
-            return null;
+            return new ModelAndView("redirect:/login");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ModelAndView("redirect:signup", "error", e.getMessage());
+            return new ModelAndView("redirect:/signup", "error", e.getMessage());
         }
     }
 }
