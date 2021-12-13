@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlsn="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="page-header" th:replace="fragments/general :: pageHeader(title=' / Employees')"/>
+        <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
+        <div class="main">
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,23 +1,28 @@
 html {
     font-family: sans-serif;
+
     padding: 0;
     margin: 0;
+
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
 }
 
 body {
     margin: 0;
     padding: 0;
 
-    width: 100vw;
-    height: 100vh;
+    height: inherit;
+
+    font-size: 0.8rem;
 }
 
 .wrapper {
-    max-height: 100%;
-    min-height: 100%;
+    height: inherit;
 
-    max-width: 100%;
-    min-width: 100%;
+    margin: auto auto;
 
     background: white;
 
@@ -29,7 +34,7 @@ body {
 
 .side-nav {
     background: whitesmoke;
-    padding: 10px 20px;
+    padding: 1vh 1vw;
     margin-top: 5px;
     border: 1px solid gray;
 
@@ -38,13 +43,14 @@ body {
 
     grid-row-start: 2;
     grid-row-end: 3;
+
+    font-size: 1rem;
 }
 
 .nav-item {
     display: block;
     text-decoration: none;
     cursor: pointer;
-    font-size: 1.3rem;
     margin-bottom: 15px;
     color: black;
 }
@@ -58,7 +64,7 @@ body {
     display: flex;
     justify-content: space-between;
 
-    border-bottom: 1px solid gray;
+    border: 1px solid gray;
 
     grid-column-start: 1;
     grid-column-end: 3;
@@ -74,28 +80,177 @@ body {
     grid-row-start: 2;
     grid-row-end: 3;
 
-    overflow-y: auto;
+    border-right: 1px solid gray;
+
+    height: inherit;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .big-title {
-    font-size: 2.2rem;
+    font-size: 1.5rem;
     text-decoration: none;
     font-weight: bold;
     color: black;
-    padding: 40px 20px;
+    padding: 20px;
+    margin: 0;
+}
+
+.small-title {
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.plain-text {
+    text-decoration: none;
+    font-weight: normal;
 }
 
 .corner-container {
     display: inline-flex;
+    margin-right: 10px;
 }
 
+#userDropdown {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: auto;
+}
+#userDropdown .dropdown-text {
+    font-size: 1rem;
+}
+
+
 #logoutButton {
-    width: 100%;
+    width: fit-content;
     height: 100%;
 
-    font-size: 1.2rem;
     cursor: pointer;
+
+    border: 1px solid gray;
+    background: none;
+
+    font-weight: bold;
+
+    display: block;
+
+    margin: auto;
+    margin-top: 10px;
+
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    font-size: 1rem;
 }
 #logoutForm {
     padding: 10px;
+    text-align: left;
+}
+
+#logoutForm span {
+    margin-bottom: 5px;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.loader {
+    border: 6px solid black;
+    border-color: white transparent white transparent;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+}
+
+
+@media only screen and (max-width: 600px) {
+    html {
+        padding: 0;
+        font-size: 0.8rem;
+    }
+
+    .nav-item {
+        display: inline;
+    }
+    .side-nav {
+        display: flex;
+        justify-content: space-around;
+    }
+    .wrapper {
+        display: block;
+        height: auto;
+        border: none;
+    }
+    .main {
+        display: block;
+        height: auto;
+    }
+
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid gray;
+    min-width: 60px;
+    text-align: center;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    height: fit-content;
+    align-self: center;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    overflow-y: auto;
+
+    transform: translate(-50%, 10%);
+
+    scrollbar-width: thin;
+    background-color: whitesmoke;
+    border: 1px solid gray;
+    border-radius: 5px;
+
+    min-width: 100px;
+    max-height: 300px;
+
+    width: max-content;
+
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0, 0.2);
+}
+.dropdown-expanded {
+    display: block;
+}
+.dropdown-item {
+    padding: 10px 0;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid gray;
+    text-align: center;
+    transition: 0.1s;
+}
+.dropdown-item:hover {
+    background-color: white;
+}
+.dropdown-text {
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
 }

@@ -33,7 +33,7 @@ public class ItemController {
 
     @GetMapping(path = "api/item")
     @ResponseBody
-    public ResponseEntity<List<Item>> getByType(@RequestParam("type") String type, HttpServletRequest request) {
+    public ResponseEntity<List<Item>> getByType(@RequestParam("type") String type) {
         ItemType itemType = ItemType.valueOf(type.toUpperCase());
         List<Item> items = itemService.getByType(itemType);
 

@@ -5,10 +5,8 @@ import com.tahadonuk.restaurantmanagementsystem.data.entity.RestaurantTable;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.TableRepository;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.TableConflictException;
-import com.tahadonuk.restaurantmanagementsystem.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.comparator.Comparators;
 
 import java.util.Comparator;
 import java.util.List;

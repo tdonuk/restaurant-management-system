@@ -1,5 +1,5 @@
 .medium-message {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
     text-align: center;
 }
 
@@ -11,17 +11,4 @@
 
 .under-construction {
     text-align: center;
-}
-
-#logoutButton {
-    background: none;
-    border: none;
-}
-
-.greeting-detail{
-    text-decoration: none;
-    font-weight: normal;
-}
-.greeting-title {
-    font-size: 1.8rem;
 }

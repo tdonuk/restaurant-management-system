@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Management</title>
+    <link rel="stylesheet" href="/css/modal.css" th:href="@{/css/modal.css}">
+    <link rel="stylesheet" href="/css/tables.css" th:href="@{/css/tables.css}">
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="fragments/general :: pageHeader(title=' / Tables', userData=${user})"/>
+        <div th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
+        <div class="main">
+            <div class="section">
+                <h3 class="big-title">Table Management</h3>
+            </div>
+            <div class="section" id="tableDetailsSection">
+                <div id="tableContent" th:replace="fragments/contents :: tables(tableList=${tableList}, stats=${stats})"></div>
+            </div>
+            <div class="section" id="tableControlButtonsSection">
+                <button id="addTableButton">Add Table</button>
+                <button id="removeTableButton">Remove Table</button>
+                <button id="updateTableButton">Update Table</button>
+                <button id="refreshButton">Refresh</button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/modalUtils.js" th:src="@{/js/modalUtils.js}"></script>
+    <script src="/js/dropdownUtils.js" th:src="@{/js/dropdownUtils.js}"></script>
+    <script src="/js/tables_page.js" th:src="@{/js/tableUtils.js}"></script>
+</body>
+</html>

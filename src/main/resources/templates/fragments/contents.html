@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="tableContent" th:fragment="tables(tableList, stats)">
+        <div class="sub-section">
+            <h2 class="small-title">Current Status</h2>
+            <div class="information-wrapper">
+                <label>Total:</label>
+                <span th:text="${stats.totalCount}"></span>
+            </div>
+            <div class="information-wrapper">
+                <label>Available:</label>
+                <span th:text="${stats.availableCount}"></span>
+            </div>
+            <div class="information-wrapper">
+                <label>Full:</label>
+                <span th:text="${stats.fullCount}"></span>
+            </div>
+            <div class="information-wrapper">
+                <label>Out of service:</label>
+                <span th:text="${stats.outOfServiceCount}"></span>
+            </div>
+        </div>
+        <div class="sub-section" id="tablesWrapper">
+            <div th:each="table : ${tableList}" class="table-box" th:classappend="${table.status.getStatusText().toLowerCase().replaceAll(' ','-')}">
+                <span th:text="'Table '+${table.tableId}"></span>
+                <span th:text="${table.status.getStatusText()}"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 const boxes = document.getElementsByClassName("nav-item");
 
+initDropdowns();
+
 
 Array.prototype.forEach.call(boxes, function(e) {
     e.addEventListener("click", function(event) {
@@ -19,8 +21,4 @@ function toDefault(selectedElement) {
             e.style.border = "";
         }
     })
-}
-
-function getEmployees() {
-    // TODO
 }

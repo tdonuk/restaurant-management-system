@@ -8,7 +8,6 @@ import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,7 +35,24 @@ public class HomeController {
         mav.getModel().put("user", userData);
         mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
-        mav.setViewName("main_page");
+        mav.setViewName("app/main_page");
+        return mav;
+    }
+
+    @GetMapping(value = "/employees")
+    @ResponseBody
+    public ModelAndView getEmployeesPage(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+
+        String currentUserEmail = request.getRemoteUser();
+        AppUser user = userService.getUserByEmail(currentUserEmail);
+
+        UserDTO userData = userService.getUserFromEntity(user);
+
+        mav.getModel().put("user", userData);
+        mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
+
+        mav.setViewName("app/employees");
         return mav;
     }
 
@@ -64,7 +80,7 @@ public class HomeController {
         mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
         mav.getModel().put("tableData",new TableDTO());
-        mav.setViewName("tables");
+        mav.setViewName("app/tables");
 
         return mav;
     }
@@ -73,7 +89,7 @@ public class HomeController {
     @ResponseBody
     public ModelAndView getMenuPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("menu_page");
+        modelAndView.setViewName("app/items");
         return modelAndView;
     }
 
@@ -88,7 +104,7 @@ public class HomeController {
 
     @GetMapping(value = "/logout")
     @ResponseBody
-    public ModelAndView logOutRedirect() {
+    public ModelAndView logOutRedirect(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/login?logout");
         return modelAndView;

@@ -2,9 +2,7 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.RestaurantTable;
-import com.tahadonuk.restaurantmanagementsystem.data.repository.TableRepository;
 import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
-import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.TableNotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +21,24 @@ public class TableController {
     @PostMapping(path = "api/table/save")
     @ResponseBody
     public ResponseEntity<Object> addTable(@RequestBody RestaurantTable table) {
+        if(table.getTableId() <= 0) return ResponseEntity.badRequest().body("Given ID value is not valid.");
+
         try{
             table.setStatus(TableStatus.AVAILABLE);
 
             tableService.addTable(table);
-            return ResponseEntity.ok().body(new StringResponse("Table " + table.getTableId() + " has created successfully"));
+            return ResponseEntity.ok().body(new StringResponse("Table " + table.getTableId() + " has created successfully."));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
+        }
+    }
+
+    @GetMapping(path = "api/table/{id}")
+    @ResponseBody
+    public ResponseEntity<Object> getById(@PathVariable long id) {
+        try {
+            return ResponseEntity.ok(tableService.getById(id));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
     }
@@ -44,16 +53,6 @@ public class TableController {
     @ResponseBody
     public ResponseEntity<List<RestaurantTable>> getByCapacity(@RequestParam("capacity") int capacity) {
         return new ResponseEntity<>(tableService.getByCapacity(capacity), HttpStatus.OK);
-    }
-
-    @GetMapping(path = "api/table/{id}")
-    @ResponseBody
-    public ResponseEntity<Object> getById(@PathVariable long id) {
-        try {
-            return ResponseEntity.ok(tableService.getById(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
-        }
     }
 
     @PostMapping(path = "api/table/{id}/status")

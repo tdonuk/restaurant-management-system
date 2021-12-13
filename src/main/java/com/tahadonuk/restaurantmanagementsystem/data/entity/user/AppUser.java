@@ -3,7 +3,6 @@ package com.tahadonuk.restaurantmanagementsystem.data.entity.user;
 import com.sun.istack.NotNull;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
-import com.tahadonuk.restaurantmanagementsystem.dto.Email;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
 import lombok.Data;
 
@@ -42,6 +41,7 @@ public class AppUser implements Serializable {
     private Address address;
 
     @Column(name = "ROLE")
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @Column(name = "SALARY")
@@ -55,6 +55,9 @@ public class AppUser implements Serializable {
 
     @Column(name = "LAST_LOGIN")
     private Date lastLoginDate;
+
+    @Column(name = "LAST_LOGOUT")
+    private Date lastLogoutDate;
 
     @Column(name = "PASSWORD")
     private String password;

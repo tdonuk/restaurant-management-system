@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <div class="modal-header" th:fragment="modalHeader(title)">
+            <h2 class="modal-title" th:text="${title}"></h2>
+            <span class="modal-close" onclick="document.body.querySelector('.modal-bg').remove()">X</span>
+        </div>
+
+        <div class="modal-footer" th:fragment="modalFooter">
+            <button class="modal-button" th:id="'okButton'">Accept</button>
+            <button class="modal-button" th:id="'cancelButton'" onclick="document.body.querySelector('.modal-bg').remove()">Cancel</button>
+        </div>
+
+        <div class="modal-container" id="addTableModal" th:fragment="modal_addTable">
+              <div class="modal-header" th:replace="fragments/modals :: modalHeader('Add Table')"/>
+
+              <div class="modal-body">
+                  <table>
+                      <tr>
+                          <td>
+                              <label th:for="'tableIdField'">Table Id:</label>
+                          </td>
+                          <td>
+                              <input type="number" name="tableId" th:id="'tableIdField'" placeholder="table number"/>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <label for="tableCapacityField">Capacity:</label>
+                          </td>
+                          <td>
+                              <div id="tableCapacityField" th:replace="fragments/elements :: dropdown(id='tableCapacityField', items=${#numbers.sequence(1, 16)})"/>
+                          </td>
+                      </tr>
+                  </table>
+                  <p>Fill the required information and click 'Save'</p>
+              </div>
+
+              <div class="modal-footer" th:replace="fragments/modals :: modalFooter"/>
+        </div>
+
+        <div class="modal-container" id="updateTableModal" th:fragment="modal_updateTable">
+            <div class="modal-header" th:replace="fragments/modals :: modalHeader('Update Table')"/>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>
+                            <label th:for="'tableIdField'">Table to update:</label>
+                        </td>
+                        <td>
+                            <div th:id="'tableIdField'" th:replace="fragments/elements :: dropdown(id='tableIdField', items=${#numbers.sequence(tableList[0].tableId, #lists.size(tableList))})"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label th:for="newStatusField">New Status:</label>
+                        </td>
+                        <td>
+                            <div th:id="'newStatusField'" th:replace="fragments/elements :: dropdown(id='newStatusField', items=${T(com.tahadonuk.restaurantmanagementsystem.data.TableStatus).values()})"/>
+                        </td>
+                    </tr>
+                </table>
+                <p>Updating table status</p>
+            </div>
+            <div class="modal-footer" th:replace="fragments/modals :: modalFooter"/>
+        </div>
+
+        <div class="modal-container" id="removeTableModal" th:fragment="modal_removeTable">
+            <div class="modal-header" th:replace="fragments/modals :: modalHeader('Remove Table')"/>
+            <div class="modal-body">
+                <label>Table to delete:
+                    <div th:id="'tableIdField'" th:replace="fragments/elements :: dropdown(id='tableIdField', items=${#numbers.sequence(tableList[0].tableId, #lists.size(tableList)})"/>
+                </label>
+                <p>Info: Records for this table will not deleted even after the table is deleted.</p>
+            </div>
+            <div class="modal-footer" th:replace="fragments/modals :: modalFooter"/>
+        </div>
+</body>
+</html>

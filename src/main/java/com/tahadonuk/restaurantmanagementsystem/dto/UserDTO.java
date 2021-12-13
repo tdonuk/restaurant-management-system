@@ -16,6 +16,8 @@ public class UserDTO {
 
     private String joinDate;
     private String dateOfBirth;
+    private String lastLoginDate;
+    private String lastLogoutDate;
 
     private String role;
 }

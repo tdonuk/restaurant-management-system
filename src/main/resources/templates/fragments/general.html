@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+    <body>
+        <div class="page-header" id="pageHeader" th:fragment="pageHeader(title, userData)">
+            <a class="big-title" href="/" th:text="'Admin Panel '+${title}">Admin Panel / Tables</a> <!-- Title !-->
+            <div class="corner-container">
+                <div class="dropdown" id="userDropdown">
+                    <span class="dropdown-text">User</span>
+                    <div class="dropdown-content">
+                        <form id="logoutForm" th:action="@{/logout}" method="post">
+                            <h3>User</h3>
+                            <span th:text="${userData.firstName}+' '+${userData.lastName}"></span>
+        
+                            <h3>Last Login</h3>
+                            <span th:text="${userData.lastLoginDate}"></span>
+        
+                            <h3>Last Logout</h3>
+                            <span th:text="${userData.lastLogoutDate}"></span>
+                            
+                            <h3>Role</h3>
+                            <span th:text="${userData.role}"></span>
+                            <input type="submit" id="logoutButton" value="Logout">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav side-nav" th:fragment="sideNav(navList)">
+            <a class="nav-item" href="/">Home</a>
+            <a class="nav-item" th:each="nav : ${navlist}" th:text="${nav}" th:href="${'/'+nav.toLowerCase()}"></a>
+        </div>
+        
+    </body>
+</html>

@@ -32,4 +32,9 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
     @Modifying(clearAutomatically = true)
     @Query("update AppUser user set user.lastLoginDate = :loginDate where user.email = :email")
     void updateLastLogin(@Param("loginDate") Date loginDate, @Param("email") String email);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update AppUser user set user.lastLogoutDate = :logoutDate where user.email = :email")
+    void updateLastLogout(@Param("logoutDate") Date logoutDate, @Param("email") String email);
 }

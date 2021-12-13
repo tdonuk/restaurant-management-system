@@ -6,7 +6,6 @@ import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.OrderRepository;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.OrderNotFoundException;
-import com.tahadonuk.restaurantmanagementsystem.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,16 +33,14 @@ public class OrderService {
     }
 
     public List<Order> getBetween(Date date1, Date date2) throws NoSuchElementException {
-        List<Optional<Order>> orderOptionals = orderRepo.findByOrderDateBetween(date1,date2);
 
-        return ListUtils.getListFromOptionals(orderOptionals);
+        return orderRepo.findByOrderDateBetween(date1,date2);
     }
 
     public List<Order> getByDate(Date date) {
         if(orderRepo.existsByOrderDate(date)) {
-            List<Optional<Order>> orderOptionals = orderRepo.findByOrderDate(date);
 
-            return ListUtils.getListFromOptionals(orderOptionals);
+            return orderRepo.findByOrderDate(date);
         }
         else return null;
     }
@@ -62,8 +59,8 @@ public class OrderService {
         else throw new OrderNotFoundException("No such order with id: '" + id + "'");
     }
 
-    public int countByItem(final Item items) {
-        return orderRepo.countAllByItemsIsContaining(items);
+    public int countByItem(final Item item) {
+        return orderRepo.countAllByItemsIsContaining(item);
     }
 
 }

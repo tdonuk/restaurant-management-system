@@ -23,7 +23,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background: wheat;
+    background: white;
 
     display: flex;
 
@@ -32,10 +32,10 @@ body {
 }
 
 .form-container {
-    width: min-content;
+    width: 15vw;
+    max-width: 250px;
+    min-width: fit-content;
     height: fit-content;
-
-    min-width: 300px;
 
     background: whitesmoke;
 

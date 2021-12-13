@@ -56,6 +56,12 @@ public class UserService {
         }
     }
 
+    public void updateLogoutDate(final String email) {
+        if(isExists(email)) {
+            userRepository.updateLastLogout(new Date(), email);
+        }
+    }
+
     public UserDTO getUserFromEntity(AppUser user) {
         UserDTO userData = new UserDTO();
 
@@ -63,6 +69,11 @@ public class UserService {
         userData.setLastName(user.getName().getLastName());
         userData.setEmail(user.getEmail());
         userData.setRole(user.getRole().toString());
+
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
+
+        userData.setLastLoginDate(format.format(user.getLastLoginDate()));
+        userData.setLastLogoutDate(format.format(user.getLastLogoutDate()));
 
         return userData;
     }
