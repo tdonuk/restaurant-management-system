@@ -26,10 +26,7 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 
-        if(user.getRole() == UserRole.USER) list.add(new SimpleGrantedAuthority("USER"));
-        if(user.getRole() == UserRole.EMPLOYEE) list.add(new SimpleGrantedAuthority("EMPLOYEE"));
-        if(user.getRole() == UserRole.MANAGER) list.add(new SimpleGrantedAuthority("MANAGER"));
-        if(user.getRole() == UserRole.ADMIN) list.add(new SimpleGrantedAuthority("ADMIN"));
+        list.add(new SimpleGrantedAuthority(user.getRole().toString()));
 
         return list;
     }
