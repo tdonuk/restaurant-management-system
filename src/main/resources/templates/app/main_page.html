@@ -11,18 +11,123 @@
             <div th:replace="fragments/general :: pageHeader(title='', userData=${user})"/>
             <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
             <div class="main">
-                <div class="section">
-                    <div class="section" id="greetingSection">
-                        <h3 class="big-title" th:text="'User: ' + ${user.firstName}"></h3>
-                        <h4 class="small-title" th:text="'Authority: ' + ${user.role}"></h4>
+                <div class="section" id="stats">
+                    <div class="sub-section box" id="tableStats">
+                        <div class="box-header">
+                            <h2 class="box-title">Tables</h2>
+                        </div>
+                        <div class="box-content">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">Total: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${tableStats.totalCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="'Total'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">Available: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${tableStats.availableCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(tableStats.getAvailablePercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">Full: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${tableStats.fullCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(tableStats.getFullPercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">Out Of Service: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${tableStats.outOfServiceCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(tableStats.getOutOfServicePercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="section">
-                    <div class="under-construction">
-                        <img class="full-bg" src="/img/under_construction.jpg" alt="">
-                        <p class="medium-message">
-                            Under development. This area will show general information about restaurants day-to-day statistics.
-                        </p>
+                    <div class="sub-section box" id="userStats">
+                        <div class="box-header">
+                            <h2 class="box-title">Users</h2>
+                        </div>
+                        <div class="box-content">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">Total: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${userStats.totalCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="'Total'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">Admin: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${userStats.adminCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(userStats.getAdminPercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">Manager: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${userStats.managerCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(userStats.getManagerPercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">Employee: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${userStats.employeeCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(userStats.getEmployeePercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="stat-label">User: </label>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${userStats.userCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(userStats.getUserPercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

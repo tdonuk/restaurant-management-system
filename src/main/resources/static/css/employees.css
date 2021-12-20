@@ -1,0 +1,23 @@
+td {
+    text-align: center;
+}
+th {
+    padding: 10px;
+    background-color: indianred;
+}
+
+.tableWrapper {
+    padding: 20px;
+    height: 25%;
+    max-height: 25%;
+}
+
+.main {
+    justify-content: space-around;
+}
+
+.detailsLink {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

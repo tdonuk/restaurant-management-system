@@ -37,4 +37,6 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
     @Modifying(clearAutomatically = true)
     @Query("update AppUser user set user.lastLogoutDate = :logoutDate where user.email = :email")
     void updateLastLogout(@Param("logoutDate") Date logoutDate, @Param("email") String email);
+
+    int countAppUsersByRole(UserRole role);
 }

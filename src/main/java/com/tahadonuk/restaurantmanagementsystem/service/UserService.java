@@ -3,14 +3,12 @@ package com.tahadonuk.restaurantmanagementsystem.service;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
-import com.tahadonuk.restaurantmanagementsystem.dto.Email;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.UserRepository;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.exception.UserConflictException;
 import com.tahadonuk.restaurantmanagementsystem.exception.UserNotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,6 +48,10 @@ public class UserService {
         }
     }
 
+    public List<AppUser> getAll() {
+        return userRepository.findAll();
+    }
+
     public void updateLoginDate(final String email) {
         if(isExists(email)) {
             userRepository.updateLastLogin(new Date(), email);
@@ -70,7 +72,7 @@ public class UserService {
         userData.setEmail(user.getEmail());
         userData.setRole(user.getRole().toString());
 
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 
         userData.setLastLoginDate(format.format(user.getLastLoginDate()));
         userData.setLastLogoutDate(format.format(user.getLastLogoutDate()));
@@ -112,6 +114,10 @@ public class UserService {
     public List<AppUser> getUsersByRole(UserRole role) {
         List<AppUser> users = userRepository.findAppUsersByRole(role);
         return users;
+    }
+
+    public int countUsersByRole(UserRole role) {
+        return userRepository.countAppUsersByRole(role);
     }
 
     public AppUser getUserByEmail(String email) {

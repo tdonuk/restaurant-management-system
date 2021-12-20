@@ -12,3 +12,32 @@
 .under-construction {
     text-align: center;
 }
+
+#stats {
+    flex-grow: 1;
+
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto;
+}
+
+.sub-section {
+    padding: 20px;
+    margin: 10px;
+    font-size: 1.2rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.45);
+    display: inline-block;
+}
+
+.box-header {
+    margin-bottom: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.stat-content {
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+}

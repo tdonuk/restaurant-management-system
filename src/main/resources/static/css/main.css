@@ -1,5 +1,5 @@
 html {
-    font-family: sans-serif;
+    font-family: 'Calibri Light';
 
     padding: 0;
     margin: 0;
@@ -253,4 +253,17 @@ h1, h2, h3, h4, h5 {
     width: 100%;
     text-align: center;
     cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0 3px;
+}
+
+td {
+    padding: 10px;
+}
+
+tr {
+    background-color: whitesmoke;
 }

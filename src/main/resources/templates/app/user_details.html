@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User Details</title>
+    
+        <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+        <link rel="stylesheet" href="/css/modal.css" th:href="@{/css/modal.css}">
+        <link rel="stylesheet" href="/css/userDetails.css">
+    </head>
+    <body>
+        <div class="wrapper">
+            <div th:replace="fragments/general :: pageHeader(title=' / User Details', userData=${user})"/>
+            <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
+            
+            <div class="main">
+                <div class="tableWrapper">
+                    <div class="tableHeader">
+                        <h2 class="userTitle">User Details</h2>
+                        <a id="editButton">Edit</a>
+                    </div>
+                    <table>
+        
+                        <tr>
+                            <th>ID:</th>
+                            <td th:text="${userDetails.userId}"></td>
+                            <th>Name:</th>
+                            <td th:text="${userDetails.name.toString()}"></td>
+                        </tr>
+        
+                        <tr>
+                            <th>Phone:</th>
+                            <td th:text="${userDetails.phoneNumber}"></td>
+                            <th>Email:</th>
+                            <td th:text="${userDetails.email}"></td>
+                        </tr>
+        
+                        <tr>
+                            <th>Street:</th>
+                            <td th:text="${userDetails.address.street}"></td>
+                            <th>Detail:</th>
+                            <td th:text="${userDetails.address.apartment}"></td>
+                        </tr>
+        
+                        <tr>
+                            <th>Role:</th>
+                            <td th:text="${userDetails.role.roleText}"></td>
+                            <th>Salary:</th>
+                            <td th:text="${userDetails.salary}"></td>
+                        </tr>
+        
+                        <tr>
+                            <th>Last Login:</th>
+                            <td th:text="${#dates.format(userDetails.lastLoginDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                            <th>Last Logout:</th>
+                            <td th:text="${#dates.format(userDetails.lastLogoutDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                        </tr>
+                        
+                        <tr>
+                            <th>Birth Date:</th>
+                            <td th:text="${#dates.format(userDetails.dateOfBirth, 'dd/MM/yyyy')}"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <script src="/js/dropdownUtils.js"></script>
+        <script src="/js/modalUtils.js"></script>
+        <script src="/js/employees.js"></script>
+    </body>
+</html>

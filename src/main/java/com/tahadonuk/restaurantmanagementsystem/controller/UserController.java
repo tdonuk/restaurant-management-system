@@ -2,18 +2,16 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
-import com.tahadonuk.restaurantmanagementsystem.dto.Email;
 import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -24,7 +22,7 @@ public class UserController {
 
      @PostMapping(path = "api/user/save")
      @ResponseBody
-    public ResponseEntity<Object> saveEmployee(@RequestBody UserDTO emp) {
+    public Object saveEmployee(@RequestBody UserDTO emp) {
          try {
              AppUser result = userService.saveUser(emp);
              return ResponseEntity.ok().body(new StringResponse("Employee saved successfully. ID: " +result.getUserId()));
@@ -33,11 +31,22 @@ public class UserController {
          }
     }
 
-    @GetMapping(path = "api/user/{id}")
+    @GetMapping(path = "api/user/{id}/details")
     @ResponseBody
-    public ResponseEntity<Object> getEmployeeById(@PathVariable long id) {
+    public Object getEmployeeById(@PathVariable long id, HttpServletRequest request) {
+         ModelAndView mav = new ModelAndView();
         try {
-            return ResponseEntity.ok().body(userService.getUserById(id));
+            AppUser user = userService.getUserById(id);
+            AppUser requestingUser = userService.getUserByEmail(request.getRemoteUser());
+            UserDTO requestingUserData = userService.getUserFromEntity(requestingUser);
+
+            mav.getModel().put("userDetails", user);
+            mav.getModel().put("user",requestingUserData);
+            mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
+
+            mav.setViewName("app/user_details");
+
+            return mav;
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
@@ -46,7 +55,7 @@ public class UserController {
 
     @PostMapping(path = "api/user")
     @ResponseBody
-    public ResponseEntity<Object> getEmployeeByNumber(@RequestParam("email") String email) {
+    public Object getEmployeeByNumber(@RequestParam("email") String email) {
         try {
             return ResponseEntity.ok().body(userService.getUserByEmail(email));
         } catch (Exception e) {
@@ -62,14 +71,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsersByRole(userRole));
     }
 
-    @GetMapping(path = "api/user/login")
-    @ResponseBody
-    public ModelAndView getEmployeesByRole(HttpServletRequest request) {
-        String username = request.getRemoteUser();
-        System.out.println(username);
-
-        return new ModelAndView("redirect:/");
-    }
 
     @PostMapping(path = "/register")
     @ResponseBody

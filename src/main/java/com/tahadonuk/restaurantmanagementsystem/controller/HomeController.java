@@ -1,10 +1,12 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
+import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
-import com.tahadonuk.restaurantmanagementsystem.dto.StatusStatsDTO;
+import com.tahadonuk.restaurantmanagementsystem.dto.TableStatsDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.TableDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
+import com.tahadonuk.restaurantmanagementsystem.dto.UserStatsDTO;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 
 @RestController
@@ -35,13 +39,23 @@ public class HomeController {
         mav.getModel().put("user", userData);
         mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
+        mav.getModel().put("tableList", tableService.getAll());
+
+        TableStatsDTO tableStats = new TableStatsDTO(tableService.countByStatus(TableStatus.FULL), tableService.countByStatus(TableStatus.AVAILABLE)
+                ,tableService.countByStatus(TableStatus.OUT_OF_SERVICE), tableService.getAll().size());
+        mav.getModel().put("tableStats", tableStats);
+
+        UserStatsDTO userStats = new UserStatsDTO(userService.getAll().size(),userService.countUsersByRole(UserRole.USER),userService.countUsersByRole(UserRole.EMPLOYEE)
+                ,userService.countUsersByRole(UserRole.MANAGER), userService.countUsersByRole(UserRole.ADMIN));
+        mav.getModel().put("userStats", userStats);
+
         mav.setViewName("app/main_page");
         return mav;
     }
 
     @GetMapping(value = "/employees")
     @ResponseBody
-    public ModelAndView getEmployeesPage(HttpServletRequest request) {
+    public ModelAndView getEmployeesPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ModelAndView mav = new ModelAndView();
 
         String currentUserEmail = request.getRemoteUser();
@@ -50,10 +64,26 @@ public class HomeController {
         UserDTO userData = userService.getUserFromEntity(user);
 
         mav.getModel().put("user", userData);
+
         mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
-        mav.setViewName("app/employees");
-        return mav;
+        if(user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.MANAGER)) {
+            mav.getModel().put("users", userService.getUsersByRole(UserRole.USER));
+            mav.getModel().put("admins", userService.getUsersByRole(UserRole.ADMIN));
+            mav.getModel().put("managers", userService.getUsersByRole(UserRole.MANAGER));
+            mav.getModel().put("employees", userService.getUsersByRole(UserRole.EMPLOYEE));
+
+            mav.setViewName("app/employees");
+
+            return mav;
+        }
+
+        else {
+            System.out.println("Unauthorized attempt");
+            response.sendRedirect("/");
+            return null;
+        }
+
     }
 
 
@@ -72,7 +102,7 @@ public class HomeController {
         mav.getModel().put("user", userData);
         mav.getModel().put("tableList",tableService.getAll());
 
-        StatusStatsDTO currentStats = new StatusStatsDTO(tableService.countByStatus(TableStatus.FULL), tableService.countByStatus(TableStatus.AVAILABLE)
+        TableStatsDTO currentStats = new TableStatsDTO(tableService.countByStatus(TableStatus.FULL), tableService.countByStatus(TableStatus.AVAILABLE)
                                                 ,tableService.countByStatus(TableStatus.OUT_OF_SERVICE), tableService.getAll().size());
 
         mav.getModel().put("stats", currentStats);

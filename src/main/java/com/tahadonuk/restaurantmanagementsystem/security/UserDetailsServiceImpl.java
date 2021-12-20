@@ -1,7 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.security;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
-import com.tahadonuk.restaurantmanagementsystem.dto.Email;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
