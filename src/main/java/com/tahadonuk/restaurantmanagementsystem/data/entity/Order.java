@@ -16,17 +16,18 @@ public class Order implements Serializable {
     @Column(name = "ORDER_ID")
     private long orderId;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private Set<Item> items;
-
     @Column(name = "ORDER_DATE")
     private Date orderDate;
 
     @Column(name = "TOTAL_PRICE")
     private double totalPrice;
 
+    @Column(name = "TABLE_ID")
     @NotNull
-    @JoinColumn(name = "TABLE_ID")
-    @OneToOne(fetch = FetchType.EAGER)
-    private RestaurantTable table;
+    private long tableId;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "RECEIPT_ID")
+    private Receipt receipt;
+
 }

@@ -1,0 +1,137 @@
+.main {
+    display: block;
+}
+
+td {
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    display: grid;
+    align-items: center;
+}
+th {
+    padding: 10px;
+    background-color: lightgrey;
+    width: 100%;
+}
+tr {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border-bottom: 1px solid gray;
+}
+table {
+    height: 100%;
+}
+
+.tableWrapper {
+    padding: 20px;
+    background-color: whitesmoke;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.main {
+    display: block;
+    height: fit-content;
+    max-height: 100%;
+}
+
+.linkButton {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.form-button-group {
+    text-align: right;
+    margin: 0 20px;
+}
+
+button, input {
+    padding: 8px !important;
+    font-size: 0.8rem !important;
+}
+input {
+    height: fit-content;
+    max-width: 60px !important;
+}
+
+#orderControls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#cart {
+    border-radius: 5px;
+    border: 1px solid gray;
+    padding: 20px;
+    background: ivory;
+    transition: 1s;
+    margin: 20px auto;
+    height: 200px;
+    width: -moz-available;
+    max-width: 300px;
+    max-height: 200px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#cartControls {
+    text-align: right;
+}
+
+.item-remove {
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+#itemList {
+    padding: 5px;
+    max-height: 50%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+#cartInfo {
+    border-top: 1px solid gray;
+
+    display: flex;
+    padding: 5px;
+}
+#cartFinalize {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.cart-item {
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
+    margin-bottom: 3px;
+}
+
+.cart-header {
+    padding: 2px 10px;
+    font-size: 1rem;
+}
+
+.item-name {
+    flex-grow: 1;
+    text-align: center;
+}
+.item-id {
+    text-align: center;
+}
+.item-remove {
+    text-align: center;
+    padding: 0 10px;
+}

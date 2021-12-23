@@ -1,0 +1,31 @@
+.table-wrapper {
+    padding: 20px;
+}
+#itemControls {
+    text-align: right;
+    padding: 5px;
+    margin: 20px 5px;
+}
+
+td,p {
+    text-align: center;
+}
+
+table {
+    border-spacing: 1px !important;
+}
+
+.title {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.linkButton {
+    padding: 8px 12px;
+    background: whitesmoke;
+    border: 1px solid gray;
+    border-radius: 2px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}

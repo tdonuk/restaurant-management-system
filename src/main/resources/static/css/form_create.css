@@ -1,0 +1,59 @@
+.form-container {
+    width: fit-content;
+    margin: auto auto;
+    border: 1px solid gray;
+    padding: 20px;
+    background: whitesmoke;
+    text-align: left;
+}
+
+form {
+    text-align: left;
+}
+
+input {
+    font-size: 0.8rem;
+    border-radius: 2px;
+}
+
+table {
+    background: white;
+}
+
+.form-header {
+    padding: 10px;
+}
+
+.form-body {
+    padding: 10px;
+}
+
+.form-footer {
+    text-align: right;
+    padding: 8px;
+}
+
+input[type="number"] {
+    width: 60px;
+}
+
+input, button {
+    padding: 5px;
+}
+
+.linkButton {
+    padding: 6px 8px;
+    background: white;
+    border: 1px solid gray;
+    border-radius: 2px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+button {
+    margin: 0 5px;
+    cursor: pointer;
+    background: white;
+    border-radius: 0px;
+}

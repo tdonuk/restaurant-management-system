@@ -1,7 +1,5 @@
 const boxes = document.getElementsByClassName("nav-item");
 
-initDropdowns();
-
 
 Array.prototype.forEach.call(boxes, function(e) {
     e.addEventListener("click", function(event) {

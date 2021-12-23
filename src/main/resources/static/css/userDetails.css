@@ -6,37 +6,6 @@
     font-size: 1.1rem;
     border: 1px solid gray;
     border-radius: 7px;
-    padding: 8px 12px;
+    padding: 4px 12px;
     cursor: pointer;
-}
-
-.userTitle {
-    height: fit-content;
-    align-self: center;
-}
-
-td,th {
-    padding: 10px;
-    text-align: left;
-}
-
-.tableHeader {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    border-bottom: 1px solid gray;
-}
-
-.tableWrapper {
-    margin: 20px;
-    border: 1px solid gray;
-}
-
-.row-title {
-    background: white;
-    font-size: 1.2rem;
-}
-
-table {
-    border-spacing: 1px 1px;
 }

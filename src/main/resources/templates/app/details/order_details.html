@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Order Details</title>
+        
+        <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+        <link rel="stylesheet" href="/css/modal.css" th:href="@{/css/modal.css}">
+        <link rel="stylesheet" href="/css/details.css" th:href="@{/css/details.css}">
+        <link rel="stylesheet" href="/css/orderDetails.css" th:href="@{/css/orderDetails.css}">
+    </head>
+    <body>
+        <div class="wrapper">
+            <div th:replace="fragments/general :: pageHeader(title=' / Order Details', userData=${user})"/>
+            <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
+            
+            <div class="main">
+                <div class="tableWrapper">
+                    <div class="tableHeader">
+                        <h2 class="context-title" th:text="'Order '+${orderDetails.orderId}"></h2>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>ID:</th>
+                            <td th:text="${orderDetails.orderId}"></td>
+                            <th>Date:</th>
+                            <td th:text="${#dates.format(orderDetails.orderDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                        </tr>
+            
+                        <tr>
+                            <th>Table:</th>
+                            <td th:text="${orderDetails.tableId}"></td>
+                            <th>Price:</th>
+                            <td th:text="${orderDetails.totalPrice}"></td>
+                        </tr>
+            
+                        <tr>
+                            <th>Items</th>
+                            <th></th>
+                            <th>Count</th>
+                            <td th:text="${orderDetails.receipt.items.size()}"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="item" th:each="item : ${orderDetails.receipt.items}">
+                                    <span class="index" th:text="${itemStat.index+1}"></span>
+                                    <span class="item-id" th:text="${item.itemId}"></span>
+                                    <span class="item-name" th:text="${item.name}"></span>
+                                    <span class="item-price" th:text="${item.price}"></span>
+                                    <span class="price-unit">₺</span>
+                                </div>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div id="orderControls">
+                        <button id="deleteOrderButton" th:onclick="'javascript:deleteOrder('+${orderDetails.orderId}+')'">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <script src="/js/dropdownUtils.js"></script>
+        <script src="/js/modalUtils.js"></script>
+        <script src="/js/orderUtils.js"></script>
+    </body>
+</html>

@@ -1,4 +1,3 @@
-initDropdowns();
 
 let detailLinks;
 

@@ -2,15 +2,76 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>Items</title>
+    
+        <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+        <link rel="stylesheet" href="/css/items.css">
+        <link rel="stylesheet" href="/css/modal.css">
     </head>
     <body>
         <div class="wrapper">
-            <div class="page-header" th:replace="fragments/general :: pageHeader(title=' / Items')"/>
+            <div class="page-header" th:replace="fragments/general :: pageHeader(title=' / Items', userData=${user})"/>
             <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
             <div class="main">
-                <div></div>
+                <div class="table-wrapper">
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <p class="title">ID</p>
+                            </th>
+                            <th>
+                                <p class="title">Name</p>
+                            </th>
+                            <th>
+                                <p class="title">Type</p>
+                            </th>
+                            <th>
+                                <p class="title">Stock</p>
+                            </th>
+                            <th>
+                                <p class="title">Price</p>
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr th:each="item : ${items}">
+                            <td>
+                                <span th:text="${itemStat.index+1}" class="item-index"></span>
+                            </td>
+                            <td>
+                                <span th:text="${item.itemId}" class="item-id"></span>
+                            </td>
+                            <td>
+                                <span th:text="${item.name}" class="item-name"></span>
+                            </td>
+                            <td>
+                                <span th:text="${item.itemType}" class="item-type"></span>
+                            </td>
+                            <td>
+                                <span th:text="${item.stock}" class="item-stock"></span>
+                            </td>
+                            <td>
+                                <span th:text="${item.price}" class="item-price"></span>
+                            </td>
+                            <td>
+                                <a class="linkButton" th:href="'api/item/'+${item.itemId}+'/details'">Details</a>
+                            </td>
+                            <td>
+                                <a class="linkButton" th:onclick="'javascript:createStockUpdatePopup('+${item.itemId}+')'">Add Stock</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="itemControls">
+                        <a id="createItemButton" class="linkButton" href="/api/item/create">Create New</a>
+                    </div>
+                </div>
             </div>
         </div>
+        <script src="/js/dropdownUtils.js" th:src="@{/js/dropdownUtils.js}"></script>
+        <script src="/js/modalUtils.js" th:src="@{/js/modalUtils.js}"></script>
+        <script src="/js/itemUtils.js" th:src="@{/js/itemUtils.js}"></script>
+        <script src="/js/items.js" th:src="@{/js/items.js}"></script>
     </body>
 </html>
+

@@ -1,8 +1,13 @@
 package com.tahadonuk.restaurantmanagementsystem.data.repository;
 
+import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +17,11 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findAllByName(String  name);
     boolean existsByName(String name);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update Item item set item.stock = item.stock + :amount where item.itemId = :itemId")
+    void updateStock(@Param("itemId") long itemId, @Param("amount") int amount);
 
     boolean existsByNameAndDescription(String name, String description);
 }

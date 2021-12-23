@@ -34,11 +34,11 @@ body {
 }
 
 .modal-container {
-    width: fit-content;
+    width: 20%;
     height: fit-content;
 
-    min-width: 400px;
-    max-width: 600px;
+    min-width: 200px;
+    max-width: 500px;
 
     max-height: 600px;
 
@@ -46,7 +46,7 @@ body {
 
     display: block;
 
-    border-radius: 10px;
+    border-radius: 4px;
     border: 1px solid gray;
 
     position: fixed;
@@ -58,13 +58,13 @@ body {
     animation: slideIn;
     animation-duration: 0.3s;
 
-    padding: 10px 20px;
+    padding: 8px 10px;
 }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
-    padding: 10px 5px;
+    padding: 8px 5px;
     border-bottom: 1px solid gray;
 }
 .modal-title {
@@ -76,10 +76,11 @@ body {
     cursor: pointer;
     height: fit-content;
     margin: auto 0;
+    padding: 0 10px;
 }
 
 .modal-body {
-    padding: 10px;
+    padding: 6px;
 }
 
 .modal-footer {
@@ -92,19 +93,17 @@ body {
 form {
     text-align: center;
 }
-
-input, button {
+input, .modal-button {
     padding: 5px 5px;
-    border-radius: 5px;
+    border-radius: 2px;
     background: white;
     border: 1px solid gray;
-    font-size: 1rem;
     cursor: pointer;
-    scrollbar-width: thin;
+
     text-align: center;
 }
-
-button {
+.modal-button {
+    padding: 5px 15px !important;
     margin: 5px;
 }
 
@@ -113,10 +112,9 @@ label {
 }
 
 .modal-subtitle {
-    padding: 15px 15px;
+    padding: 8px 10px;
 
-    font-size: 1rem;
-    border-radius: 10px;
+    border-radius: 2px;
     margin: 0;
 }
 
@@ -130,4 +128,8 @@ label {
 
 .info {
     background: #9595e5;
+}
+
+.warning {
+    background: #e3e29f;
 }

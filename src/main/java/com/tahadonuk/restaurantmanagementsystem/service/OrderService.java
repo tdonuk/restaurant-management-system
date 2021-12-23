@@ -22,11 +22,6 @@ public class OrderService {
     public void saveOrder(Order order) {
         double price = 0;
 
-        for (Item item : order.getItems()) {
-            item = itemRepository.getById(item.getItemId());
-            price += item.getPrice();
-        }
-
         order.setTotalPrice(price);
 
         orderRepo.save(order);
@@ -37,19 +32,16 @@ public class OrderService {
         return orderRepo.findByOrderDateBetween(date1,date2);
     }
 
-    public List<Order> getByDate(Date date) {
-        if(orderRepo.existsByOrderDate(date)) {
-
-            return orderRepo.findByOrderDate(date);
-        }
-        else return null;
-    }
 
     public Order getById(long id) throws NotFoundException {
         if(orderRepo.existsById(id)) {
             return orderRepo.findById(id).get();
         }
         else throw new OrderNotFoundException("No such order with id: '" + id + "'");
+    }
+
+    public List<Order> getAll() {
+        return orderRepo.findAll();
     }
 
     public void deleteOrder(long id) throws NotFoundException {
@@ -60,7 +52,7 @@ public class OrderService {
     }
 
     public int countByItem(final Item item) {
-        return orderRepo.countAllByItemsIsContaining(item);
+        return 1;
     }
 
 }

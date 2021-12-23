@@ -17,6 +17,10 @@ function initDropdowns() {
     }
 }
 
+window.onload = function () {
+    initDropdowns();
+}
+
 window.onclick = function (e) {
     if(!e.target.className.includes("dropdown") && !e.target.parentElement.className.includes("dropdown")) {
         for (let dropdown of dropdowns) {

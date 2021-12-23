@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping(path = "api/user/{id}/details")
     @ResponseBody
-    public Object getEmployeeById(@PathVariable long id, HttpServletRequest request) {
+    public Object getUserDetails(@PathVariable long id, HttpServletRequest request) {
          ModelAndView mav = new ModelAndView();
         try {
             AppUser user = userService.getUserById(id);
@@ -42,9 +42,9 @@ public class UserController {
 
             mav.getModel().put("userDetails", user);
             mav.getModel().put("user",requestingUserData);
-            mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
+            mav.getModel().put("navList", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
-            mav.setViewName("app/user_details");
+            mav.setViewName("app/details/user_details");
 
             return mav;
         } catch (Exception e) {

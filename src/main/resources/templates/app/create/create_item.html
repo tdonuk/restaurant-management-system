@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Create Item</title>
+        <link rel="stylesheet" href="/css/modal.css" th:href="@{/css/modal.css}">
+        <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+        <link rel="stylesheet" href="/css/form_create.css" th:href="@{/css/form_create.css}">
+    </head>
+    <body>
+        <div class="page-header">
+            <a class="linkButton" href="/items">\<-- Back</a>
+        </div>
+       
+        <div class="form-container">
+            <form id="itemForm">
+                <div class="form-header">
+                    <h2 class="form-title">Create Item</h2>
+                </div>
+                <div class="form-body">
+                    <table>
+                        <tr>
+                            <th>
+                                <label>Name:</label>
+                            </th>
+                            <td>
+                                <input type="text" minlength="1" name="name" placeholder="Name">
+                            </td>
+                            
+                            <th>
+                                <label>Description</label>
+                            </th>
+                            <td>
+                                <input type="text" name="description" placeholder="Description">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Type</label>
+                            </th>
+                            <td>
+                                <input type="text" minlength="3" name="type" placeholder="dessert/beverage/meal">
+                            </td>
+                            
+                            <th>
+                                <label>Price (₺)</label>
+                            </th>
+                            <td>
+                                <input type="number" min="0" step="0.01" name="price" placeholder="0.0₺">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th>
+                                <label>Stock</label>
+                            </th>
+                            <td>
+                                <input type="number" min="0" name="stock" placeholder="0">
+                            </td>
+                            
+                            <th></th>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="form-footer">
+                    <a onclick="saveItemFromFormData();" id="saveButton" class="linkButton">Save</a>
+                    <input type="reset" id="resetButton" value="Reset">
+                </div>
+            </form>
+        </div>
+        <script src="/js/itemUtils.js"></script>
+        <script src="/js/modalUtils.js"></script>
+    </body>
+</html>

@@ -23,6 +23,9 @@ public class Item implements Serializable {
     @Column(name = "ITEM_DESCRIPTION")
     private String description;
 
+    @Column(name = "STOCK")
+    private int stock = 0;
+
     @NotNull
     @Column(name = "ITEM_PRICE")
     private double price;

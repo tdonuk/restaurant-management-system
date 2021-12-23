@@ -1,10 +1,14 @@
-function addModal(containerText) {
+function addModal(containerText) { // containerText: modal container (header, body, and footer) in HTML form
     const modalBg = document.createElement("div");
     modalBg.className = "modal-bg";
     modalBg.insertAdjacentHTML("afterbegin", containerText);
 
     modalBg.onclick = function(e) {
         if(e.target === modalBg) modalBg.remove();
+    }
+
+    modalBg.querySelector(".modal-close").onclick = function() {
+        modalBg.remove();
     }
 
     document.body.appendChild(modalBg);
@@ -42,14 +46,14 @@ function createModalMessage(title="Message", subtitle="", message="", type="info
         '<div class="modal-container">' +
             '<div class="modal-header">' +
                 '<h2 class="modal-title">'+title+'</h2>'+
-                '<span class="modal-close">X</span>'+
+                '<span id="modalCloseButton" class="modal-close">X</span>'+
             '</div>'+
             '<div class="modal-body">' +
                 '<h3 class="modal-subtitle '+type+'">'+subtitle+'</h3>'+
                 '<p class="modal-message">'+message+'</p>'+
             '</div>'+
             '<div class="modal-footer">' +
-                '<button class="modal-button" id="okButton">Dismiss</button>'+
+                '<button class="modal-button" id="okButton">Ok</button>'+
             '</div>'+
         '</div>';
 

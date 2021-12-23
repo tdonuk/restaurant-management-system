@@ -10,6 +10,10 @@ html {
     box-sizing: border-box;
 }
 
+input[type="number"] {
+    max-width: 60px;
+}
+
 body {
     margin: 0;
     padding: 0;

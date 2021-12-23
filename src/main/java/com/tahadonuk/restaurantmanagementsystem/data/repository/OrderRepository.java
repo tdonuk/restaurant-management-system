@@ -13,9 +13,4 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByOrderDateBetween(Date orderDate, Date orderDate2);
     boolean existsByOrderDateBetween(Date orderDate, Date orderDate2);
-
-    List<Order> findByOrderDate(Date orderDate);
-    boolean existsByOrderDate(Date orderDate);
-
-    int countAllByItemsIsContaining(Item item);
 }
