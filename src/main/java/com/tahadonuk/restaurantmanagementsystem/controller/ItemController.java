@@ -81,7 +81,7 @@ public class ItemController {
             UserDTO requestingUser = UserUtils.getUserData(userService,request.getRemoteUser());
 
             mav.getModel().put("user", requestingUser);
-            mav.getModel().put("navList", Arrays.asList("Tables", "Employees", "Orders", "Items"));
+            mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
             Item itemDetails = itemService.getItemById(id);
 

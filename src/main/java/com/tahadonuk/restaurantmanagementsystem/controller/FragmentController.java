@@ -1,7 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
-import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
-import com.tahadonuk.restaurantmanagementsystem.dto.TableStatsDTO;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +30,7 @@ public class FragmentController { // this is used to updating a part of page con
             case "tables":
                 mav.getModel().putIfAbsent("tableList", tableService.getAll());
 
-                TableStatsDTO currentStats = new TableStatsDTO(tableService.countByStatus(TableStatus.FULL), tableService.countByStatus(TableStatus.AVAILABLE)
-                        ,tableService.countByStatus(TableStatus.OUT_OF_SERVICE), tableService.getAll().size());
+                TableStats currentStats = (TableStats) tableService.getStats();
 
                 mav.getModel().put("stats", currentStats);
                 break;

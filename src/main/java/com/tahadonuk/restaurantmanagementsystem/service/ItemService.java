@@ -5,10 +5,10 @@ import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.OrderItem;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.dto.ItemDTO;
-import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.ItemStats;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.Stats;
 import com.tahadonuk.restaurantmanagementsystem.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -20,7 +20,7 @@ public class ItemService {
     @Autowired
     ItemRepository itemRepo;
 
-    public void saveItem(Item item) throws Exception{
+    public void saveItem(Item item) throws ItemConflictException{
         if(isExists(item.getName())) {
             throw new ItemConflictException("An item with given info for '" + item.getName() + "' is already exists");
         }
@@ -29,8 +29,8 @@ public class ItemService {
         }
     }
 
-    public Set<OrderItem> getOrderItems(List<Item> items) {
-        Set<OrderItem> orderItems = new HashSet<>();
+    public List<OrderItem> getOrderItems(List<Item> items) {
+        List<OrderItem> orderItems = new ArrayList<>();
 
         OrderItem orderItem;
         for(Item item : items) {
@@ -45,7 +45,7 @@ public class ItemService {
         return orderItems;
     }
 
-    public void handleStocks(List<Item> items) throws Exception{
+    public void handleStocks(List<Item> items) throws ItemOutOfStockException{
         for (Item item : items) {
             int countOfCurrentItem = items.stream().parallel().filter(e -> e.getItemId() == item.getItemId()).collect(Collectors.toList()).size();
             if(countOfCurrentItem > item.getStock()) {
@@ -71,7 +71,7 @@ public class ItemService {
         return itemEntity;
     }
 
-    public Item updateItemStockValue(long itemId, int amount) {
+    public Item updateItemStockValue(long itemId, int amount) throws ItemNotFoundException{
         if(isExists(itemId)) {
             itemRepo.updateStock(itemId, amount);
             return itemRepo.findById(itemId).get();
@@ -85,7 +85,7 @@ public class ItemService {
         return itemRepo.findAll();
     }
 
-    public Item getItemById(long id) {
+    public Item getItemById(long id) throws ItemNotFoundException{
         if(isExists(id)) {
             return itemRepo.findById(id).get();
         }
@@ -93,9 +93,7 @@ public class ItemService {
     }
 
     public List<Item> getItemsByName(String name) {
-        List<Item> items = itemRepo.findAllByName(name);
-
-        return items;
+        return itemRepo.findAllByName(name);
     }
 
     public void deleteItem(long id) {
@@ -107,35 +105,57 @@ public class ItemService {
     }
 
     public List<Item> getByType(ItemType type) {
-        List<Item> items = itemRepo.findByItemType(type);
+        return itemRepo.findByItemType(type);
+    }
+    
+    public int countByType(ItemType type) {
+        return itemRepo.countByItemType(type);
+    }
+    
+    public long countAll() {
+        return itemRepo.count();
+    }
+    
+    public int getTotalStockByType(ItemType type) {
+        List<Item> items = getByType(type);
+        int totalStocks = 0;
+        
+        for (Item item : items) {
+            totalStocks = totalStocks + item.getStock();
+        }
+        
+        return totalStocks;
+    }
+    
+    public Stats getItemStatistics() {
+        ItemStats itemStats = new ItemStats();
 
-        return items;
+        itemStats.setTotalCount(countAll());
+
+        itemStats.setBeverageCount(countByType(ItemType.BEVERAGE));
+        itemStats.setTotalBeverageStocks(getTotalStockByType(ItemType.BEVERAGE));
+
+        itemStats.setMealCount(countByType(ItemType.MEAL));
+        itemStats.setTotalMealStocks(getTotalStockByType(ItemType.MEAL));
+
+        itemStats.setDessertCount(countByType(ItemType.DESSERT));
+        itemStats.setTotalDessertStocks(getTotalStockByType(ItemType.DESSERT));
+
+        return itemStats;
     }
 
 
     //id
     public boolean isExists(long id) {
-        if (itemRepo.existsById(id)) return true;
-        else return false;
+        return itemRepo.existsById(id);
     }
     //name
     public boolean isExists(String name) {
-        if(itemRepo.existsByName(name)) {
-            return true;
-        }
-        else return false;
-    }
-    //name and description (no duplicate allowed)
-    public boolean isExists(String name, String description) {
-        if (itemRepo.existsByNameAndDescription(name, description)) return true;
-        else return false;
+        return itemRepo.existsByName(name);
     }
 
     //type
     public boolean isExists(ItemType type) {
-        if(itemRepo.existsByItemType(type)) {
-            return true;
-        }
-        else return false;
+        return itemRepo.existsByItemType(type);
     }
 }

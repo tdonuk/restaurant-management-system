@@ -9,8 +9,19 @@
     height: 300px;
 }
 
-.under-construction {
-    text-align: center;
+table {
+    text-align: left !important;
+}
+
+.stat-title {
+    text-align: right;
+    display: block;
+    padding: 0 10px;
+}
+
+.stat-label {
+    text-align: left;
+    padding: 0 10px;
 }
 
 #stats {

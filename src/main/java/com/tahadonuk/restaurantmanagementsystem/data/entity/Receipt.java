@@ -4,14 +4,14 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "receipts")
 @Data
 public class Receipt {
     public Receipt() {};
-    public Receipt(Set<OrderItem> items) {
+    public Receipt(List<OrderItem> items) {
         this.items = items;
     }
     @Id
@@ -20,7 +20,7 @@ public class Receipt {
     private long receiptId;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Set<OrderItem> items;
+    private List<OrderItem> items;
 
     @Column(name = "ORDER_DATE")
     private Date orderDate;

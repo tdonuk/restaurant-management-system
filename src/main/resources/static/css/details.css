@@ -34,3 +34,18 @@ button {
     height: fit-content;
     align-self: center;
 }
+
+.controls {
+    text-align: right;
+    padding: 20px 10px;
+}
+
+.linkButton {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px;
+    margin: 0 5px;
+    border: 1px solid gray;
+    background: whitesmoke;
+}

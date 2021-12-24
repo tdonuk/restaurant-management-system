@@ -42,6 +42,7 @@ public class OrderController {
 
             order.setReceipt(receipt);
 
+            order.setTotalPrice(orderData.getTotalPrice());
             order.setTableId(orderData.getTableId());
             order.setOrderDate(orderData.getOrderDate());
 

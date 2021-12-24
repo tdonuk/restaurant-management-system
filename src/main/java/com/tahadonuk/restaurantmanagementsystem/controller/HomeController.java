@@ -1,12 +1,12 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
-import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
-import com.tahadonuk.restaurantmanagementsystem.dto.TableStatsDTO;
-import com.tahadonuk.restaurantmanagementsystem.dto.TableDTO;
-import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
-import com.tahadonuk.restaurantmanagementsystem.dto.UserStatsDTO;
+import com.tahadonuk.restaurantmanagementsystem.dto.*;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.ItemStats;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.OrderStats;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.UserStats;
 import com.tahadonuk.restaurantmanagementsystem.service.ItemService;
 import com.tahadonuk.restaurantmanagementsystem.service.OrderService;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
@@ -46,13 +46,25 @@ public class HomeController {
 
         mav.getModel().put("tableList", tableService.getAll());
 
-        TableStatsDTO tableStats = new TableStatsDTO(tableService.countByStatus(TableStatus.FULL), tableService.countByStatus(TableStatus.AVAILABLE)
-                ,tableService.countByStatus(TableStatus.OUT_OF_SERVICE), tableService.getAll().size());
+        //Table statistics
+        TableStats tableStats = (TableStats) tableService.getStats();
         mav.getModel().put("tableStats", tableStats);
+        //
 
-        UserStatsDTO userStats = new UserStatsDTO(userService.getAll().size(),userService.countUsersByRole(UserRole.USER),userService.countUsersByRole(UserRole.EMPLOYEE)
-                ,userService.countUsersByRole(UserRole.MANAGER), userService.countUsersByRole(UserRole.ADMIN));
+        //User statistics
+        UserStats userStats = (UserStats) userService.getStats();
         mav.getModel().put("userStats", userStats);
+        //
+
+        //Item statistics
+        ItemStats itemStats = (ItemStats) itemService.getItemStatistics();
+        mav.getModel().put("itemStats",itemStats);
+        //
+
+        //Order statistics
+        OrderStats orderStats = (OrderStats) orderService.getStats();
+        mav.getModel().put("orderStats", orderStats);
+        //
 
         mav.setViewName("app/main_page");
         return mav;
@@ -101,8 +113,7 @@ public class HomeController {
         mav.getModel().put("user", userData);
         mav.getModel().put("tableList",tableService.getAll());
 
-        TableStatsDTO currentStats = new TableStatsDTO(tableService.countByStatus(TableStatus.FULL), tableService.countByStatus(TableStatus.AVAILABLE)
-                                                ,tableService.countByStatus(TableStatus.OUT_OF_SERVICE), tableService.getAll().size());
+        TableStats currentStats = (TableStats) tableService.getStats();
 
         mav.getModel().put("stats", currentStats);
 
@@ -125,7 +136,7 @@ public class HomeController {
 
         mav.getModel().put("user",userData);
         mav.getModel().put("items",itemService.getAll());
-        mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
+        mav.getModel().put("navList", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
         return mav;
     }

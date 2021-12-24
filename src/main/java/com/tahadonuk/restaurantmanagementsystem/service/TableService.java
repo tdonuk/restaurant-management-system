@@ -3,6 +3,8 @@ package com.tahadonuk.restaurantmanagementsystem.service;
 import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.RestaurantTable;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.TableRepository;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.Stats;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.TableConflictException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,17 @@ public class TableService {
 
     public int countByStatus(TableStatus status) {
         return tableRepo.countByStatus(status);
+    }
+    
+    public Stats getStats() {
+        TableStats tableStats = new TableStats();
+
+        tableStats.setTotalCount(tableRepo.count());
+        tableStats.setFullCount(countByStatus(TableStatus.FULL));
+        tableStats.setAvailableCount(countByStatus(TableStatus.AVAILABLE));
+        tableStats.setOutOfServiceCount(countByStatus(TableStatus.OUT_OF_SERVICE));
+
+        return tableStats;
     }
 
     public boolean isExists(long id) {

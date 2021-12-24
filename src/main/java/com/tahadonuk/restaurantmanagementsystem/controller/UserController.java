@@ -63,6 +63,17 @@ public class UserController {
         }
     }
 
+    @DeleteMapping(path = "api/user/{id}/delete")
+    @ResponseBody
+    public Object deleteUser(@PathVariable("id") long id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok(new StringResponse("User with ID: "+id+" has deleted successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
+        }
+    }
+
     @GetMapping(path = "api/user/role")
     @ResponseBody
     public ResponseEntity<List<AppUser>> getEmployeesByRole(@RequestParam("role") String role) {

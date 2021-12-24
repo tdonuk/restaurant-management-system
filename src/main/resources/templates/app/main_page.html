@@ -19,20 +19,20 @@
                         <div class="box-content">
                             <table>
                                 <tr>
-                                    <td>
-                                        <label class="stat-label">Total: </label>
-                                    </td>
-                                    <td>
-                                        <span class="stat-content" th:text="${tableStats.totalCount}"></span>
-                                    </td>
-                                    <td>
-                                        <span class="stat-content" th:text="'Total'"></span>
-                                    </td>
+                                    <th>
+                                    
+                                    </th>
+                                    <th>
+                                        <label class="stat-title">Count</label>
+                                    </th>
+                                    <th>
+                                        <label class="stat-title">Percent</label>
+                                    </th>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <label class="stat-label">Available: </label>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span class="stat-content" th:text="${tableStats.availableCount}"></span>
                                     </td>
@@ -41,9 +41,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <label class="stat-label">Full: </label>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span class="stat-content" th:text="${tableStats.fullCount}"></span>
                                     </td>
@@ -52,14 +52,25 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <label class="stat-label">Out Of Service: </label>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span class="stat-content" th:text="${tableStats.outOfServiceCount}"></span>
                                     </td>
                                     <td>
                                         <span class="stat-content" th:text="${#numbers.formatDecimal(tableStats.getOutOfServicePercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Total</label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${tableStats.totalCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="''"></span>
                                     </td>
                                 </tr>
                             </table>
@@ -72,20 +83,18 @@
                         <div class="box-content">
                             <table>
                                 <tr>
-                                    <td>
-                                        <label class="stat-label">Total: </label>
-                                    </td>
-                                    <td>
-                                        <span class="stat-content" th:text="${userStats.totalCount}"></span>
-                                    </td>
-                                    <td>
-                                        <span class="stat-content" th:text="'Total'"></span>
-                                    </td>
+                                    <th> </th>
+                                    <th>
+                                        <label class="stat-title">Count</label>
+                                    </th>
+                                    <th>
+                                        <label class="stat-title">Percent</label>
+                                    </th>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <label class="stat-label">Admin: </label>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span class="stat-content" th:text="${userStats.adminCount}"></span>
                                     </td>
@@ -94,9 +103,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <label class="stat-label">Manager: </label>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span class="stat-content" th:text="${userStats.managerCount}"></span>
                                     </td>
@@ -105,9 +114,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <label class="stat-label">Employee: </label>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span class="stat-content" th:text="${userStats.employeeCount}"></span>
                                     </td>
@@ -116,14 +125,201 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <label class="stat-label">User: </label>
-                                    </td>
+                                    </th>
                                     <td>
                                         <span class="stat-content" th:text="${userStats.userCount}"></span>
                                     </td>
                                     <td>
                                         <span class="stat-content" th:text="${#numbers.formatDecimal(userStats.getUserPercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Total: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${userStats.totalCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="''"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="sub-section box" id="itemStats">
+                        <div class="box-header">
+                            <h2 class="box-title">Products</h2>
+                        </div>
+                        <div class="box-content">
+                            <table>
+                                <tr>
+                                    <th>
+                                    
+                                    </th>
+                                    <th>
+                                        <label class="stat-title">Count</label>
+                                    </th>
+                                    <th>
+                                        <label class="stat-title">Total Stocks</label>
+                                    </th>
+                                    <th>
+                                       <label class="stat-title">Percent (Item Count)</label>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Meal: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${itemStats.mealCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${itemStats.totalMealStocks}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(itemStats.getMealPercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Beverage: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${itemStats.beverageCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${itemStats.totalBeverageStocks}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(itemStats.getBeveragePercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Dessert: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${itemStats.dessertCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${itemStats.totalDessertStocks}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(itemStats.getDessertPercent(), 1, 2)}+'%'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Total: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${itemStats.totalCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${#numbers.formatDecimal(itemStats.getTotalStocks(), 1, 0)}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="''"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="sub-section box" id="orderStats">
+                        <div class="box-header">
+                            <h2 class="box-title">Orders</h2>
+                        </div>
+                        <div class="box-content">
+                            <table>
+                                <tr>
+                                    <th>
+                    
+                                    </th>
+                                    <th>
+                                        <label class="stat-title">Count</label>
+                                    </th>
+                                    <th>
+                                        <label class="stat-title">Change</label>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Today: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.orderCountToday}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.getTodayPercentToYesterday()}+' (Compared to yesterday)'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Yesterday: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.orderCountYesterday}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="''"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Current Week: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.orderCountCurrentWeek}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.getCurrentWeekRatioToLastWeek()}+' (Compared to last week)'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Last Week: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.orderCountLastWeek}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="''"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Current Month: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.orderCountCurrentMonth}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.getCurrentMonthRatioToLastMonth()}+' (Compared to last month)'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Last Month: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.orderCountLastMonth}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="''"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Total: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.totalCount}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="''"></span>
                                     </td>
                                 </tr>
                             </table>

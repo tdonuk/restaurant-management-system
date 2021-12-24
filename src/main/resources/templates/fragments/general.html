@@ -32,7 +32,7 @@
 
         <div class="nav side-nav" th:fragment="sideNav(navList)">
             <a class="nav-item" href="/">Home</a>
-            <a class="nav-item" th:each="nav : ${navlist}" th:text="${nav}" th:href="${'/'+nav.toLowerCase()}"></a>
+            <a class="nav-item" th:each="nav : ${navList}" th:text="${nav}" th:href="${'/'+nav.toLowerCase()}"></a>
         </div>
         
     </body>

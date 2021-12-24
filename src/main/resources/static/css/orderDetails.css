@@ -12,9 +12,22 @@ html {
     max-width: 400px;
 }
 
-#orderControls {
+.item span {
+    width: 100%;
     text-align: right;
-    padding: 5px;
+}
+.index {
+    width: fit-content !important;
+}
+
+.item-id {
+    text-align: center !important;
+}
+
+.price-unit {
+    text-align: left !important;
+    width: fit-content !important;
+    margin-left: 2px;
 }
 
 .index {

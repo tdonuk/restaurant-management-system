@@ -29,5 +29,4 @@ public class Order implements Serializable {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "RECEIPT_ID")
     private Receipt receipt;
-
 }

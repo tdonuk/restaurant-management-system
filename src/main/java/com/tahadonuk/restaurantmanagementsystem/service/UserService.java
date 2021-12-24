@@ -6,6 +6,8 @@ import com.tahadonuk.restaurantmanagementsystem.dto.Address;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.UserRepository;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.Stats;
+import com.tahadonuk.restaurantmanagementsystem.dto.stat.UserStats;
 import com.tahadonuk.restaurantmanagementsystem.exception.UserConflictException;
 import com.tahadonuk.restaurantmanagementsystem.exception.UserNotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
@@ -125,6 +127,18 @@ public class UserService {
             return userRepository.findAppUserByEmail(email).get();
         }
         else throw new NotFoundException("There is no employee with email: '" + email + "'");
+    }
+
+    public Stats getStats() {
+        UserStats userStats = new UserStats();
+
+        userStats.setTotalCount(userRepository.count());
+        userStats.setAdminCount(countUsersByRole(UserRole.ADMIN));
+        userStats.setManagerCount(countUsersByRole(UserRole.MANAGER));
+        userStats.setEmployeeCount(countUsersByRole(UserRole.EMPLOYEE));
+        userStats.setUserCount(countUsersByRole(UserRole.USER));
+
+        return userStats;
     }
 
     public boolean isExist(long id) {

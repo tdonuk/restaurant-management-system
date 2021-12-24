@@ -18,10 +18,12 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findAllByName(String  name);
     boolean existsByName(String name);
 
+    int countByItemType(ItemType itemType);
+
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update Item item set item.stock = item.stock + :amount where item.itemId = :itemId")
-    void updateStock(@Param("itemId") long itemId, @Param("amount") int amount);
+    void updateStock(@Param("itemId") long itemId, @Param("amount") int amount); // amount : stock amount to update. it can be negative
 
     boolean existsByNameAndDescription(String name, String description);
 }

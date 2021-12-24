@@ -12,7 +12,7 @@
     <body>
         <div class="wrapper">
             <div th:replace="fragments/general :: pageHeader(title=' / Item Details', userData=${user})"/>
-            <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navList})"/>
+            <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
             <div class="main">
                 <div class="tableWrapper">
                     <div class="tableHeader">
@@ -38,7 +38,7 @@
                             <td th:text="${itemDetails.itemType}"></td>
                         </tr>
                     </table>
-                    <div id="itemControls">
+                    <div class="controls" id="itemControls">
                         <button id="addStockButton" th:onclick="'javascript:createStockUpdatePopup('+${itemDetails.itemId}+')'">Add Stock</button>
                         <button id="updateItemButton">Update</button>
                         <button id="deleteItemButton" th:onclick="'javascript:deleteItem('+${itemDetails.itemId}+')'">Delete</button>
