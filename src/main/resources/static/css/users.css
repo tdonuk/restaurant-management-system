@@ -9,15 +9,16 @@ th {
 .tableWrapper {
     padding: 20px;
     height: 25%;
-    max-height: 25%;
+    max-height: 80%;
 }
 
 .main {
-    justify-content: space-around;
+    display: block !important;
 }
 
 .detailsLink {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
+    padding: 10px;
 }

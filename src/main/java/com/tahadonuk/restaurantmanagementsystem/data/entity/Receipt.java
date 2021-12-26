@@ -19,7 +19,7 @@ public class Receipt {
     @Column(name = "RECEIPT_ID")
     private long receiptId;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<OrderItem> items;
 
     @Column(name = "ORDER_DATE")

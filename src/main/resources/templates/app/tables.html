@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="/css/modal.css" th:href="@{/css/modal.css}">
     <link rel="stylesheet" href="/css/tables.css" th:href="@{/css/tables.css}">
     <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="/css/cart.css">
 </head>
 <body>
     <div class="wrapper">
         <div th:replace="fragments/general :: pageHeader(title=' / Tables', userData=${user})"/>
-        <div th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
+        <div th:replace="fragments/general :: sideNav"/>
         <div class="main">
             <div class="section">
                 <h3 class="big-title">Table Management</h3>
@@ -21,6 +22,7 @@
                 <div id="tableContent" th:replace="fragments/contents :: tables(tableList=${tableList}, stats=${stats})"></div>
             </div>
             <div class="section" id="tableControlButtonsSection">
+                <button id="createOrderButton">Create Order</button>
                 <button id="addTableButton">Add Table</button>
                 <button id="removeTableButton">Remove Table</button>
                 <button id="updateTableButton">Update Table</button>
@@ -31,5 +33,6 @@
     <script src="/js/modalUtils.js" th:src="@{/js/modalUtils.js}"></script>
     <script src="/js/dropdownUtils.js" th:src="@{/js/dropdownUtils.js}"></script>
     <script src="/js/tables_page.js" th:src="@{/js/tableUtils.js}"></script>
+    <script src="/js/orderUtils.js" th:src="@{/js/orderUtils.js}"></script>
 </body>
 </html>

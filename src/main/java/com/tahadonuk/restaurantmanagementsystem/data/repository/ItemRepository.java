@@ -25,5 +25,13 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("update Item item set item.stock = item.stock + :amount where item.itemId = :itemId")
     void updateStock(@Param("itemId") long itemId, @Param("amount") int amount); // amount : stock amount to update. it can be negative
 
-    boolean existsByNameAndDescription(String name, String description);
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update Item item set item.price = :newPrice where item.itemId = :itemId")
+    void updatePrice(@Param("itemId") long itemId, @Param("newPrice") double newPrice);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update Item item set item.description = :description where item.itemId = :itemId")
+    void updateDescription(@Param("itemId") long itemId, @Param("description") String description);
 }

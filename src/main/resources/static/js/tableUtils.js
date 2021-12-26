@@ -2,6 +2,7 @@ let removeButton;
 let updateButton;
 let addButton;
 let refreshButton;
+let addOrderButton;
 
 initDropdowns();
 
@@ -9,28 +10,67 @@ removeButton = document.getElementById("removeTableButton");
 updateButton = document.getElementById("updateTableButton");
 addButton = document.getElementById("addTableButton");
 refreshButton = document.getElementById("refreshButton");
+addOrderButton = document.getElementById("createOrderButton");
 
-let tables;
+let tables = [];
 
-initTables();
+refreshTableArray();
 
-function initTables() {
-    tables = document.getElementsByClassName("table-box");
-    for(let table of tables) {
-        table.onclick = function (e) {
-            table.classList.toggle("selected");
+function refreshTableArray() {
+    const url = "/api/table"
+
+    const request = new XMLHttpRequest();
+    request.open("get", url);
+    request.onload = function () {
+        if(this.status === 200) {
+            const response = JSON.parse(this.responseText);
+            tables = response;
         }
     }
+
+    request.send();
+}
+
+function createTableIdArray() {
+    refreshTableArray();
+
+    const idArray = [];
+
+    let i = 0;
+    for(let table of tables) {
+        idArray[i] = table["tableId"];
+        i++;
+    }
+
+    return idArray;
+}
+
+addOrderButton.onclick = function () {
+    const request = new XMLHttpRequest();
+    request.open("get", "/fragment/content/orderItems");
+    request.onload = function () {
+        const modalbgText = this.responseText;
+
+        const tempDiv = document.createElement("div");
+        tempDiv.insertAdjacentHTML("afterbegin", modalbgText);
+
+        const modalbg = tempDiv.firstElementChild;
+        modalbg.onclick = function (e) {
+            if(e.target === modalbg) {
+                modalbg.remove();
+            }
+        }
+
+        document.body.appendChild(modalbg);
+
+        initCartUtils();
+    }
+    request.send();
 }
 
 function createUpdateTableModal() {
-    let tableIdList = []; // A list of table Id's that currently exists in the document
-
-    for(let i = 1; i <= tables.length; i++) {
-        tableIdList[i-1] = ""+i;
-    }
-
     let statusArray = ["Available", "Out of service", "Full"];
+    let tableList = createTableIdArray();
 
     const body = ''+
         '<table>'+
@@ -40,9 +80,9 @@ function createUpdateTableModal() {
                 '</td>'+
                 '<td>' +
                     '<div class="dropdown">' +
-                        '<span class="dropdown-text">'+tableIdList[0]+'</span>'+
+                        '<span id="tableIdField" class="dropdown-text">'+tableList[0]+'</span>'+
                         '<div class="dropdown-content">' +
-                            createDropdownContent(tableIdList) +
+                            createDropdownContent(tableList) +
                         '</div>'+
                     '</div>'+
                 '</td>'+
@@ -53,7 +93,7 @@ function createUpdateTableModal() {
                 '</td>'+
                 '<td>' +
                     '<div class="dropdown">' +
-                        '<span class="dropdown-text">'+statusArray[0]+'</span>'+
+                        '<span id="tableStatusField" class="dropdown-text">'+statusArray[0]+'</span>'+
                         '<div class="dropdown-content">' +
                             createDropdownContent(statusArray) +
                         '</div>'+
@@ -69,11 +109,7 @@ function createUpdateTableModal() {
 }
 
 function createRemoveTableModal() {
-    let tableIdList = []; // A list of table Id's that currently exists in the document
-
-    for(let i = 1; i <= tables.length; i++) {
-        tableIdList[i] = ""+i;
-    }
+    let tableIdList = createTableIdArray();
 
     const body = ''+
         '<table>'+
@@ -83,7 +119,7 @@ function createRemoveTableModal() {
                 '</td>'+
                 '<td>' +
                     '<div class="dropdown">' +
-                        '<span class="dropdown-text">1</span>'+
+                        '<span id="tableIdField" class="dropdown-text">'+tableIdList[0]+'</span>'+
                         '<div class="dropdown-content">' +
                             createDropdownContent(tableIdList) +
                         '</div>'+
@@ -126,13 +162,11 @@ function refreshTables() {
             tableContentSection.remove();
 
             document.body.querySelector("#tableDetailsSection").insertAdjacentHTML("afterbegin", tableContent);
-
-            initTables();
         }
         else {
             createModalMessage("Error", "An error has occurred", "An error has occurred while refreshing the tables. Please be sure that the server is online", "error");
         }
-        setTimeout(() => spinner.remove(), 2000);
+        spinner.remove();
     }
     request.send();
 }
@@ -145,7 +179,12 @@ updateButton.onclick = function () {
     const modal = createUpdateTableModal();
     initDropdowns();
     modal.querySelector("#okButton").onclick = function (e) {
-        alert("AaaaAAAA");
+        const id = parseInt(modal.querySelector("#tableIdField").innerText);
+        const status = modal.querySelector("#tableStatusField").innerText;
+
+        modal.remove();
+
+        sendSetStatusRequest(id, status);
     };
 }
 
@@ -153,7 +192,11 @@ removeButton.onclick = function () {
     const modal = createRemoveTableModal();
     initDropdowns();
     modal.querySelector("#okButton").onclick = function(e) {
-        alert("aAAAaaAAA");
+        const id = parseInt(modal.querySelector("#tableIdField").innerText);
+
+        modal.remove();
+
+        sendDeleteTableRequest(id);
     }
 }
 
@@ -189,11 +232,11 @@ addButton.onclick = function() {
             }
         }
         else {
-            createModalMessage("Error Code: "+this.status, "An error has occured", "An error has occurred during your proccess.");
+            createModalMessage("Error Code: "+this.status, "Transaction failed", "An error has occurred during your proccess.", "error");
         }
     }
     request.onerror = function () {
-        createModalMessage("Error Code: "+this.status, "An error has occurred", "An error has occurred during your proccess.");
+        createModalMessage("Error Code: "+this.status, "An error has occurred", "An error has occurred during your proccess.", "error");
     }
 
     request.send();
@@ -209,8 +252,8 @@ function addTable(table) {
             refreshTables();
         }
         else {
-            const cause = JSON.parse(this.responseText)["response"];
-            createModalMessage("Error", "An error has occurred", cause, "error")
+            const cause = JSON.parse(this.responseText);
+            createModalMessage("Error", "An error has occurred", cause["response"], "error")
         }
     }
     request.setRequestHeader("Content-Type", "application/json");
@@ -219,6 +262,38 @@ function addTable(table) {
 
 
 
-async function setTableStatus(id, status) {
+function sendSetStatusRequest(id, status) {
+    const request = new XMLHttpRequest();
+    request.open("post", "/api/table/"+id+"/status");
+    request.onload = function () {
+        const response = this.responseText;
+        if(this.status === 200) {
+            refreshTables();
+        }
+        else {
+            const modal = createModalMessage("Error", "Transaction failed", response["response"], "error");
+            modal.querySelector("#okButton").onclick = function () {
+                modal.remove();
+            }
+        }
+    }
+    request.send(status);
+}
 
+function sendDeleteTableRequest(id) {
+    const request = new XMLHttpRequest();
+    request.open("delete", "/api/table/"+id+"/delete");
+    request.onload = function () {
+        const response = this.responseText;
+        if(this.status === 200) {
+            refreshTables();
+        }
+        else {
+            const modal = createModalMessage("Error", "Transaction failed", response["response"], "error");
+            modal.querySelector("#okButton").onclick = function () {
+                modal.remove();
+            }
+        }
+    }
+    request.send();
 }

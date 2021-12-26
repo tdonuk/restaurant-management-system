@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlsn="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees</title>
+    <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="/css/users.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="page-header" th:replace="fragments/general :: pageHeader(title=' / Employees', userData=${user})"></div>
+        <div class="nav side-nav" th:replace="fragments/general :: sideNav"/>
+        <div class="main">
+            <div class="tableWrapper">
+                <div class="table-filter-controls">
+                    <h2>Filter</h2>
+                </div>
+                <table class="employee-table" id="usersTable">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Salary</th>
+                        <th>Role</th>
+                        <th>Join Date</th>
+                        <th>Birth Date</th>
+                        <th>Last Login</th>
+                        <th>Last Logout</th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="currentUser : ${users}">
+                        <td th:text="${currentUser.userId}"></td>
+                        <td th:text="${currentUser.name.firstName}+' '+${currentUser.name.lastName}"></td>
+                        <td th:text="${currentUser.email}"></td>
+                        <td th:text="${currentUser.phoneNumber}"></td>
+                        <td th:text="${currentUser.salary}"></td>
+                        <td th:text="${currentUser.role}"></td>
+                        <td th:text="${#dates.format(currentUser.joinDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                        <td th:text="${#dates.format(currentUser.dateOfBirth, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#dates.format(currentUser.lastLoginDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                        <td th:text="${#dates.format(currentUser.lastLogoutDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                        <td>
+                            <a th:href="'api/user/'+${currentUser.userId}+'/details'" class="detailsLink">Details</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/js/dropdownUtils.js"></script>
+    <script src="/js/modalUtils.js"></script>
+    <script src="/js/userUtils.js"></script>
+</body>
+</html>

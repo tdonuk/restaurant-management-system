@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.Receipt;
 import com.tahadonuk.restaurantmanagementsystem.dto.DateInterval;
 import com.tahadonuk.restaurantmanagementsystem.dto.OrderDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,22 +34,10 @@ public class OrderController {
     @ResponseBody
     public ResponseEntity<Object> createOrder(@RequestBody OrderDTO orderData) {
         try {
-            Order order = new Order();
-            
-            itemService.handleStocks(orderData.getItems());
 
-            Receipt receipt = new Receipt(itemService.getOrderItems(orderData.getItems()));
-            receipt.setTotalPrice(orderData.getTotalPrice());
+            Order savedOrder = orderService.saveOrderFromData(orderData);
 
-            order.setReceipt(receipt);
-
-            order.setTotalPrice(orderData.getTotalPrice());
-            order.setTableId(orderData.getTableId());
-            order.setOrderDate(orderData.getOrderDate());
-
-            orderService.saveOrder(order);
-
-            return ResponseEntity.ok(new StringResponse("Order has successfully created. Order Id: "+ order.getOrderId() + "."));
+            return ResponseEntity.ok(new StringResponse("Order has successfully created. Order Id: "+ savedOrder.getOrderId() + "."));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +66,20 @@ public class OrderController {
 
             mav.getModel().put("orderDetails", orderDetails);
             mav.getModel().put("user",requestingUserData);
-            mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
+
+            mav.setViewName("app/details/order_details");
+            return mav;
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
+        }
+    }
+
+    @GetMapping(value = "api/order/{id}/items")
+    @ResponseBody
+    public Object addItemToOrder(@PathVariable long id, @RequestBody List<Item> items, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            Order orderDetails = orderService.getById(id);
 
             mav.setViewName("app/details/order_details");
             return mav;
@@ -98,7 +100,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping(value = "api/orders/stats")
+    @GetMapping(value = "api/order/stats")
     @ResponseBody
     public ResponseEntity<Object> getStats() {
         try {
@@ -109,9 +111,14 @@ public class OrderController {
         }
     }
 
-    @PostMapping(value = "api/orders/interval")
-    @ResponseBody
-    public ResponseEntity<List<Order>> findByDateInterval(@RequestBody DateInterval dates) {
-        return ResponseEntity.ok(orderService.getBetween(dates.getStartDate(), dates.getFinishDate()));
+    @PostMapping(value = "api/order/interval")
+    public ModelAndView findByDateInterval(@RequestBody DateInterval dates, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("app/orders");
+
+        mav.getModel().put("orders",orderService.getOrdersByInterval(dates.getStartDate(), dates.getEndDate()));
+        mav.getModel().put("user",userService.getUserFromEntity(userService.getUserByEmail(request.getRemoteUser())));
+
+        return mav;
     }
 }

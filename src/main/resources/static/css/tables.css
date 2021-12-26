@@ -63,6 +63,7 @@
 
 #tableControlButtonsSection {
     text-align: right;
+    padding: 5px;
 }
 
 .table-box {
@@ -94,6 +95,7 @@ label {
 input, button {
     font-size: 0.9rem;
     padding: 5px 10px;
+    margin: 5px;
     background: white;
     border: 1px solid gray;
     border-radius: 5px;

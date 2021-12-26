@@ -77,20 +77,23 @@ public class UserService {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 
         userData.setLastLoginDate(format.format(user.getLastLoginDate()));
-        userData.setLastLogoutDate(format.format(user.getLastLogoutDate()));
+
+        if(user.getLastLogoutDate() != null) {
+            userData.setLastLogoutDate(format.format(user.getLastLogoutDate()));
+        }
 
         return userData;
     }
 
     public void deleteUser(long id) {
-        if(isExist(id)) {
+        if(isExists(id)) {
             userRepository.deleteById(id);
         }
         else throw new UserNotFoundException("There is no such employee with given id: '" + id + "'");
     }
 
     public AppUser getUserById(long id) {
-        if(isExist(id)) {
+        if(isExists(id)) {
             return userRepository.findById(id).get();
         }
         else throw new UserNotFoundException("There is no such employee with given id: '" + id + "'");
@@ -141,7 +144,58 @@ public class UserService {
         return userStats;
     }
 
-    public boolean isExist(long id) {
+    public void changePassword(long id, String password) {
+        if(isExists(id)) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+            userRepository.updatePassword(id, encoder.encode(password));
+        }
+        else throw new UserNotFoundException("No such user with given ID.");
+    }
+
+    public void changeAddress(long id, Address address) {
+        if(isExists(id)) {
+            userRepository.changeAddress(id, address);
+        }
+        else throw new UserNotFoundException("No such user with given ID.");
+    }
+
+    public void changeName(long id, Name name) throws UserNotFoundException{
+        if(isExists(id)) {
+            userRepository.changeName(id, name);
+        }
+        else throw new UserNotFoundException("No such user with given ID.");
+    }
+
+    public void changePhoneNumber(long id, String phoneNumber) throws UserNotFoundException{
+        if(isExists(id)) {
+            userRepository.changePhoneNumber(id,phoneNumber);
+        }
+        else throw new UserNotFoundException("No such user with given ID.");
+    }
+
+    public void changeEmail(long id, String email) throws UserNotFoundException{
+        if(isExists(id)) {
+            userRepository.changeEmail(id,email);
+        }
+        else throw new UserNotFoundException("No such user with given ID.");
+    }
+
+    public void assignRole(long id, UserRole role) throws UserNotFoundException{
+        if(isExists(id)) {
+            userRepository.assignRole(id, role);
+        }
+        else throw new UserNotFoundException("No such user with given ID.");
+    }
+
+    public void updateSalary(long id, double salary) throws UserNotFoundException{
+        if(isExists(id)) {
+            userRepository.updateSalary(id, salary);
+        }
+        else throw new UserNotFoundException("No such user with given ID.");
+    }
+
+    public boolean isExists(long id) {
         if(userRepository.existsById(id)) {
             return true;
         }

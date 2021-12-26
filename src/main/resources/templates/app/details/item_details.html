@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8">
         <title>Item Details</title>
@@ -39,8 +39,9 @@
                         </tr>
                     </table>
                     <div class="controls" id="itemControls">
-                        <button id="addStockButton" th:onclick="'javascript:createStockUpdatePopup('+${itemDetails.itemId}+')'">Add Stock</button>
-                        <button id="updateItemButton">Update</button>
+                        <button id="addStockButton" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:onclick="'javascript:createStockUpdatePopup('+${itemDetails.itemId}+')'">Add Stock</button>
+                        <button id="updatePriceButton" th:onclick="'javascript:updatePrice('+${itemDetails.itemId}+')'">Update Price</button>
+                        <button id="updateDescriptionButton" th:onclick="'javascript:updateDescription('+${itemDetails.itemId}+')'">Update Description</button>
                         <button id="deleteItemButton" th:onclick="'javascript:deleteItem('+${itemDetails.itemId}+')'">Delete</button>
                     </div>
                 </div>
@@ -48,7 +49,6 @@
         </div>
         <script src="/js/dropdownUtils.js"></script>
         <script src="/js/modalUtils.js"></script>
-        <script src="/js/items.js"></script>
         <script src="/js/itemUtils.js"></script>
     </body>
 </html>

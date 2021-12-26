@@ -1,5 +1,5 @@
 td,th {
-    padding: 10px;
+    padding: 10px 0;
     text-align: left;
 }
 
@@ -37,15 +37,16 @@ button {
 
 .controls {
     text-align: right;
-    padding: 20px 10px;
+    padding: 5px 10px;
 }
 
 .linkButton {
     color: black;
     text-decoration: none;
     cursor: pointer;
-    padding: 10px;
-    margin: 0 5px;
+    padding: 5px;
+    margin: 5px 5px;
     border: 1px solid gray;
     background: whitesmoke;
+    display: inline-block;
 }

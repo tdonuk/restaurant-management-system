@@ -7,6 +7,7 @@ import com.tahadonuk.restaurantmanagementsystem.dto.stat.Stats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.TableConflictException;
+import com.tahadonuk.restaurantmanagementsystem.exception.TableNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,15 @@ public class TableService {
             tableRepo.updateTableStatus(tableId, status);
         }
         else throw new NotFoundException("No such table with given ID");
+    }
+
+    public void deleteTable(long id) throws TableNotFoundException{
+        if(isExists(id)) {
+            tableRepo.deleteById(id);
+        }
+        else {
+            throw new TableNotFoundException("No such table with given ID: "+id);
+        }
     }
 
     public List<RestaurantTable> getAllByStatus(TableStatus status) {

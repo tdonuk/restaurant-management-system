@@ -81,8 +81,24 @@ public class ItemService {
         }
     }
 
+    public void updatePrice(long id, double price) {
+        if(isExists(id)) {
+            itemRepo.updatePrice(id, price);
+        }
+        else throw new ItemNotFoundException("No such item");
+    }
+
+    public void updateDescription(long id, String description) {
+        if(isExists(id)) {
+            itemRepo.updateDescription(id, description);
+        }
+        else throw new ItemNotFoundException("No such item");
+    }
+
     public List<Item> getAll() {
-        return itemRepo.findAll();
+        List items = itemRepo.findAll();
+        items.sort(Comparator.comparing(Item::getItemId));
+        return items;
     }
 
     public Item getItemById(long id) throws ItemNotFoundException{

@@ -38,7 +38,7 @@ body {
 
 .side-nav {
     background: whitesmoke;
-    padding: 1vh 1vw;
+    padding: 20px;
     margin-top: 5px;
     border: 1px solid gray;
 
@@ -126,7 +126,6 @@ body {
     font-size: 1rem;
 }
 
-
 #logoutButton {
     width: fit-content;
     height: 100%;
@@ -206,6 +205,14 @@ h1, h2, h3, h4, h5 {
 
 }
 
+#profileLink {
+    text-decoration: none;
+    color: black;
+    height: fit-content;
+    align-self: center;
+    font-size: 1rem;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -265,7 +272,7 @@ table {
 }
 
 td {
-    padding: 10px;
+    padding: 10px 0;
 }
 
 tr {

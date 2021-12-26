@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,10 +51,10 @@ public class ItemController {
 
     @GetMapping(path = "api/item/{id}/stock")
     @ResponseBody
-    public Object updateItemStock(@PathVariable long id, @RequestParam(name = "amount") int amount, HttpServletRequest request) {
+    public Object updateItemStock(@PathVariable long id, @RequestParam(name = "amount") int amount, HttpServletRequest request) throws IOException {
         UserDTO requestingUser = UserUtils.getUserData(userService,request.getRemoteUser());
         if(! requestingUser.getRole().equals("MANAGER") && ! requestingUser.getRole().equals("ADMIN")) {
-            return ResponseEntity.badRequest().body(new StringResponse("Unauthorized request."));
+            return new ModelAndView("app/unauthorized");
         }
         try {
             Item updatedItem = itemService.updateItemStockValue(id,amount);
@@ -61,10 +63,39 @@ public class ItemController {
             return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
     }
+    @PostMapping(path = "api/item/{id}/price")
+    @ResponseBody
+    public Object updateItemPrice(@PathVariable long id, @RequestBody double price, HttpServletRequest request) {
+        UserDTO requestingUser = UserUtils.getUserData(userService,request.getRemoteUser());
+        if(! requestingUser.getRole().equals("MANAGER") && ! requestingUser.getRole().equals("ADMIN")) {
+            return new ModelAndView("app/unauthorized");
+        }
+        try {
+            itemService.updatePrice(id, price);
+            return ResponseEntity.ok(new StringResponse("Item price updated successfully."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
+        }
+    }
+
+    @PostMapping(path = "api/item/{id}/description")
+    @ResponseBody
+    public Object updateItemDescription(@PathVariable long id, @RequestBody String description, HttpServletRequest request) {
+        UserDTO requestingUser = UserUtils.getUserData(userService,request.getRemoteUser());
+        if(! requestingUser.getRole().equals("MANAGER") && ! requestingUser.getRole().equals("ADMIN")) {
+            return new ModelAndView("app/unauthorized");
+        }
+        try {
+            itemService.updateDescription(id, description);
+            return ResponseEntity.ok(new StringResponse("Item description updated successfully."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
+        }
+    }
 
     @GetMapping(path = "api/item/{id}")
     @ResponseBody
-    public ResponseEntity<Object> getById(@PathVariable long id) {
+    public Object getById(@PathVariable long id) {
         try {
             return ResponseEntity.ok(itemService.getItemById(id));
         } catch (Exception e) {
@@ -81,7 +112,6 @@ public class ItemController {
             UserDTO requestingUser = UserUtils.getUserData(userService,request.getRemoteUser());
 
             mav.getModel().put("user", requestingUser);
-            mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
             Item itemDetails = itemService.getItemById(id);
 
@@ -95,7 +125,7 @@ public class ItemController {
 
     @GetMapping(path = "api/item/create")
     @ResponseBody
-    public Object getItemCreateForm(HttpServletRequest request) {
+    public Object getCreateItemPage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
         try {
             mav.setViewName("app/create/create_item");

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8">
         <title>Items</title>
@@ -11,7 +11,7 @@
     <body>
         <div class="wrapper">
             <div class="page-header" th:replace="fragments/general :: pageHeader(title=' / Items', userData=${user})"/>
-            <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navList})"/>
+            <div class="nav side-nav" th:replace="fragments/general :: sideNav"/>
             <div class="main">
                 <div class="table-wrapper">
                     <table>
@@ -58,7 +58,7 @@
                                 <a class="linkButton" th:href="'api/item/'+${item.itemId}+'/details'">Details</a>
                             </td>
                             <td>
-                                <a class="linkButton" th:onclick="'javascript:createStockUpdatePopup('+${item.itemId}+')'">Add Stock</a>
+                                <a class="linkButton" sec:authorize="hasAnyAuthority('MANAGER', 'ADMIN')" th:onclick="'javascript:createStockUpdatePopup('+${item.itemId}+')'">Add Stock</a>
                             </td>
                         </tr>
                     </table>
@@ -71,7 +71,6 @@
         <script src="/js/dropdownUtils.js" th:src="@{/js/dropdownUtils.js}"></script>
         <script src="/js/modalUtils.js" th:src="@{/js/modalUtils.js}"></script>
         <script src="/js/itemUtils.js" th:src="@{/js/itemUtils.js}"></script>
-        <script src="/js/items.js" th:src="@{/js/items.js}"></script>
     </body>
 </html>
 

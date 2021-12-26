@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,6 +8,7 @@
         <div class="page-header" id="pageHeader" th:fragment="pageHeader(title, userData)">
             <a class="big-title" href="/" th:text="'Admin Panel '+${title}">Admin Panel / Tables</a> <!-- Title !-->
             <div class="corner-container">
+                <a id="profileLink" href="/me">My Page</a>
                 <div class="dropdown" id="userDropdown">
                     <span class="dropdown-text">User</span>
                     <div class="dropdown-content">
@@ -17,9 +18,6 @@
         
                             <h3>Last Login</h3>
                             <span th:text="${userData.lastLoginDate}"></span>
-        
-                            <h3>Last Logout</h3>
-                            <span th:text="${userData.lastLogoutDate}"></span>
                             
                             <h3>Role</h3>
                             <span th:text="${userData.role}"></span>
@@ -30,9 +28,12 @@
             </div>
         </div>
 
-        <div class="nav side-nav" th:fragment="sideNav(navList)">
+        <div class="nav side-nav" th:fragment="sideNav">
             <a class="nav-item" href="/">Home</a>
-            <a class="nav-item" th:each="nav : ${navList}" th:text="${nav}" th:href="${'/'+nav.toLowerCase()}"></a>
+            <a class="nav-item" href="/users" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">Users</a>
+            <a class="nav-item" href="/tables">Tables</a>
+            <a class="nav-item" href="/items">Items</a>
+            <a class="nav-item" href="/orders">Orders</a>
         </div>
         
     </body>

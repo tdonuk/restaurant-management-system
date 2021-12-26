@@ -9,7 +9,7 @@
     <body>
         <div class="wrapper">
             <div th:replace="fragments/general :: pageHeader(title='', userData=${user})"/>
-            <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
+            <div class="nav side-nav" th:replace="fragments/general :: sideNav"/>
             <div class="main">
                 <div class="section" id="stats">
                     <div class="sub-section box" id="tableStats">
@@ -280,17 +280,6 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label class="stat-label">Last Week: </label>
-                                    </th>
-                                    <td>
-                                        <span class="stat-content" th:text="${orderStats.orderCountLastWeek}"></span>
-                                    </td>
-                                    <td>
-                                        <span class="stat-content" th:text="''"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
                                         <label class="stat-label">Current Month: </label>
                                     </th>
                                     <td>
@@ -298,6 +287,17 @@
                                     </td>
                                     <td>
                                         <span class="stat-content" th:text="${orderStats.getCurrentMonthRatioToLastMonth()}+' (Compared to last month)'"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label class="stat-label">Last Week: </label>
+                                    </th>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.orderCountLastWeek}"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="''"></span>
                                     </td>
                                 </tr>
                                 <tr>

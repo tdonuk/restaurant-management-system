@@ -2,6 +2,7 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
 import com.tahadonuk.restaurantmanagementsystem.dto.*;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.ItemStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.OrderStats;
@@ -18,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Arrays;
 
 @RestController
@@ -42,7 +42,6 @@ public class HomeController {
         UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
 
         mav.getModel().put("user", userData);
-        mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
 
         mav.getModel().put("tableList", tableService.getAll());
 
@@ -70,9 +69,25 @@ public class HomeController {
         return mav;
     }
 
-    @GetMapping(value = "/employees")
+    @GetMapping(value = "/me")
     @ResponseBody
-    public ModelAndView getEmployeesPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ModelAndView getProfilePage(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+
+        AppUser requestingUser = userService.getUserByEmail(request.getRemoteUser());
+        UserDTO requestingUserData = userService.getUserFromEntity(requestingUser);
+
+        mav.getModel().put("userDetails", requestingUser);
+        mav.getModel().put("user",requestingUserData);
+
+        mav.setViewName("app/profile");
+
+        return mav;
+    }
+
+    @GetMapping(value = "/users")
+    @ResponseBody
+    public ModelAndView getEmployeesPage(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView();
 
         String currentUserEmail = request.getRemoteUser();
@@ -80,27 +95,30 @@ public class HomeController {
 
         mav.getModel().put("user", userData);
 
-        mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
-
         if(UserRole.valueOf(userData.getRole()).equals(UserRole.ADMIN) || UserRole.valueOf(userData.getRole()).equals(UserRole.MANAGER)) {
-            mav.getModel().put("users", userService.getUsersByRole(UserRole.USER));
-            mav.getModel().put("admins", userService.getUsersByRole(UserRole.ADMIN));
-            mav.getModel().put("managers", userService.getUsersByRole(UserRole.MANAGER));
-            mav.getModel().put("employees", userService.getUsersByRole(UserRole.EMPLOYEE));
+            mav.getModel().put("users", userService.getAll());
 
-            mav.setViewName("app/employees");
-
-            return mav;
+            mav.setViewName("app/users");
         }
-
         else {
-            System.out.println("Unauthorized attempt");
-            response.sendRedirect("/");
-            return null;
+            mav.setViewName("app/unauthorized");
         }
-
+        return mav;
     }
 
+    @GetMapping(value = "/unauthorized")
+    @ResponseBody
+    public ModelAndView getUnauthorizedPage(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("app/unauthorized");
+
+        String currentUserEmail = request.getRemoteUser();
+        UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
+
+        mav.getModel().put("user",userData);
+
+        return mav;
+    }
 
     @GetMapping(value = "/tables")
     @ResponseBody
@@ -117,8 +135,6 @@ public class HomeController {
 
         mav.getModel().put("stats", currentStats);
 
-        mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
-
         mav.getModel().put("tableData",new TableDTO());
         mav.setViewName("app/tables");
 
@@ -134,9 +150,8 @@ public class HomeController {
         String currentUserEmail = request.getRemoteUser();
         UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
 
-        mav.getModel().put("user",userData);
-        mav.getModel().put("items",itemService.getAll());
-        mav.getModel().put("navList", Arrays.asList("Tables", "Employees", "Orders", "Items"));
+        mav.getModel().put("user", userData);
+        mav.getModel().put("items", itemService.getAll());
 
         return mav;
     }
@@ -152,16 +167,10 @@ public class HomeController {
 
         mav.getModel().put("user",userData);
 
-        mav.getModel().put("navlist", Arrays.asList("Tables", "Employees", "Orders", "Items"));
-
-        if(UserRole.valueOf(userData.getRole()).equals(UserRole.ADMIN) || UserRole.valueOf(userData.getRole()).equals(UserRole.MANAGER)) {
-            mav.getModel().put("orders",orderService.getAll());
-            mav.getModel().put("meals",itemService.getByType(ItemType.MEAL));
-            mav.getModel().put("beverages",itemService.getByType(ItemType.BEVERAGE));
-            mav.getModel().put("desserts",itemService.getByType(ItemType.DESSERT));
-
-            return mav;
-        }
+        mav.getModel().put("orders",orderService.getAll());
+        mav.getModel().put("meals",itemService.getByType(ItemType.MEAL));
+        mav.getModel().put("beverages",itemService.getByType(ItemType.BEVERAGE));
+        mav.getModel().put("desserts",itemService.getByType(ItemType.DESSERT));
 
         return mav;
     }

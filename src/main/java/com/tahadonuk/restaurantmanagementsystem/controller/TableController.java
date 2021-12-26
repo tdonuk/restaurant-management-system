@@ -21,13 +21,24 @@ public class TableController {
     @PostMapping(path = "api/table/save")
     @ResponseBody
     public ResponseEntity<Object> addTable(@RequestBody RestaurantTable table) {
-        if(table.getTableId() <= 0) return ResponseEntity.badRequest().body("Given ID value is not valid.");
+        if(table.getTableId() <= 0) return ResponseEntity.badRequest().body(new StringResponse("Given ID: "+table.getTableId()+" is not valid."));
 
         try{
             table.setStatus(TableStatus.AVAILABLE);
 
             tableService.addTable(table);
             return ResponseEntity.ok().body(new StringResponse("Table " + table.getTableId() + " has created successfully."));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
+        }
+    }
+
+    @DeleteMapping(path = "api/table/{id}/delete")
+    @ResponseBody
+    public ResponseEntity<Object> deleteTable(@PathVariable long id) {
+        try{
+            tableService.deleteTable(id);
+            return ResponseEntity.ok().body(new StringResponse("Table " + id + " has deleted successfully."));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
@@ -58,12 +69,11 @@ public class TableController {
     @PostMapping(path = "api/table/{id}/status")
     @ResponseBody
     public ResponseEntity<Object> setStatus(@RequestBody String statusString, @PathVariable long id) {
-        TableStatus status = TableStatus.valueOf(statusString.toUpperCase().replaceAll(" ", "_"));
-
         try {
+            TableStatus status = TableStatus.valueOf(statusString.toUpperCase().replaceAll(" ", "_"));
             tableService.updateTableStatus(status, id);
             return ResponseEntity.ok(new StringResponse("Table status has updated successfully"));
-        } catch (TableNotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
     }

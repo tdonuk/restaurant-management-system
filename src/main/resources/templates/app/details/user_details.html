@@ -63,7 +63,8 @@
                         </tr>
                     </table>
                     <div class="controls" id="userControls">
-                        <a class="linkButton">Edit</a>
+                        <a th:onclick="'javascript:updateSalary('+${userDetails.userId}+')'" class="linkButton">Update Salary</a>
+                        <a th:onclick="'javascript:assignRole('+${userDetails.userId}+')'" class="linkButton">Assign Role</a>
                         <a th:onclick="'javascript:deleteUser('+${userDetails.userId}+')'" class="linkButton">Delete</a>
                     </div>
                 </div>
@@ -72,7 +73,6 @@
         
         <script src="/js/dropdownUtils.js"></script>
         <script src="/js/modalUtils.js"></script>
-        <script src="/js/employees.js"></script>
         <script src="/js/userUtils.js"></script>
     </body>
 </html>
