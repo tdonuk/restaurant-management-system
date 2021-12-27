@@ -168,7 +168,7 @@ function updateSalary(userId) {
         '    </tr>' +
         '</table>';
 
-    const modal = createModalFromBody(body, "Update Email");
+    const modal = createModalFromBody(body, "Update Salary");
 
     modal.querySelector("#okButton").onclick = function () {
         const salary = modal.querySelector("#salaryField").value;
@@ -197,7 +197,7 @@ function changePassword(userId) {
         '    </tr>' +
         '</table>';
 
-    const modal = createModalFromBody(body, "Update Email");
+    const modal = createModalFromBody(body, "Update Password");
 
     modal.querySelector("#okButton").onclick = function () {
         const password = modal.querySelector("#passwordField").value;

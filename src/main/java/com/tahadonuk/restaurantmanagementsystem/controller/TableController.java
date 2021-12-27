@@ -3,7 +3,6 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.RestaurantTable;
 import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
-import com.tahadonuk.restaurantmanagementsystem.exception.TableNotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

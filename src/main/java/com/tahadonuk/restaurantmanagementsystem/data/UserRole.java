@@ -1,8 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.data;
 
 
-import org.springframework.security.core.GrantedAuthority;
-
 public enum UserRole {
     ADMIN("Admin"), MANAGER("Manager"), EMPLOYEE("Employee"), USER("User");
 

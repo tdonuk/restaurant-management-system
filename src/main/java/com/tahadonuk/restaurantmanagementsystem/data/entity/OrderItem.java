@@ -2,7 +2,7 @@ package com.tahadonuk.restaurantmanagementsystem.data.entity;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
 
 
 @Embeddable

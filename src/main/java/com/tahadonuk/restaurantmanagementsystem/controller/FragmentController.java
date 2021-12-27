@@ -5,7 +5,10 @@ import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
 import com.tahadonuk.restaurantmanagementsystem.service.ItemService;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController

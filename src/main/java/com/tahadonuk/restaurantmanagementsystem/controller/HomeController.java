@@ -3,7 +3,8 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
-import com.tahadonuk.restaurantmanagementsystem.dto.*;
+import com.tahadonuk.restaurantmanagementsystem.dto.TableDTO;
+import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.ItemStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.OrderStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
@@ -14,12 +15,13 @@ import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import com.tahadonuk.restaurantmanagementsystem.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 
 @RestController
 public class HomeController {

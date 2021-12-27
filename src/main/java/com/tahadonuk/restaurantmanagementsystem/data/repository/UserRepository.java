@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.data.repository;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
 import org.springframework.data.jpa.repository.JpaRepository;

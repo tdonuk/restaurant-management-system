@@ -1,8 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.data.repository;
 
-import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

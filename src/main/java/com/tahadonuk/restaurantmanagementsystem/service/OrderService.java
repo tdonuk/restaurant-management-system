@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.service;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Receipt;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.OrderRepository;
@@ -10,13 +10,10 @@ import com.tahadonuk.restaurantmanagementsystem.dto.stat.OrderStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.Stats;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.OrderNotFoundException;
-import com.tahadonuk.restaurantmanagementsystem.exception.TableNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.*;
 
 @Service

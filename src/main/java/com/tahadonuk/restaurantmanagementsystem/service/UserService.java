@@ -2,15 +2,15 @@ package com.tahadonuk.restaurantmanagementsystem.service;
 
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
+import com.tahadonuk.restaurantmanagementsystem.data.repository.UserRepository;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
-import com.tahadonuk.restaurantmanagementsystem.data.repository.UserRepository;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.Stats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.UserStats;
+import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import com.tahadonuk.restaurantmanagementsystem.exception.UserConflictException;
 import com.tahadonuk.restaurantmanagementsystem.exception.UserNotFoundException;
-import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

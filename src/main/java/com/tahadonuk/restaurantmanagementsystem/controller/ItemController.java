@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.dto.ItemDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -53,9 +51,6 @@ public class ItemController {
     @ResponseBody
     public Object updateItemStock(@PathVariable long id, @RequestParam(name = "amount") int amount, HttpServletRequest request) throws IOException {
         UserDTO requestingUser = UserUtils.getUserData(userService,request.getRemoteUser());
-        if(! requestingUser.getRole().equals("MANAGER") && ! requestingUser.getRole().equals("ADMIN")) {
-            return new ModelAndView("app/unauthorized");
-        }
         try {
             Item updatedItem = itemService.updateItemStockValue(id,amount);
             return ResponseEntity.ok(new StringResponse("Stock value updated to "+updatedItem.getStock()+" for item with ID: "+id));
@@ -67,9 +62,6 @@ public class ItemController {
     @ResponseBody
     public Object updateItemPrice(@PathVariable long id, @RequestBody double price, HttpServletRequest request) {
         UserDTO requestingUser = UserUtils.getUserData(userService,request.getRemoteUser());
-        if(! requestingUser.getRole().equals("MANAGER") && ! requestingUser.getRole().equals("ADMIN")) {
-            return new ModelAndView("app/unauthorized");
-        }
         try {
             itemService.updatePrice(id, price);
             return ResponseEntity.ok(new StringResponse("Item price updated successfully."));
@@ -82,9 +74,6 @@ public class ItemController {
     @ResponseBody
     public Object updateItemDescription(@PathVariable long id, @RequestBody String description, HttpServletRequest request) {
         UserDTO requestingUser = UserUtils.getUserData(userService,request.getRemoteUser());
-        if(! requestingUser.getRole().equals("MANAGER") && ! requestingUser.getRole().equals("ADMIN")) {
-            return new ModelAndView("app/unauthorized");
-        }
         try {
             itemService.updateDescription(id, description);
             return ResponseEntity.ok(new StringResponse("Item description updated successfully."));

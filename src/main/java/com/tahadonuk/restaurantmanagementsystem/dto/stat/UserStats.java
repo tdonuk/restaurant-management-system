@@ -1,6 +1,5 @@
 package com.tahadonuk.restaurantmanagementsystem.dto.stat;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
