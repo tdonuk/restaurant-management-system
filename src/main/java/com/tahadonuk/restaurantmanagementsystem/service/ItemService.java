@@ -125,7 +125,9 @@ public class ItemService {
     }
 
     public List<Item> getByType(ItemType type) {
-        return itemRepo.findByItemType(type);
+        List<Item> items = itemRepo.findByItemType(type);
+        items.sort(Comparator.comparing(Item::getItemId));
+        return items;
     }
     
     public int countByType(ItemType type) {

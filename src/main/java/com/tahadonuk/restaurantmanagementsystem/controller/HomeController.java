@@ -2,6 +2,8 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
 import com.tahadonuk.restaurantmanagementsystem.dto.TableDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
@@ -16,12 +18,18 @@ import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import com.tahadonuk.restaurantmanagementsystem.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 public class HomeController {
@@ -145,22 +153,108 @@ public class HomeController {
 
     @GetMapping(value = "/items")
     @ResponseBody
-    public ModelAndView getItemsPage(HttpServletRequest request) {
+    public ModelAndView getItemsPage(@RequestParam(required = false, name = "sort") String sort, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("app/items");
 
         String currentUserEmail = request.getRemoteUser();
         UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
 
+        List<Item> items = itemService.getAll();
+
+        if(sort != null) {
+            switch (sort) {
+                case "id":
+                    items.sort(Comparator.comparing(Item::getItemId));
+                    break;
+                case "name":
+                    items.sort(Comparator.comparing(Item::getName));
+                    break;
+                case "type":
+                    items.sort(Comparator.comparing(Item::getItemType));
+                    break;
+                case "stock":
+                    items.sort(Comparator.comparing(Item::getStock));
+                    break;
+                case "price":
+                    items.sort(Comparator.comparing(Item::getPrice));
+                    break;
+                default:
+                    items.sort(Comparator.comparing(Item::getItemId));
+                    break;
+            }
+        }
+
         mav.getModel().put("user", userData);
-        mav.getModel().put("items", itemService.getAll());
+        mav.getModel().put("items", items);
 
         return mav;
     }
 
     @GetMapping(value = "/orders")
     @ResponseBody
-    public ModelAndView getOrdersPage(HttpServletRequest request) {
+    public ModelAndView getOrdersPageSorted(@RequestParam(required = false, name = "sort") String sort, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("app/orders");
+
+        String currentUserEmail = request.getRemoteUser();
+        UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
+
+        mav.getModel().put("user",userData);
+        mav.getModel().put("items", itemService.getAll());
+
+        List<Order> orders = orderService.getAll();
+
+        if(sort != null) {
+            switch (sort) {
+                case "id":
+                    orders.sort(Comparator.comparing(Order::getOrderId));
+                    break;
+                case "table":
+                    orders.sort(Comparator.comparing(Order::getTableId));
+                    break;
+                case "date":
+                    orders.sort(Comparator.comparing(Order::getOrderDate));
+                    break;
+                case "price":
+                    orders.sort(Comparator.comparing(Order::getTotalPrice));
+                    break;
+                default:
+                    orders.sort(Comparator.comparing(Order::getOrderId));
+                    break;
+            }
+        }
+
+        mav.getModel().put("orders", orders);
+
+        return mav;
+    }
+
+    @GetMapping(value = "/orders/filter/interval")
+    @ResponseBody
+    public ModelAndView getOrdersPageFiltered(@RequestParam(name = "start") String start, @RequestParam(name = "end") String end, HttpServletRequest request) throws ParseException {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("app/orders");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = formatter.parse(start);
+        Date endDate = formatter.parse(end);
+
+        String currentUserEmail = request.getRemoteUser();
+        UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
+
+        mav.getModel().put("user",userData);
+
+        List<Order> orders = orderService.getOrdersByInterval(startDate, endDate);
+
+        mav.getModel().put("orders", orders);
+
+        return mav;
+    }
+
+    @GetMapping(value = "/orders/filter/item")
+    @ResponseBody
+    public ModelAndView getOrdersPageFiltered(@RequestParam(name = "name") String name,HttpServletRequest request) throws ParseException {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("app/orders");
 
@@ -169,10 +263,10 @@ public class HomeController {
 
         mav.getModel().put("user",userData);
 
-        mav.getModel().put("orders",orderService.getAll());
-        mav.getModel().put("meals",itemService.getByType(ItemType.MEAL));
-        mav.getModel().put("beverages",itemService.getByType(ItemType.BEVERAGE));
-        mav.getModel().put("desserts",itemService.getByType(ItemType.DESSERT));
+        List<Order> orders = orderService.getOrdersItemsContains(name);
+
+        mav.getModel().put("orders", orders);
+        mav.getModel().put("items", itemService.getAll());
 
         return mav;
     }

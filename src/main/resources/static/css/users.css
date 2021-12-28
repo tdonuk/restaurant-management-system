@@ -1,9 +1,20 @@
 td {
     text-align: center;
+    padding: 10px;
 }
 th {
     padding: 10px;
     background-color: lightgray;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0px 1px;
+    text-align: left;
+}
+
+tr {
+    background-color: whitesmoke;
 }
 
 .tableWrapper {

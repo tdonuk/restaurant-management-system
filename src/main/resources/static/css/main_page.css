@@ -10,7 +10,17 @@
 }
 
 table {
-    text-align: left !important;
+    width: 100%;
+    border-spacing: 0px 1px;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+}
+
+tr {
+    background-color: whitesmoke;
 }
 
 .stat-title {

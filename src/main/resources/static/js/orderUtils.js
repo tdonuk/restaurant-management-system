@@ -1,3 +1,4 @@
+initDropdowns();
 
 function deleteOrder(orderId) {
     const modal = createModalMessage("Warning", "You are deleting an order", "This operation can not be undone. Click 'Ok' to confirm.", "warning");
@@ -179,24 +180,18 @@ function addItemToCart(itemId) {
 }
 
 function filterByDateInterval () {
-    const form = document.querySelector("#dateIntervalForm");
-    const formData = new FormData(form);
-
     const interval = {
         startDate: new Date(),
         endDate: new Date()
     }
 
-    interval.startDate = formData.get("startDate");
-    interval.endDate = formData.get("endDate");
+    interval.startDate = document.querySelector("#startDate").value;
+    interval.endDate = document.querySelector("#endDate").value;
 
-    const request = new XMLHttpRequest();
-    request.open("POST", "/api/order/interval");
+    window.location = "/orders/filter/interval"+"?"+"start="+interval.startDate+"&"+"end="+interval.endDate;
+}
 
-    request.onload = function () {
-
-    }
-
-    request.setRequestHeader("Content-Type", "application/json");
-    request.send(JSON.stringify(interval));
+function filterByItem() {
+    const name = document.querySelector("#itemName").innerText;
+    window.location = "/orders/filter/item"+"?"+"name="+name;
 }

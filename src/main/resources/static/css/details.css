@@ -1,5 +1,20 @@
-td,th {
-    padding: 10px 0;
+td {
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+    text-align: left;
+    border-spacing: 1px 1px;
+}
+
+tr {
+    background-color: whitesmoke;
+}
+
+th {
+    padding: 10px;
+    background-color: whitesmoke;
     text-align: left;
 }
 
@@ -18,10 +33,6 @@ td,th {
 .row-title {
     background: white;
     font-size: 1.2rem;
-}
-
-table {
-    border-spacing: 1px 1px;
 }
 
 button {

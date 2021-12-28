@@ -2,26 +2,32 @@
     display: block;
 }
 
-td {
+.tableWrapper td {
     text-align: center;
     width: 100%;
     padding: 10px;
     display: grid;
     align-items: center;
 }
-th {
+
+.tableWrapper th {
     padding: 10px;
     background-color: lightgrey;
     width: 100%;
 }
-tr {
+
+.tableWrapper tr {
     display: flex;
     justify-content: space-around;
     width: 100%;
     border-bottom: 1px solid gray;
+    background-color: whitesmoke;
 }
-table {
+
+.tableWrapper table {
     height: 100%;
+    width: 100%;
+    text-align: left;
 }
 
 .tableWrapper {
@@ -29,6 +35,12 @@ table {
     background-color: whitesmoke;
     flex-grow: 1;
     overflow-y: auto;
+}
+
+.row-label {
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
 }
 
 .main {
@@ -49,11 +61,31 @@ button, input {
 input {
     height: fit-content;
 }
+
+#filterControls {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.filterBox {
+    border: 1px solid gray;
+    padding: 20px;
+    width: fit-content;
+    display: block;
+    margin: 10px;
+}
+
 #filterControls form {
     text-align: left;
     padding: 20px;
     width: fit-content;
     border: 1px solid gray;
+}
+
+.filter-title {
+    text-align: left !important;
+    font-weight: bold;
 }
 
 .linkButton {

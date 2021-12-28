@@ -126,6 +126,11 @@ body {
     font-size: 1rem;
 }
 
+#userDropdown .dropdown-content {
+    transform: translate(-50%, 10%);
+    max-height: 300px !important;
+}
+
 #logoutButton {
     width: fit-content;
     height: 100%;
@@ -214,7 +219,6 @@ h1, h2, h3, h4, h5 {
 }
 
 .dropdown {
-    position: relative;
     display: inline-block;
     padding: 5px 10px;
     border: 1px solid gray;
@@ -232,15 +236,13 @@ h1, h2, h3, h4, h5 {
     z-index: 1;
     overflow-y: auto;
 
-    transform: translate(-50%, 10%);
-
     scrollbar-width: thin;
     background-color: whitesmoke;
     border: 1px solid gray;
     border-radius: 5px;
 
     min-width: 100px;
-    max-height: 300px;
+    max-height: 150px;
 
     width: max-content;
 
@@ -264,17 +266,4 @@ h1, h2, h3, h4, h5 {
     width: 100%;
     text-align: center;
     cursor: pointer;
-}
-
-table {
-    width: 100%;
-    border-spacing: 0 3px;
-}
-
-td {
-    padding: 10px 0;
-}
-
-tr {
-    background-color: whitesmoke;
 }

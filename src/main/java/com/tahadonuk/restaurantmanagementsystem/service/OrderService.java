@@ -2,9 +2,11 @@ package com.tahadonuk.restaurantmanagementsystem.service;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.OrderItem;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Receipt;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.OrderRepository;
+import com.tahadonuk.restaurantmanagementsystem.data.repository.ReceiptRepository;
 import com.tahadonuk.restaurantmanagementsystem.dto.OrderDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.OrderStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.Stats;
@@ -26,6 +28,8 @@ public class OrderService {
     ItemService itemService;
     @Autowired
     TableService tableService;
+    @Autowired
+    ReceiptRepository receiptRepository;
 
     public void saveOrder(Order order) {
         orderRepo.save(order);
@@ -78,10 +82,7 @@ public class OrderService {
     }
 
     public List<Order> getAll() {
-        List<Order> list = orderRepo.findAll();
-        if(list.size() > 50) list = list.subList(0, 50);
-        list.sort(Comparator.comparing(Order::getOrderId));
-        return list;
+        return orderRepo.findAll();
     }
 
     public void deleteOrder(long id) throws NotFoundException {
@@ -144,6 +145,17 @@ public class OrderService {
         orderStats.setOrderCountCurrentMonth(countOrdersFromDateUntilNow(startOfCurrentMonth));
 
         return orderStats;
+    }
+
+    public List<Order> getOrdersItemsContains(String name) {
+        List<Receipt> receipts = receiptRepository.getOrdersByItemsContains(name);
+        List<Order> orders = new ArrayList();
+
+        for(Receipt receipt : receipts) {
+            orders.add(orderRepo.findById(receipt.getOrderId()).orElse(null));
+        }
+
+        return orders;
     }
 
 }

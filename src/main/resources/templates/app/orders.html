@@ -18,16 +18,16 @@
                     <table>
                         <tr>
                             <th>
-                                <label class="row-label">Order ID</label>
+                                <label onclick="window.location='/orders?sort=id'" class="row-label">Order ID</label>
                             </th>
                             <th>
-                                <label class="row-label">Table Number</label>
+                                <label onclick="window.location='/orders?sort=table'" class="row-label">Table Number</label>
                             </th>
                             <th>
-                                <label class="row-label">Date</label>
+                                <label onclick="window.location='/orders?sort=date'" class="row-label">Date</label>
                             </th>
                             <th>
-                                <label class="row-label">Price</label>
+                                <label onclick="window.location='/orders?sort=price'" class="row-label">Price</label>
                             </th>
                             <th>
                                 <label class="row-label">Item Count</label>
@@ -51,15 +51,47 @@
                                 <p th:text="${#lists.size(order.receipt.items)}"></p>
                             </td>
                             <td>
-                                <a class="linkButton" th:href="'api/order/'+${order.orderId+'/details'}">Details</a>
+                                <a class="linkButton" th:href="'/api/order/'+${order.orderId+'/details'}">Details</a>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div id="filterControls">
-                
+                    <div class="filterBox">
+                        <h2>Filter by Date interval</h2>
+                        <label class="filter-title">From</label>
+                        <input id="startDate" type="date">
+                        
+                        <label class="filter-title">To</label>
+                        <input id="endDate" type="date">
+                        
+                        <button id="filterByIntervalButton" onclick="filterByDateInterval()">Filter</button>
+                    </div>
+                    
+                    <div class="filterBox">
+                        <h2>Filter by Item containing</h2>
+                        <table>
+                            <tr>
+                                <th>
+                                    <label class="filter-title">Filter</label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="dropdown" id="itemList">
+                                        <span class="dropdown-text" id="itemName" th:text="${items[0].name}"></span>
+                                        <div class="dropdown-content">
+                                            <p class="dropdown-item" th:each="item : ${items}" th:text="${item.name}"></p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button id="filterByItemButton" onclick="filterByItem()">Filter</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-
             </div>
         </div>
         <script src="/js/dropdownUtils.js" th:src="@{/js/dropdownUtils.js}"></script>
