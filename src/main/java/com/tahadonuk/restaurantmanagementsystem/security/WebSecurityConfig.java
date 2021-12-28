@@ -16,7 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
-    @Autowired LoginSuccessHandler loginSuccessHandler;
+    @Autowired
+    LoginSuccessHandler loginSuccessHandler;
     @Autowired
     LogoutHandler logoutHandler;
 

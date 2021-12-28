@@ -1,6 +1,5 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
-import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
