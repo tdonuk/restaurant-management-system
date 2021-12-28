@@ -5,7 +5,7 @@ import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 
 public class UserUtils {
-    private UserUtils() {} //Singleton
+    private UserUtils() {}
 
     public static UserDTO getUserData(UserService userService, String email) {
         AppUser user = userService.getUserByEmail(email);
