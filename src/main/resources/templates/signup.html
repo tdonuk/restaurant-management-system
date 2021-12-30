@@ -17,31 +17,40 @@
                 </div>
                 <div class="form-body">
                     <label for="firstName">First Name</label>
-                    <input type="text" name="firstName" id="firstName" placeholder="Firstname" th:field="*{firstName}">
+                    <input type="text" name="firstName" id="firstName" placeholder="First Name" th:field="*{firstName}">
 
                     <label for="lastName">Last Name</label>
-                    <input type="text" name="lastName" id="lastName" placeholder="Lastname" th:field="*{lastName}">
+                    <input type="text" name="lastName" id="lastName" placeholder="Last Name" th:field="*{lastName}">
+    
+                    <div class="input-group">
+                        <h2 class="field-title">Primary Phone Number</h2>
+                        
+                        <label for="phoneTitle">Title</label>
+                        <input type="text" name="phone" id="phoneTitle" placeholder="Phone Title" th:field="*{phoneName}">
+    
+                        <label for="phoneNumber">Phone</label>
+                        <input type="tel" name="phone" id="phoneNumber" placeholder="Phone" th:field="*{phoneNumber}">
+                    </div>
 
-                    <label for="tel">Phone</label>
-                    <input type="tel" name="phone" id="tel" placeholder="Phone" th:field="*{phoneNumber}">
 
                     <label for="birthdate">Date of Birth</label>
                     <input type="date" name="birthdate" id="birthdate" th:field="*{dateOfBirth}">
 
-                    <label for="address-street">Street Address</label>
-                    <input type="text" name="street" id="address-street" placeholder="Address" th:field="*{street}">
-
-                    <label for="address-apartment">Apartment Information</label>
-                    <input type="text" name="apartment" id="address-apartment" placeholder="Address" th:field="*{apartment}">
+                    <div class="input-group">
+                        <h2 class="field-title">Primary Address</h2>
+                        
+                        <label for="address-street">Address Line 1</label>
+                        <input type="text" name="addressLine" id="address-street" placeholder="Address" th:field="*{addressLine}">
+    
+                        <label for="address-apartment">Address Line 2</label>
+                        <input type="text" name="details" id="address-apartment" placeholder="Address" th:field="*{details}">
+                    </div>
 
                     <label for="input-email">E-Mail</label>
                     <input type="email" name="emailField" id="input-email" placeholder="E-Mail" th:field="*{email}">
 
                     <label for="input-password">Password</label>
                     <input type="password" name="passwordField" id="input-password" placeholder="Password" th:field="*{password}">
-
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" name="passwordField" id="confirm-password" placeholder="Confirm Password">
 
                     <input type="submit" id="submitButton" value="Sign Up"/>
                 </div>

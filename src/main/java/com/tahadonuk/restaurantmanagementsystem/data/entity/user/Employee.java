@@ -1,6 +1,7 @@
-package com.tahadonuk.restaurantmanagementsystem.data.entity.user;
+package com.tahadonuk.restaurantmanagementsystem.data.entity.employee;
 
 import com.sun.istack.NotNull;
+import com.tahadonuk.restaurantmanagementsystem.data.PhoneNumber;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
@@ -8,16 +9,18 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "employees")
 @Data
-public class AppUser implements Serializable {
+public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID")
-    private long userId;
+    @Column(name = "EMPLOYEE_ID")
+    private long employeeId;
 
     @Embedded
     @AttributeOverrides({
@@ -30,15 +33,11 @@ public class AppUser implements Serializable {
     @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "PHONE_NUMBER")
-    private String phoneNumber;
+    @ElementCollection
+    private List<PhoneNumber> phoneNumbers = new ArrayList<>();
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride( name = "street", column = @Column(name = "STREET")),
-            @AttributeOverride( name = "apartment", column = @Column(name = "APARTMENT"))
-    })
-    private Address address;
+    @ElementCollection
+    private List<Address> addressList = new ArrayList<>();
 
     @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)

@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="page-header">
-            <a class="linkButton" href="/items">\<-- Back</a>
+            <a class="linkButton" href="/products">\<-- Back</a>
         </div>
        
         <div class="form-container">
@@ -58,8 +58,12 @@
                                 <input type="number" min="0" name="stock" placeholder="0">
                             </td>
                             
-                            <th></th>
-                            <td></td>
+                            <th>
+                                <label>Stock: </label>
+                            </th>
+                            <td>
+                                <label for="isStockRequired"><input name="isStockRequired" type="checkbox" id="isStockRequired" value="true"> It's a stocked product</label>
+                            </td>
                         </tr>
                     </table>
                 </div>

@@ -1,12 +1,12 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Product;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
 import com.tahadonuk.restaurantmanagementsystem.dto.DateInterval;
 import com.tahadonuk.restaurantmanagementsystem.dto.OrderDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
-import com.tahadonuk.restaurantmanagementsystem.service.ItemService;
+import com.tahadonuk.restaurantmanagementsystem.service.ProductService;
 import com.tahadonuk.restaurantmanagementsystem.service.OrderService;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import com.tahadonuk.restaurantmanagementsystem.util.UserUtils;
@@ -28,7 +28,7 @@ public class OrderController {
     @Autowired
     UserService userService;
     @Autowired
-    ItemService itemService;
+    ProductService productService;
 
     @PostMapping(value = "api/order/save")
     @ResponseBody
@@ -76,7 +76,7 @@ public class OrderController {
 
     @GetMapping(value = "api/order/{id}/items")
     @ResponseBody
-    public Object addItemToOrder(@PathVariable long id, @RequestBody List<Item> items, HttpServletRequest request) {
+    public Object addItemToOrder(@PathVariable long id, @RequestBody List<Product> items, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
         try {
             Order orderDetails = orderService.getById(id);

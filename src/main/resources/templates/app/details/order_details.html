@@ -24,12 +24,12 @@
                             <th>ID:</th>
                             <td th:text="${orderDetails.orderId}"></td>
                             <th>Date:</th>
-                            <td th:text="${#dates.format(orderDetails.orderDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                            <td th:text="${#temporals.format(orderDetails.orderDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
                         </tr>
             
                         <tr>
                             <th>Table:</th>
-                            <td th:text="${orderDetails.tableId}"></td>
+                            <td th:text="${orderDetails.table.tableId}"></td>
                             <th>Price:</th>
                             <td th:text="${orderDetails.totalPrice}"></td>
                         </tr>
@@ -37,17 +37,24 @@
                         <tr>
                             <th>Items</th>
                             <th></th>
-                            <th>Receipt</th>
-                            <td th:text="${orderDetails.receipt.receiptId}"></td>
+                            <th></th>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>
-                                <div class="item" th:each="item : ${orderDetails.receipt.items}">
+                                <div class="item" th:each="item : ${orderDetails.items}" th:unless="${item.product == null}">
                                     <span class="index" th:text="${itemStat.index+1}"></span>
-                                    <span class="item-id" th:text="${item.itemId}"></span>
-                                    <span class="item-name" th:text="${item.name}"></span>
-                                    <span class="item-price" th:text="${item.price}"></span>
+                                    <span class="item-id" th:text="'id: '+${item.product.productId}"></span>
+                                    <span class="item-name" th:text="${item.product.name}"></span>
+                                    <span class="item-unit-price" th:text="'unit: '+${item.product.price}"></span>
                                     <span class="price-unit">₺</span>
+                                    <span class="item-quantity" th:text="'x'+${item.quantity}"></span>
+                                    <span class="item-price" th:text="'total: '+${item.product.price * item.quantity}"></span>
+                                    <span class="price-unit">₺</span>
+                                </div>
+                                <div class="item" th:each="item : ${orderDetails.items}" th:if="${item.product == null}">
+                                    <span class="index" th:text="${itemStat.index+1}"></span>
+                                    <span class="item-not-found" style="text-align: center"><i>deleted item</i></span>
                                 </div>
                             </td>
                             <td></td>

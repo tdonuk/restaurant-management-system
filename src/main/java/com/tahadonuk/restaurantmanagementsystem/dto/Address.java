@@ -7,12 +7,12 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Data
 public class Address {
-    private String street;
-    private String apartment;
+    private String addressLine;
+    private String details;
 
-    public Address(String street, String apartment) {
-        this.street = street;
-        this.apartment = apartment;
+    public Address(String addressLine, String details) {
+        this.addressLine = addressLine;
+        this.details = details;
     }
 
     public Address() {

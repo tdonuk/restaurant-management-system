@@ -1,16 +1,16 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.Product;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.employee.Employee;
 import com.tahadonuk.restaurantmanagementsystem.dto.TableDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.UserDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.ItemStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.OrderStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.UserStats;
-import com.tahadonuk.restaurantmanagementsystem.service.ItemService;
+import com.tahadonuk.restaurantmanagementsystem.service.ProductService;
 import com.tahadonuk.restaurantmanagementsystem.service.OrderService;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
@@ -25,9 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -40,7 +40,7 @@ public class HomeController {
     @Autowired
     OrderService orderService;
     @Autowired
-    ItemService itemService;
+    ProductService productService;
 
     @GetMapping(value = "/")
     @ResponseBody
@@ -65,7 +65,7 @@ public class HomeController {
         //
 
         //Item statistics
-        ItemStats itemStats = (ItemStats) itemService.getItemStatistics();
+        ItemStats itemStats = (ItemStats) productService.getItemStatistics();
         mav.getModel().put("itemStats",itemStats);
         //
 
@@ -83,7 +83,7 @@ public class HomeController {
     public ModelAndView getProfilePage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
 
-        AppUser requestingUser = userService.getUserByEmail(request.getRemoteUser());
+        Employee requestingUser = userService.getUserByEmail(request.getRemoteUser());
         UserDTO requestingUserData = userService.getUserFromEntity(requestingUser);
 
         mav.getModel().put("userDetails", requestingUser);
@@ -129,6 +129,20 @@ public class HomeController {
         return mav;
     }
 
+    @GetMapping(value = "/disabled")
+    @ResponseBody
+    public ModelAndView getDisabledPage(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("app/disabled");
+
+        String currentUserEmail = request.getRemoteUser();
+        UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
+
+        mav.getModel().put("user",userData);
+
+        return mav;
+    }
+
     @GetMapping(value = "/tables")
     @ResponseBody
     public ModelAndView getTablesPage(HttpServletRequest request) {
@@ -150,36 +164,36 @@ public class HomeController {
         return mav;
     }
 
-    @GetMapping(value = "/items")
+    @GetMapping(value = "/products")
     @ResponseBody
     public ModelAndView getItemsPage(@RequestParam(required = false, name = "sort") String sort, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("app/items");
+        mav.setViewName("app/products");
 
         String currentUserEmail = request.getRemoteUser();
         UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
 
-        List<Item> items = itemService.getAll();
+        List<Product> items = productService.getAll();
 
         if(sort != null) {
             switch (sort) {
                 case "id":
-                    items.sort(Comparator.comparing(Item::getItemId));
+                    items.sort(Comparator.comparing(Product::getProductId));
                     break;
                 case "name":
-                    items.sort(Comparator.comparing(Item::getName));
+                    items.sort(Comparator.comparing(Product::getName));
                     break;
                 case "type":
-                    items.sort(Comparator.comparing(Item::getItemType));
+                    items.sort(Comparator.comparing(Product::getItemType));
                     break;
                 case "stock":
-                    items.sort(Comparator.comparing(Item::getStock));
+                    items.sort(Comparator.comparing(Product::getStock));
                     break;
                 case "price":
-                    items.sort(Comparator.comparing(Item::getPrice));
+                    items.sort(Comparator.comparing(Product::getPrice));
                     break;
                 default:
-                    items.sort(Comparator.comparing(Item::getItemId));
+                    items.sort(Comparator.comparing(Product::getProductId));
                     break;
             }
         }
@@ -200,7 +214,7 @@ public class HomeController {
         UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
 
         mav.getModel().put("user",userData);
-        mav.getModel().put("items", itemService.getAll());
+        mav.getModel().put("items", productService.getAll());
 
         List<Order> orders = orderService.getAll();
 
@@ -208,9 +222,6 @@ public class HomeController {
             switch (sort) {
                 case "id":
                     orders.sort(Comparator.comparing(Order::getOrderId));
-                    break;
-                case "table":
-                    orders.sort(Comparator.comparing(Order::getTableId));
                     break;
                 case "date":
                     orders.sort(Comparator.comparing(Order::getOrderDate));
@@ -223,6 +234,7 @@ public class HomeController {
                     break;
             }
         }
+        Collections.reverse(orders);
 
         mav.getModel().put("orders", orders);
 
@@ -235,18 +247,24 @@ public class HomeController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("app/orders");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = formatter.parse(start);
-        Date endDate = formatter.parse(end);
-
         String currentUserEmail = request.getRemoteUser();
         UserDTO userData = UserUtils.getUserData(userService,currentUserEmail);
 
         mav.getModel().put("user",userData);
 
+        if(start.equals("") || end.equals("")) {
+            mav.getModel().put("orders", orderService.getAll());
+            mav.getModel().put("items", productService.getAll());
+            return mav;
+        }
+
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+
         List<Order> orders = orderService.getOrdersByInterval(startDate, endDate);
 
         mav.getModel().put("orders", orders);
+        mav.getModel().put("items", productService.getAll());
 
         return mav;
     }
@@ -265,7 +283,7 @@ public class HomeController {
         List<Order> orders = orderService.getOrdersItemsContains(name);
 
         mav.getModel().put("orders", orders);
-        mav.getModel().put("items", itemService.getAll());
+        mav.getModel().put("items", productService.getAll());
 
         return mav;
     }

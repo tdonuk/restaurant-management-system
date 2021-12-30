@@ -8,7 +8,7 @@
         <div class="dropdown" th:fragment="dropdown(id, items)" th:id="${id}">
             <span class="dropdown-text" id="dropdownText" th:text="${items[0]}"/>
             <div class="dropdown-content" id="dropdownContent">
-                <p class="dropdown-item" th:each="item : ${items}" th:text="${item}"></p>
+                <p class="dropdown-item" th:each="product : ${items}" th:text="${product}"></p>
             </div>
         </div>
     </body>

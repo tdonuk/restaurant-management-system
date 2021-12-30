@@ -21,23 +21,23 @@
                 <table>
                     <tr>
                         <th>ID:</th>
-                        <td th:text="${userDetails.userId}"></td>
+                        <td th:text="${userDetails.employeeId}"></td>
                         <th>Name:</th>
                         <td th:text="${userDetails.name.toString()}"></td>
                     </tr>
                     
                     <tr>
                         <th>Phone:</th>
-                        <td th:text="${userDetails.phoneNumber}"></td>
+                        <td th:text="${userDetails.phoneNumbers[0].title} + ': ' + ${userDetails.phoneNumbers[0].number}"></td>
                         <th>Email:</th>
                         <td th:text="${userDetails.email}"></td>
                     </tr>
                     
                     <tr>
-                        <th>Street:</th>
-                        <td th:text="${userDetails.address.street}"></td>
+                        <th>Address:</th>
+                        <td th:text="${userDetails.addressList[0].addressLine}"></td>
                         <th>Detail:</th>
-                        <td th:text="${userDetails.address.apartment}"></td>
+                        <td th:text="${userDetails.addressList[0].details}"></td>
                     </tr>
                     
                     <tr>
@@ -62,11 +62,11 @@
                     </tr>
                 </table>
                 <div class="controls" id="userControls">
-                    <a th:onclick="'javascript:changeName('+${userDetails.userId}+')'" class="linkButton">Change Name</a>
-                    <a th:onclick="'javascript:updatePhone('+${userDetails.userId}+')'" class="linkButton">Update Phone</a>
-                    <a th:onclick="'javascript:updateEmail('+${userDetails.userId}+')'" class="linkButton">Change Email</a>
-                    <a th:onclick="'javascript:changePassword('+${userDetails.userId}+')'" class="linkButton">Change Password</a>
-                    <a th:onclick="'javascript:updateAddress('+${userDetails.userId}+')'" class="linkButton">Update Address</a>
+                    <a th:onclick="'javascript:changeName('+${userDetails.employeeId}+')'" class="linkButton">Change Name</a>
+                    <a th:onclick="'javascript:updatePhone('+${userDetails.employeeId}+')'" class="linkButton">Update Phone</a>
+                    <a th:onclick="'javascript:updateEmail('+${userDetails.employeeId}+')'" class="linkButton">Change Email</a>
+                    <a th:onclick="'javascript:changePassword('+${userDetails.employeeId}+')'" class="linkButton">Change Password</a>
+                    <a th:onclick="'javascript:updateAddress('+${userDetails.employeeId}+')'" class="linkButton">Update Address</a>
                 </div>
             </div>
         </div>

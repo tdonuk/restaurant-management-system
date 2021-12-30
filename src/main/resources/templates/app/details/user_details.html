@@ -22,23 +22,23 @@
                     <table>
                         <tr>
                             <th>ID:</th>
-                            <td th:text="${userDetails.userId}"></td>
+                            <td th:text="${userDetails.employeeId}"></td>
                             <th>Name:</th>
                             <td th:text="${userDetails.name.toString()}"></td>
                         </tr>
         
                         <tr>
                             <th>Phone:</th>
-                            <td th:text="${userDetails.phoneNumber}"></td>
+                            <td th:text="${userDetails.phoneNumbers[0].title} + ': ' + ${userDetails.phoneNumbers[0].number}"></td>
                             <th>Email:</th>
                             <td th:text="${userDetails.email}"></td>
                         </tr>
         
                         <tr>
-                            <th>Street:</th>
-                            <td th:text="${userDetails.address.street}"></td>
+                            <th>Address:</th>
+                            <td th:text="${userDetails.addressList[0].addressLine}"></td>
                             <th>Detail:</th>
-                            <td th:text="${userDetails.address.apartment}"></td>
+                            <td th:text="${userDetails.addressList[0].details}"></td>
                         </tr>
         
                         <tr>
@@ -63,9 +63,9 @@
                         </tr>
                     </table>
                     <div class="controls" id="userControls">
-                        <a th:onclick="'javascript:updateSalary('+${userDetails.userId}+')'" class="linkButton">Update Salary</a>
-                        <a th:onclick="'javascript:assignRole('+${userDetails.userId}+')'" class="linkButton">Assign Role</a>
-                        <a th:onclick="'javascript:deleteUser('+${userDetails.userId}+')'" class="linkButton">Delete</a>
+                        <a th:onclick="'javascript:updateSalary('+${userDetails.employeeId}+')'" class="linkButton">Update Salary</a>
+                        <a th:onclick="'javascript:assignRole('+${userDetails.employeeId}+')'" class="linkButton">Assign Role</a>
+                        <a th:onclick="'javascript:deleteUser('+${userDetails.employeeId}+')'" class="linkButton">Delete</a>
                     </div>
                 </div>
             </div>

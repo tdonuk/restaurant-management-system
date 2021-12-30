@@ -8,11 +8,12 @@ public class UserDTO {
     private String lastName;
 
     private String email;
+    private String phoneName;
     private String phoneNumber;
     private String password;
 
-    private String street;
-    private String apartment;
+    private String addressLine;
+    private String details;
 
     private String joinDate;
     private String dateOfBirth;

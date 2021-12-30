@@ -2,12 +2,11 @@ package com.tahadonuk.restaurantmanagementsystem.service;
 
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Item;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.Order;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.OrderItem;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.Receipt;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.ItemRepository;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.OrderRepository;
-import com.tahadonuk.restaurantmanagementsystem.data.repository.ReceiptRepository;
+import com.tahadonuk.restaurantmanagementsystem.data.repository.ProductRepository;
 import com.tahadonuk.restaurantmanagementsystem.dto.OrderDTO;
+import com.tahadonuk.restaurantmanagementsystem.dto.OrderItemDTO;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.OrderStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.Stats;
 import com.tahadonuk.restaurantmanagementsystem.exception.NotFoundException;
@@ -16,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import java.time.*;
+import java.time.temporal.ChronoField;
 import java.util.*;
 
 @Service
@@ -23,13 +25,15 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepo;
     @Autowired
-    ItemRepository itemRepository;
+    ProductRepository productRepository;
     @Autowired
-    ItemService itemService;
+    ProductService productService;
     @Autowired
     TableService tableService;
     @Autowired
-    ReceiptRepository receiptRepository;
+    ItemRepository itemRepository;
+    @Autowired
+    EntityManager em;
 
     public void saveOrder(Order order) {
         orderRepo.save(order);
@@ -38,40 +42,41 @@ public class OrderService {
     @Transactional
     public Order saveOrderFromData(OrderDTO orderData) {
         try {
-            tableService.getById(orderData.getTableId());
-
-            itemService.handleStocks(orderData.getItems());
+            Set<Item> orderItems = new HashSet<>();
+            List<OrderItemDTO> rawItems = orderData.getItems();
 
             Order order = new Order();
+            double totalPrice = 0;
 
-            order.setTotalPrice(orderData.getTotalPrice());
-            order.setTableId(orderData.getTableId());
-            order.setOrderDate(orderData.getOrderDate());
+            Item item;
+            for (OrderItemDTO itemDTO : rawItems) {
+                item = new Item();
 
-            Receipt receipt = new Receipt(itemService.getOrderItems(orderData.getItems()));
-            receipt.setTotalPrice(order.getTotalPrice());
-            receipt.setOrderDate(order.getOrderDate());
+                item.setProduct(itemDTO.getProduct());
+                item.setQuantity(itemDTO.getQuantity());
+                item.setOrder(order);
 
-            order.setReceipt(receipt);
+                totalPrice = totalPrice + item.getProduct().getPrice();
+
+                orderItems.add(item);
+            }
+
+            productService.handleStocks(orderItems);
+
+            order.setTotalPrice(totalPrice);
+            order.setTable(orderData.getTable());
+            order.setOrderDate(LocalDateTime.ofInstant(orderData.getOrderDate().toInstant(), ZoneId.systemDefault()));
+            order.setItems(orderItems);
+
+            em.persist(order);
 
             saveOrder(order);
-
-            order.getReceipt().setOrderId(order.getOrderId());
 
             return order;
         }
         catch (Exception e) {
             throw e;
         }
-    }
-
-    @Transactional
-    public void addItemsToOrder(long id, List<Item> items) {
-        getById(id).getReceipt().getItems().addAll(itemService.getOrderItems(items));
-    }
-
-    public List<Order> getBetween(Date date1, Date date2) throws NoSuchElementException {
-        return orderRepo.findByOrderDateBetween(date1,date2);
     }
 
     public Order getById(long id) throws NotFoundException {
@@ -92,68 +97,58 @@ public class OrderService {
         else throw new OrderNotFoundException("No such order with id: '" + id + "'");
     }
 
-    public List<Order> getOrdersByInterval(Date start, Date end) {
-        if(start.after(end)) {
+    public List<Order> getOrdersByInterval(LocalDate start, LocalDate end) {
+        if(end.isAfter(LocalDate.now())) {
             return new ArrayList<>();
         }
-        return orderRepo.findByOrderDateBetween(start,  end);
+        return orderRepo.findByOrderDateBetween(LocalDateTime.of(start, LocalTime.MIDNIGHT),  LocalDateTime.of(end, LocalTime.MIDNIGHT));
     }
-
-    public long countOrdersFromDateUntilNow(Date date) {
-        Date now = new Date();
-        if(date.after(now)) {
+    public long countOrdersByInterval(LocalDate start, LocalDate end) {
+        if(end.isAfter(LocalDate.now())) {
             return 0;
         }
-        return orderRepo.countByOrderDateBetween(date,  now);
+        return orderRepo.countByOrderDateBetween(LocalDateTime.of(start, LocalTime.MIDNIGHT),  LocalDateTime.of(end,LocalTime.MIDNIGHT));
+    }
+
+    public long countOrdersFromDateUntilNow(LocalDate date) {
+        if(date.isAfter(LocalDate.now())) {
+            return 0;
+        }
+        return orderRepo.countByOrderDateBetween(LocalDateTime.of(date, LocalTime.MIDNIGHT),  LocalDateTime.now());
     }
 
     public Stats getStats() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        LocalDate startOfToday = LocalDateTime.now(ZoneId.systemDefault()).toLocalDate();
 
-        Date startOfToday = calendar.getTime();
-
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR)-1);
-        Date startOfYesterday = calendar.getTime();
-
-        calendar.set(Calendar.WEEK_OF_MONTH, calendar.get(Calendar.WEEK_OF_MONTH)-1);
-        calendar.set(Calendar.DAY_OF_WEEK,calendar.getActualMinimum(Calendar.DAY_OF_WEEK));
-        Date startOfCurrentWeek = calendar.getTime();
-
-        calendar.set(Calendar.WEEK_OF_YEAR,calendar.get(Calendar.WEEK_OF_YEAR)-1);
-        Date startOfTheLastWeek = calendar.getTime();
-
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        Date startOfCurrentMonth = calendar.getTime();
-
-        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)-1);
-        Date startOfLastMonth = calendar.getTime();
+        LocalDate startOfYesterday = startOfToday.minusDays(1);
+        LocalDate startOfCurrentWeek = startOfToday.with(ChronoField.DAY_OF_WEEK, 1);
+        LocalDate startOfCurrentMonth = startOfToday.withDayOfMonth(1);
+        LocalDate startOfLastWeek = startOfToday.with(DayOfWeek.MONDAY).minusWeeks(1);
+        LocalDate startOfLastMonth = startOfToday.withDayOfMonth(1).minusMonths(1);
 
         OrderStats orderStats = new OrderStats();
 
         orderStats.setTotalCount(orderRepo.count());
+
         orderStats.setOrderCountToday(countOrdersFromDateUntilNow(startOfToday));
-        orderStats.setOrderCountYesterday(orderRepo.countByOrderDateBetween(startOfYesterday, startOfToday));
-        orderStats.setOrderCountLastWeek(orderRepo.countByOrderDateBetween(startOfTheLastWeek, startOfCurrentWeek));
-        orderStats.setOrderCountCurrentWeek(countOrdersFromDateUntilNow(startOfCurrentWeek));
-        orderStats.setOrderCountLastMonth(orderRepo.countByOrderDateBetween(startOfLastMonth, startOfCurrentMonth));
+        orderStats.setOrderCountYesterday(countOrdersByInterval(startOfYesterday, startOfToday));
+
         orderStats.setOrderCountCurrentMonth(countOrdersFromDateUntilNow(startOfCurrentMonth));
+        orderStats.setOrderCountCurrentWeek(countOrdersFromDateUntilNow(startOfCurrentWeek));
+
+        orderStats.setOrderCountLastWeek(countOrdersByInterval(startOfLastWeek, startOfCurrentWeek));
+        orderStats.setOrderCountLastMonth(countOrdersByInterval(startOfLastMonth, startOfCurrentMonth));
+
 
         return orderStats;
     }
 
     public List<Order> getOrdersItemsContains(String name) {
-        List<Receipt> receipts = receiptRepository.getOrdersByItemsContains(name);
-        List<Order> orders = new ArrayList();
+        List<Item> itemsWithName = itemRepository.findAllByProduct_Name(name);
 
-        for(Receipt receipt : receipts) {
-            orders.add(orderRepo.findById(receipt.getOrderId()).orElse(null));
-        }
+        List<Order> orders = orderRepo.findOrdersByItemsContaining(itemsWithName.get(0));
+
+        orders.sort(Comparator.comparing(Order::getOrderDate));
 
         return orders;
     }

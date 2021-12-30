@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Item Details</title>
+    
+        <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}">
+        <link rel="stylesheet" href="/css/modal.css" th:href="@{/css/modal.css}">
+        <link rel="stylesheet" href="/css/details.css" th:href="@{/css/details.css}">
+        <link rel="stylesheet" href="/css/items.css" th:href="@{/css/itemDetails.css}">
+    </head>
+    <body>
+        <div class="wrapper">
+            <div th:replace="fragments/general :: pageHeader(title=' / Product Details', userData=${user})"/>
+            <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
+            <div class="main">
+                <div class="tableWrapper">
+                    <div class="tableHeader">
+                        <h2 class="context-title" th:text="'Item '+${productDetails.productId}"></h2>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>ID:</th>
+                            <td th:text="${productDetails.productId}"></td>
+                            <th>Price:</th>
+                            <td th:text="${productDetails.price}"></td>
+                        </tr>
+                        <tr>
+                            <th>Name:</th>
+                            <td th:text="${productDetails.name}"></td>
+                            <th>Description:</th>
+                            <td th:text="${productDetails.description}"></td>
+                        </tr>
+                        <tr>
+                            <th>Stock:</th>
+                            <td th:text="${productDetails.stock}"></td>
+                            <th>Type:</th>
+                            <td th:text="${productDetails.itemType}"></td>
+                        </tr>
+                        <tr>
+                            <th>Stock Required:</th>
+                            <td th:text="${productDetails.stockRequired}"></td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div class="controls" id="itemControls">
+                        <button id="addStockButton" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:onclick="'javascript:createStockUpdatePopup('+${productDetails.productId}+')'">Add Stock</button>
+                        <button id="updatePriceButton" th:onclick="'javascript:updatePrice('+${productDetails.productId}+')'">Update Price</button>
+                        <button id="updateDescriptionButton" th:onclick="'javascript:updateDescription('+${productDetails.productId}+')'">Update Description</button>
+                        <button id="deleteItemButton" th:onclick="'javascript:deleteItem('+${productDetails.productId}+')'">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/js/dropdownUtils.js"></script>
+        <script src="/js/modalUtils.js"></script>
+        <script src="/js/itemUtils.js"></script>
+    </body>
+</html>

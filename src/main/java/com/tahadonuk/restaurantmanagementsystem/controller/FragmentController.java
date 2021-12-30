@@ -2,7 +2,7 @@ package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.ItemType;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
-import com.tahadonuk.restaurantmanagementsystem.service.ItemService;
+import com.tahadonuk.restaurantmanagementsystem.service.ProductService;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class FragmentController { // this is used to updating a part of page con
     @Autowired
     TableService tableService;
     @Autowired
-    ItemService itemService;
+    ProductService productService;
 
     @GetMapping(value = "/fragment/modal/{name}")
     @ResponseBody
@@ -42,9 +42,9 @@ public class FragmentController { // this is used to updating a part of page con
                 mav.getModel().put("stats", currentStats);
                 break;
             case "orderItems":
-                mav.getModel().putIfAbsent("meals", itemService.getByType(ItemType.MEAL));
-                mav.getModel().putIfAbsent("beverages", itemService.getByType(ItemType.BEVERAGE));
-                mav.getModel().putIfAbsent("desserts", itemService.getByType(ItemType.DESSERT));
+                mav.getModel().putIfAbsent("meals", productService.getByType(ItemType.MEAL));
+                mav.getModel().putIfAbsent("beverages", productService.getByType(ItemType.BEVERAGE));
+                mav.getModel().putIfAbsent("desserts", productService.getByType(ItemType.DESSERT));
                 break;
             default: break;
         }

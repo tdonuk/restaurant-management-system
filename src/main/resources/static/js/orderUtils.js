@@ -31,7 +31,7 @@ function sendDeleteRequest(orderId) {
 }
 
 
-let itemList = [];
+let itemList = new Array();
 
 let cart;
 let itemListElement;
@@ -73,15 +73,15 @@ function createCartItem(item) {
 
     const itemId = document.createElement("span");
     itemId.className = "item-id";
-    itemId.innerText = item["itemId"];
+    itemId.innerText = item["product"]["productId"];
 
     const itemName = document.createElement("span");
     itemName.className = "item-name";
-    itemName.innerText = item["name"];
+    itemName.innerText = item["product"]["name"];
 
     const itemPrice = document.createElement("span");
     itemPrice.className = "item-price";
-    itemPrice.innerText = item["price"];
+    itemPrice.innerText = item["product"]["price"];
 
     const removeButton = document.createElement("span");
     removeButton.className = "item-remove";
@@ -90,7 +90,7 @@ function createCartItem(item) {
         if (e.target === removeButton) {
             cartItem.remove();
             removeItemFromCart(item);
-            updateCartPrice(-1 * item["price"]);
+            updateCartPrice(-1 * item["product"]["price"]);
         }
     }
 
@@ -121,18 +121,22 @@ function saveOrder() {
         return;
     }
 
-    const orderObj = {
-        items: itemList,
-        totalPrice: parseFloat(priceField.innerText),
-        tableId: parseInt(tableField.value),
-        orderDate: new Date()
-    }
+    const tableId = parseInt(tableField.value);
 
     const tableControl = new XMLHttpRequest(); // check for if a table is exists with given table id
-    tableControl.open("get", "/api/table/"+orderObj.tableId);
+    tableControl.open("get", "/api/table/"+tableId);
+
     tableControl.onload = function () {
         const response = JSON.parse(this.responseText);
         if(this.status === 200) {
+
+            const orderObj = {
+                items: itemList,
+                totalPrice: parseFloat(priceField.innerText),
+                table: response,
+                orderDate: new Date()
+            }
+
             sendSaveOrderRequest(orderObj);
         }
         else {
@@ -140,6 +144,7 @@ function saveOrder() {
         }
     }
     tableControl.send();
+
 }
 
 function sendSaveOrderRequest(orderObj) {
@@ -164,14 +169,33 @@ function sendSaveOrderRequest(orderObj) {
     request.send(JSON.stringify(orderObj));
 }
 
+function handleQuantities(itemObj) {
+    for(let item of itemList) {
+        if(item["product"]["productId"] === itemObj["product"]["productId"]) {
+            item["quantity"] += 1;
+            createCartItem(itemObj);
+            return;
+        }
+    }
+    itemList.push(itemObj);
+    createCartItem(itemObj);
+}
+
 function addItemToCart(itemId) {
     const request = new XMLHttpRequest();
-    request.open("GET", "/api/item/"+itemId);
+    request.open("GET", "/api/product/"+itemId);
     request.onload = function () {
         if(this.status === 200) {
-            const itemObj = JSON.parse(this.responseText);
-            itemList.push(itemObj);
-            createCartItem(itemObj);
+            const product = JSON.parse(this.responseText);
+
+            const itemObj = {
+                product: product,
+                quantity: 1
+            }
+
+            console.log(itemObj);
+
+            handleQuantities(itemObj);
         } else {
             createModalMessage("Error", "Connection Error", "Not able to add item to the cart. Please be sure that the server is online and your connection is ok.", "error");
         }

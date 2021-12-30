@@ -18,52 +18,52 @@
                         <tr>
                             <th></th>
                             <th>
-                                <label onclick="window.location='/items?sort=id'" class="row-label">ID</label>
+                                <label onclick="window.location='/products?sort=id'" class="row-label">ID</label>
                             </th>
                             <th>
-                                <label onclick="window.location='/items?sort=name'" class="row-label">Name</label>
+                                <label onclick="window.location='/products?sort=name'" class="row-label">Name</label>
                             </th>
                             <th>
-                                <label onclick="window.location='/items?sort=type'" class="row-label">Type</label>
+                                <label onclick="window.location='/products?sort=type'" class="row-label">Type</label>
                             </th>
                             <th>
-                                <label onclick="window.location='/items?sort=stock'" class="row-label">Stock</label>
+                                <label onclick="window.location='/products?sort=stock'" class="row-label">Stock</label>
                             </th>
                             <th>
-                                <label onclick="window.location='/items?sort=price'" class="row-label">Price</label>
+                                <label onclick="window.location='/products?sort=price'" class="row-label">Price</label>
                             </th>
                             <th></th>
                             <th></th>
                         </tr>
-                        <tr th:each="item : ${items}">
+                        <tr th:each="product : ${items}">
                             <td>
-                                <span th:text="${itemStat.index+1}" class="item-index"></span>
+                                <span th:text="${productStat.index+1}" class="product-index"></span>
                             </td>
                             <td>
-                                <span th:text="${item.itemId}" class="item-id"></span>
+                                <span th:text="${product.productId}" class="product-id"></span>
                             </td>
                             <td>
-                                <span th:text="${item.name}" class="item-name"></span>
+                                <span th:text="${product.name}" class="product-name"></span>
                             </td>
                             <td>
-                                <span th:text="${item.itemType}" class="item-type"></span>
+                                <span th:text="${product.itemType}" class="product-type"></span>
                             </td>
                             <td>
-                                <span th:text="${item.stock}" class="item-stock"></span>
+                                <span th:text="${product.stock}" class="product-stock"></span>
                             </td>
                             <td>
-                                <span th:text="${item.price}" class="item-price"></span>
+                                <span th:text="${product.price}" class="product-price"></span>
                             </td>
                             <td>
-                                <a class="linkButton" th:href="'api/item/'+${item.itemId}+'/details'">Details</a>
+                                <a class="linkButton" th:href="'api/product/'+${product.productId}+'/details'">Details</a>
                             </td>
                             <td>
-                                <a class="linkButton" sec:authorize="hasAnyAuthority('MANAGER', 'ADMIN', 'EMPLOYEE')" th:onclick="'javascript:createStockUpdatePopup('+${item.itemId}+')'">Add Stock</a>
+                                <a class="linkButton" sec:authorize="hasAnyAuthority('MANAGER', 'ADMIN', 'EMPLOYEE')" th:onclick="'javascript:createStockUpdatePopup('+${product.productId}+')'">Add Stock</a>
                             </td>
                         </tr>
                     </table>
                     <div id="itemControls">
-                        <a id="createItemButton" class="linkButton" href="/api/item/create">Create New</a>
+                        <a id="createItemButton" class="linkButton" href="/api/product/create">Create New</a>
                     </div>
                 </div>
             </div>

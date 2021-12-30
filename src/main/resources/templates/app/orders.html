@@ -39,16 +39,16 @@
                                 <p th:text="${order.orderId}"></p>
                             </td>
                             <td>
-                                <p th:text="${order.tableId}"></p>
+                                <p th:text="${order.table.tableId}"></p>
                             </td>
                             <td>
-                                <p th:text="${#dates.format(order.orderDate, 'HH:mm:ss dd/MM/yyyy')}"></p>
+                                <p th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm:ss')}"></p>
                             </td>
                             <td>
                                 <p th:text="${order.totalPrice}"></p>
                             </td>
                             <td>
-                                <p th:text="${#lists.size(order.receipt.items)}"></p>
+                                <p th:text="${#lists.size(order.items)}"></p>
                             </td>
                             <td>
                                 <a class="linkButton" th:href="'/api/order/'+${order.orderId+'/details'}">Details</a>
@@ -79,9 +79,9 @@
                             <tr>
                                 <td>
                                     <div class="dropdown" id="itemList">
-                                        <span class="dropdown-text" id="itemName" th:text="${items[0].name}"></span>
+                                        <span class="dropdown-text" id="itemName" th:unless="${#lists.size(items)} == 0" th:text="${items[0].name}"></span>
                                         <div class="dropdown-content">
-                                            <p class="dropdown-item" th:each="item : ${items}" th:text="${item.name}"></p>
+                                            <p class="dropdown-product" th:each="product : ${items}" th:text="${product.name}"></p>
                                         </div>
                                     </div>
                                 </td>

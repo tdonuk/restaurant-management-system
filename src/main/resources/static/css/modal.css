@@ -18,6 +18,10 @@ body {
     padding: 0;
 }
 
+td {
+    padding: 10px 0 !important;
+}
+
 .modal-bg {
     background: rgba(0, 0, 0, 0.55);
 

@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.employee.Employee;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;
 import com.tahadonuk.restaurantmanagementsystem.dto.StringResponse;
@@ -25,8 +25,8 @@ public class UserController {
      @ResponseBody
     public Object saveEmployee(@RequestBody UserDTO emp) {
          try {
-             AppUser result = userService.saveUser(emp);
-             return ResponseEntity.ok().body(new StringResponse("Employee saved successfully. ID: " +result.getUserId()));
+             Employee result = userService.saveUser(emp);
+             return ResponseEntity.ok().body(new StringResponse("Employee saved successfully. ID: " +result.getEmployeeId()));
          } catch (Exception e) {
              return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
          }
@@ -37,7 +37,7 @@ public class UserController {
     public Object getUserDetails(@PathVariable long id, HttpServletRequest request) {
          ModelAndView mav = new ModelAndView();
         try {
-            AppUser user = userService.getUserById(id);
+            Employee user = userService.getUserById(id);
             UserDTO requestingUserData = userService.getUserFromEntity(userService.getUserByEmail(request.getRemoteUser()));
 
             mav.getModel().put("userDetails", user);
@@ -74,7 +74,7 @@ public class UserController {
 
     @GetMapping(path = "api/user/role")
     @ResponseBody
-    public ResponseEntity<List<AppUser>> getUsersByRole(@RequestParam("role") String role) {
+    public ResponseEntity<List<Employee>> getUsersByRole(@RequestParam("role") String role) {
         UserRole userRole = UserRole.valueOf(role.toUpperCase());
 
         return ResponseEntity.ok(userService.getUsersByRole(userRole));
@@ -82,7 +82,7 @@ public class UserController {
 
     @GetMapping(path = "api/user/all")
     @ResponseBody
-    public ResponseEntity<List<AppUser>> getAllUsers() {
+    public ResponseEntity<List<Employee>> getAllUsers() {
         return ResponseEntity.ok(userService.getAll());
     }
 
@@ -90,7 +90,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView registerUser(@ModelAttribute("appUser") UserDTO user, HttpServletRequest request) {
         try {
-            AppUser appUser = userService.saveUser(user);
+            Employee employee = userService.saveUser(user);
             request.logout();
             return new ModelAndView("redirect:/login");
         } catch (Exception e) {

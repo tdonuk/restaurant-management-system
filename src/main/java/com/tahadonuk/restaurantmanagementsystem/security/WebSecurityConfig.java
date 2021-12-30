@@ -25,11 +25,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/","/tables/**","/users/**","/items/**","/orders/**","/fragments/**","/me/**", "/user/**")
+                    .antMatchers("/","/tables/**","/users/**","/products/**","/orders/**","/fragments/**", "/user/**")
+                    .hasAnyAuthority("EMPLOYEE", "MANAGER", "ADMIN")
+                    .and()
+                .authorizeRequests()
+                    .antMatchers("/disabled","/unauthorized", "/me/**")
                     .authenticated()
                     .and()
                 .authorizeRequests()
-                    .antMatchers("/api/item/**", "/api/order/**", "/api/table/**")
+                    .antMatchers("/api/product/**", "/api/order/**", "/api/table/**")
                     .hasAnyAuthority( "EMPLOYEE", "ADMIN", "MANAGER")
                     .and().exceptionHandling().accessDeniedPage("/unauthorized").and()
                 .authorizeRequests()
@@ -54,7 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+        UserDetailsService service = new UserDetailsServiceImpl();
+
+        return service;
     }
 
     @Bean

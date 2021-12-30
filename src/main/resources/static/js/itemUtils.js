@@ -10,13 +10,13 @@ function deleteItem(itemId) {
 
 
 function sendDeleteRequest(itemId) {
-    const url = "/api/item/"+itemId;
+    const url = "/api/product/"+itemId;
 
     function showResult(response) {
         const modal = createModalMessage("Success","Transaction completed", response["response"],"success");
         modal.querySelector("#okButton").onclick = function () {
             modal.remove();
-            window.location = "/items";
+            window.location = "/products";
         }
     }
 
@@ -34,7 +34,8 @@ function saveItemFromFormData() {
         description: "",
         type: "",
         price: 0,
-        stock: 0
+        stock: 0,
+        isStockRequired: false
     }
 
     itemObj.name = data.get("name");
@@ -42,14 +43,17 @@ function saveItemFromFormData() {
     itemObj.type = data.get("type");
     itemObj.price = data.get("price");
     itemObj.stock = data.get("stock");
+    itemObj.isStockRequired = document.getElementById("isStockRequired").checked;
 
-    const url = "/api/item/save";
+    console.log(itemObj);
+
+    const url = "/api/product/save";
 
     function showResult(response) {
         const modal = createModalMessage("Success", "Transaction completed", response["response"], "success");
         modal.querySelector("#okButton").onclick = function () {
             modal.remove();
-            window.location = "/items";
+            //window.location = "/products";
         }
     }
     createRequest("post", url, showResult, JSON.stringify(itemObj));
@@ -74,7 +78,7 @@ function createStockUpdatePopup(itemId) {
 
 function sendUpdateStockRequest(itemId, amount) {
     const params = "?amount="+amount;
-    const url = "/api/item/"+itemId+"/stock"+params;
+    const url = "/api/product/"+itemId+"/stock"+params;
 
     function showResult(response) {
         const modal = createModalMessage("Success", "Stock updated", response["response"],"success");
@@ -98,7 +102,7 @@ function updatePrice(itemId) {
 }
 
 function sendUpdatePriceRequest(itemId, newPrice) {
-    const url = "/api/item/"+itemId+"/price";
+    const url = "/api/product/"+itemId+"/price";
 
     function showResult(response) {
         const modal = createModalMessage("Success", "Transaction completed", response["response"], "success");
@@ -122,7 +126,7 @@ function updateDescription(itemId) {
 }
 
 function sendUpdateDescriptionRequest(itemId, description) {
-    const url = "/api/item/"+itemId+"/description";
+    const url = "/api/product/"+itemId+"/description";
 
     function showResult(response) {
         const modal = createModalMessage("Success", "Transaction completed", response["response"], "success");

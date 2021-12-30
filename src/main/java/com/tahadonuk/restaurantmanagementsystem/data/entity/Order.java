@@ -1,32 +1,34 @@
 package com.tahadonuk.restaurantmanagementsystem.data.entity;
 
 import com.sun.istack.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Table(name = "orders")
-@Data
+@Getter
+@Setter
 @Entity
-public class Order implements Serializable {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ID")
     private long orderId;
 
     @Column(name = "ORDER_DATE")
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     @Column(name = "TOTAL_PRICE")
     private double totalPrice;
 
-    @Column(name = "TABLE_ID")
+    @JoinColumn(name = "TABLE_ID")
+    @ManyToOne(cascade = CascadeType.DETACH)
     @NotNull
-    private long tableId;
+    private RestaurantTable table;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "RECEIPT_ID")
-    private Receipt receipt;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "order", orphanRemoval = true)
+    private Set<Item> items;
 }

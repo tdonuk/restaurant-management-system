@@ -2,22 +2,17 @@ package com.tahadonuk.restaurantmanagementsystem.data.entity;
 
 import com.sun.istack.NotNull;
 import com.tahadonuk.restaurantmanagementsystem.data.TableStatus;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "tables")
+@Table(name = "restaurant_tables")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class RestaurantTable implements Serializable {
+public class RestaurantTable {
     @NotNull
     @Id
     @Column(name = "TABLE_ID")

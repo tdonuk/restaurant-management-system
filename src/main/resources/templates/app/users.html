@@ -30,10 +30,10 @@
                         <th></th>
                     </tr>
                     <tr th:each="currentUser : ${users}">
-                        <td th:text="${currentUser.userId}"></td>
+                        <td th:text="${currentUser.employeeId}"></td>
                         <td th:text="${currentUser.name.firstName}+' '+${currentUser.name.lastName}"></td>
                         <td th:text="${currentUser.email}"></td>
-                        <td th:text="${currentUser.phoneNumber}"></td>
+                        <td th:text="${currentUser.phoneNumbers[0].title} + ': ' + ${currentUser.phoneNumbers[0].number}"></td>
                         <td th:text="${currentUser.salary}"></td>
                         <td th:text="${currentUser.role}"></td>
                         <td th:text="${#dates.format(currentUser.joinDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
@@ -41,7 +41,7 @@
                         <td th:text="${#dates.format(currentUser.lastLoginDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
                         <td th:text="${#dates.format(currentUser.lastLogoutDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
                         <td>
-                            <a th:href="'api/user/'+${currentUser.userId}+'/details'" class="detailsLink">Details</a>
+                            <a th:href="'api/user/'+${currentUser.employeeId}+'/details'" class="detailsLink">Details</a>
                         </td>
                     </tr>
                 </table>

@@ -1,6 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.security;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.employee.Employee;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,13 +11,13 @@ import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
-    private AppUser user;
+    private Employee user;
 
-    public CustomUserDetails(AppUser user) {
+    public CustomUserDetails(Employee user) {
         this.user = user;
     }
 
-    public AppUser getUser() {
+    public Employee getUser() {
         return this.user;
     }
 

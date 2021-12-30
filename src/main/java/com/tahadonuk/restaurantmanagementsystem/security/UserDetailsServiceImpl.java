@@ -1,9 +1,9 @@
 package com.tahadonuk.restaurantmanagementsystem.security;
 
-import com.tahadonuk.restaurantmanagementsystem.data.entity.user.AppUser;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.tahadonuk.restaurantmanagementsystem.data.entity.employee.Employee;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -15,7 +15,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // work with email
-        AppUser empUser = userService.getUserByEmail(email);
+        Employee empUser = userService.getUserByEmail(email);
 
         if(empUser == null) {
             throw new UsernameNotFoundException("Could not find user");

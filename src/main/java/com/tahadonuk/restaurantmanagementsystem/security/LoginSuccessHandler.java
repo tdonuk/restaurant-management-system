@@ -1,5 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.security;
 
+import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String username = ((CustomUserDetails) authentication.getPrincipal()).getUsername();
+
+        CustomUserDetails details = ((CustomUserDetails) authentication.getPrincipal());
+
+        if(details.getUser().getRole() == UserRole.USER){
+            response.sendRedirect("/disabled");
+            System.out.println("a");
+            return;
+        }
 
         userService.updateLoginDate(username);
 
