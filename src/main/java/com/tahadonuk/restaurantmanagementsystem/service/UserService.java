@@ -87,7 +87,9 @@ public class UserService {
 
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 
-        userData.setLastLoginDate(format.format(user.getLastLoginDate()));
+        if(user.getLastLoginDate() != null) {
+            userData.setLastLoginDate(format.format(user.getLastLoginDate()));
+        }
 
         if(user.getLastLogoutDate() != null) {
             userData.setLastLogoutDate(format.format(user.getLastLogoutDate()));

@@ -17,6 +17,7 @@ public class LogoutHandler implements LogoutSuccessHandler {
     UserService userService;
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+
         String username = ((CustomUserDetails) authentication.getPrincipal()).getUsername();
 
         userService.updateLogoutDate(username);

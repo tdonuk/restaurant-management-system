@@ -86,13 +86,11 @@ function assignRole(userId) {
     modal.querySelector("#okButton").onclick = function () {
         const role = modal.querySelector("#roleField").innerText;
         modal.remove();
-        sendAssignRoleRequest(userId, role);
-    }
-}
-function sendAssignRoleRequest(userId, role) {
-    const url = "/api/user/"+userId+"/role";
 
-    createRequest("post", url, showResult, role);
+        const url = "/api/user/"+userId+"/role";
+
+        createRequest("post", url, showResult, role);
+    }
 }
 /* - */
 
@@ -144,13 +142,11 @@ function updateEmail(userId) {
     modal.querySelector("#okButton").onclick = function () {
         const email = modal.querySelector("#emailField").value;
         modal.remove();
-        sendUpdateEmailRequest(userId, email);
-    }
-}
-function sendUpdateEmailRequest(userId, email) {
-    const url = "/user/"+userId+"/email";
 
-    createRequest("post", url, showResult, email);
+        const url = "/user/"+userId+"/email";
+
+        createRequest("post", url, showResult, email);
+    }
 }
 /* - */
 

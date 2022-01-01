@@ -5,6 +5,7 @@ td {
 th {
     padding: 10px;
     background-color: lightgray;
+    text-align: center;
 }
 
 table {

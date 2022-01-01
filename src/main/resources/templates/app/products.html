@@ -58,7 +58,7 @@
                                 <a class="linkButton" th:href="'api/product/'+${product.productId}+'/details'">Details</a>
                             </td>
                             <td>
-                                <a class="linkButton" sec:authorize="hasAnyAuthority('MANAGER', 'ADMIN', 'EMPLOYEE')" th:onclick="'javascript:createStockUpdatePopup('+${product.productId}+')'">Add Stock</a>
+                                <a class="linkButton" th:onclick="'javascript:createStockUpdatePopup('+${product.productId}+')'">Add Stock</a>
                             </td>
                         </tr>
                     </table>
