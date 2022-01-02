@@ -88,6 +88,11 @@ input {
     font-weight: bold;
 }
 
+.result-detail {
+    text-align: right;
+    padding: 10px;
+}
+
 .linkButton {
     color: blue;
     text-decoration: underline;

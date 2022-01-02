@@ -21,8 +21,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
-     @PostMapping(path = "api/user/save")
-     @ResponseBody
+
+    @PostMapping(path = "api/user/save")
+    @ResponseBody
     public Object saveEmployee(@RequestBody UserDTO emp) {
          try {
              Employee result = userService.saveUser(emp);

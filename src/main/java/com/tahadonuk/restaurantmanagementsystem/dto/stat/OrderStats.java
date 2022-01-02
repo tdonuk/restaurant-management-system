@@ -10,6 +10,12 @@ public class OrderStats extends Stats{
     private long orderCountLastWeek;
     private long orderCountLastMonth;
     private long orderCountCurrentMonth;
+    private double cashToday;
+    private double cashYesterday;
+    private double cashCurrentWeek;
+    private double cashCurrentMonth;
+    private double cashLastWeek;
+    private double cashLastMonth;
 
     public String getTodayPercentToYesterday() {
         if(orderCountYesterday == 0) return "+0%";

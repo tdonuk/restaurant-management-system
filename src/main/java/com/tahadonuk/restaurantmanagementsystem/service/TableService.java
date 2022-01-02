@@ -21,10 +21,9 @@ public class TableService {
     TableRepository tableRepo;
 
     public void addTable(RestaurantTable table) {
-        if(isExists(table.getTableId())) {
+        if (isExists(table.getTableId())) {
             throw new TableConflictException("A table is already exists with given id: '" + table.getTableId() + "'");
-        }
-        else {
+        } else {
             tableRepo.save(table);
         }
     }

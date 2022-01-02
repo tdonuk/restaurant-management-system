@@ -28,6 +28,12 @@ public class UserService {
     @Autowired
     BCryptPasswordEncoder encoder;
 
+    public void saveUser(Employee user) {
+        if (!isExists(user.getEmail())) {
+            userRepository.save(user);
+        } else throw new UserConflictException("A user is already exists with given email: " + user.getEmail());
+    }
+
     public Employee saveUser(UserDTO userDTO) throws Exception{
         if(isExists(userDTO.getEmail())) {
             throw new UserConflictException("An employee with email  '" + userDTO.getEmail() + "' is already exists.");
@@ -50,31 +56,20 @@ public class UserService {
         }
     }
 
-    public void saveUser(Employee user) {
-        if(! isExists(user.getEmail())) {
-            userRepository.save(user);
-        }
-        else throw new UserConflictException("A user is already exists with given email: "+user.getEmail());
-    }
-
-    public List<Employee> getAll() {
-        return userRepository.findAll();
-    }
-
     public void updateLoginDate(final String email) {
         if(isExists(email)) {
             userRepository.updateLastLogin(new Date(), email);
         }
     }
 
-    public long countAll() {
-        return userRepository.count();
-    }
-
     public void updateLogoutDate(final String email) {
         if(isExists(email)) {
             userRepository.updateLastLogout(new Date(), email);
         }
+    }
+
+    public long countAll() {
+        return userRepository.count();
     }
 
     public UserDTO getUserFromEntity(Employee user) {
@@ -110,6 +105,10 @@ public class UserService {
             return userRepository.findById(id).get();
         }
         else throw new UserNotFoundException("There is no such employee with given id: '" + id + "'");
+    }
+
+    public List<Employee> getAll() {
+        return userRepository.findAll();
     }
 
     public List<Employee> getUsersByRole(UserRole role) {
@@ -156,16 +155,16 @@ public class UserService {
         else throw new UserNotFoundException("No such user with given ID.");
     }
 
-    public void changeName(long id, Name name) throws UserNotFoundException{
+    public void changePhoneNumber(long id, String phoneNumber) throws UserNotFoundException{
         if(isExists(id)) {
-            userRepository.changeName(id, name);
+            //userRepository.changePhoneNumber(id,phoneNumber);
         }
         else throw new UserNotFoundException("No such user with given ID.");
     }
 
-    public void changePhoneNumber(long id, String phoneNumber) throws UserNotFoundException{
+    public void changeName(long id, Name name) throws UserNotFoundException{
         if(isExists(id)) {
-            //userRepository.changePhoneNumber(id,phoneNumber);
+            userRepository.changeName(id, name);
         }
         else throw new UserNotFoundException("No such user with given ID.");
     }

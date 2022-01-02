@@ -38,7 +38,7 @@ public class OrderService {
     public void saveOrder(Order order) {
         orderRepo.save(order);
     }
-
+    
     @Transactional
     public Order saveOrderFromData(OrderDTO orderData) {
         try {
@@ -98,13 +98,13 @@ public class OrderService {
     }
 
     public List<Order> getOrdersByInterval(LocalDate start, LocalDate end) {
-        if(end.isAfter(LocalDate.now())) {
+        if(start.isAfter(LocalDate.now())) {
             return new ArrayList<>();
         }
         return orderRepo.findByOrderDateBetween(LocalDateTime.of(start, LocalTime.MIDNIGHT),  LocalDateTime.of(end, LocalTime.MIDNIGHT));
     }
     public long countOrdersByInterval(LocalDate start, LocalDate end) {
-        if(end.isAfter(LocalDate.now())) {
+        if(start.isAfter(LocalDate.now())) {
             return 0;
         }
         return orderRepo.countByOrderDateBetween(LocalDateTime.of(start, LocalTime.MIDNIGHT),  LocalDateTime.of(end,LocalTime.MIDNIGHT));
@@ -128,6 +128,7 @@ public class OrderService {
 
         OrderStats orderStats = new OrderStats();
 
+        // Total count
         orderStats.setTotalCount(orderRepo.count());
 
         orderStats.setOrderCountToday(countOrdersFromDateUntilNow(startOfToday));
@@ -139,6 +140,15 @@ public class OrderService {
         orderStats.setOrderCountLastWeek(countOrdersByInterval(startOfLastWeek, startOfCurrentWeek));
         orderStats.setOrderCountLastMonth(countOrdersByInterval(startOfLastMonth, startOfCurrentMonth));
 
+        // Total cash
+        orderStats.setCashToday(getOrdersByInterval(startOfToday,LocalDate.now()).stream().mapToDouble(Order::getTotalPrice).sum());
+        orderStats.setCashYesterday(getOrdersByInterval(startOfYesterday,startOfToday).stream().mapToDouble(Order::getTotalPrice).sum());
+
+        orderStats.setCashCurrentWeek(getOrdersByInterval(startOfCurrentWeek,LocalDate.now()).stream().mapToDouble(Order::getTotalPrice).sum());
+        orderStats.setCashCurrentMonth(getOrdersByInterval(startOfCurrentMonth,LocalDate.now()).stream().mapToDouble(Order::getTotalPrice).sum());
+
+        orderStats.setCashLastWeek(getOrdersByInterval(startOfLastWeek,startOfCurrentWeek).stream().mapToDouble(Order::getTotalPrice).sum());
+        orderStats.setCashLastMonth(getOrdersByInterval(startOfLastMonth,startOfCurrentMonth).stream().mapToDouble(Order::getTotalPrice).sum());
 
         return orderStats;
     }

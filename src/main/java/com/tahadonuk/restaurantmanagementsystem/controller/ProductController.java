@@ -58,6 +58,7 @@ public class ProductController {
             return ResponseEntity.badRequest().body(new StringResponse(e.getMessage()));
         }
     }
+
     @PostMapping(path = "/api/product/{id}/price")
     @ResponseBody
     public Object updateItemPrice(@PathVariable long id, @RequestBody double price, HttpServletRequest request) {

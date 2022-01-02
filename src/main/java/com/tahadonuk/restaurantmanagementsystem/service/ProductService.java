@@ -31,14 +31,14 @@ public class ProductService {
     @PersistenceContext
     EntityManager em;
 
-    public void saveItem(Product product) throws ItemConflictException{
-        if(isExists(product.getName())) {
+    public void saveProduct(Product product) throws ItemConflictException {
+        if (isExists(product.getName())) {
             throw new ItemConflictException("An item with given info for '" + product.getName() + "' is already exists");
-        }
-        else {
+        } else {
             productRepository.save(product);
         }
     }
+
 
     public void handleStocks(Set<Item> items) throws ItemOutOfStockException{
         for(Item item : items) {
@@ -63,7 +63,7 @@ public class ProductService {
         productEntity.setStockRequired(item.isStockRequired());
         productEntity.setStock(item.getStock());
 
-        productRepository.save(productEntity);
+        saveProduct(productEntity);
 
         return productEntity;
     }

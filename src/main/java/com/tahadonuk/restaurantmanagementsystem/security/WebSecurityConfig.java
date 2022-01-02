@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                     .hasAnyAuthority( "EMPLOYEE", "ADMIN", "MANAGER")
                     .and().exceptionHandling().accessDeniedPage("/unauthorized").and()
                 .authorizeRequests()
-                    .antMatchers("/api/user/**")
+                    .antMatchers("/insights", "/api/user/**")
                     .hasAnyAuthority("ADMIN", "MANAGER")
                     .and().exceptionHandling().accessDeniedPage("/unauthorized").and()
                 .formLogin().loginPage("/login").usernameParameter("email")

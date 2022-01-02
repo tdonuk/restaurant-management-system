@@ -17,7 +17,7 @@ public class TableController {
     @Autowired
     TableService tableService;
 
-    @PostMapping(path = "api/table/save")
+    @PostMapping(path = "/api/table/save")
     @ResponseBody
     public ResponseEntity<Object> addTable(@RequestBody RestaurantTable table) {
         if(table.getTableId() <= 0) return ResponseEntity.badRequest().body(new StringResponse("Given ID: "+table.getTableId()+" is not valid."));
@@ -32,7 +32,7 @@ public class TableController {
         }
     }
 
-    @DeleteMapping(path = "api/table/{id}/delete")
+    @DeleteMapping(path = "/api/table/{id}/delete")
     @ResponseBody
     public ResponseEntity<Object> deleteTable(@PathVariable long id) {
         try{
@@ -43,7 +43,7 @@ public class TableController {
         }
     }
 
-    @GetMapping(path = "api/table/{id}")
+    @GetMapping(path = "/api/table/{id}")
     @ResponseBody
     public ResponseEntity<Object> getById(@PathVariable long id) {
         try {
@@ -53,19 +53,19 @@ public class TableController {
         }
     }
 
-    @GetMapping(path = "api/table")
+    @GetMapping(path = "/api/table")
     @ResponseBody
     public ResponseEntity<List<RestaurantTable>> getTables() {
         return new ResponseEntity<>(tableService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "api/table/cap")
+    @GetMapping(path = "/api/table/cap")
     @ResponseBody
     public ResponseEntity<List<RestaurantTable>> getByCapacity(@RequestParam("capacity") int capacity) {
         return new ResponseEntity<>(tableService.getByCapacity(capacity), HttpStatus.OK);
     }
 
-    @PostMapping(path = "api/table/{id}/status")
+    @PostMapping(path = "/api/table/{id}/status")
     @ResponseBody
     public ResponseEntity<Object> setStatus(@RequestBody String statusString, @PathVariable long id) {
         try {

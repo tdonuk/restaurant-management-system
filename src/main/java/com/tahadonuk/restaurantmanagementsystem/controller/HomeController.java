@@ -42,9 +42,9 @@ public class HomeController {
     @Autowired
     ProductService productService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/insights")
     @ResponseBody
-    public ModelAndView getHomePage(HttpServletRequest request) {
+    public ModelAndView insightsPage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
 
         String currentUserEmail = request.getRemoteUser();
@@ -74,7 +74,7 @@ public class HomeController {
         mav.getModel().put("orderStats", orderStats);
         //
 
-        mav.setViewName("app/main_page");
+        mav.setViewName("app/insights");
         return mav;
     }
 
@@ -143,7 +143,7 @@ public class HomeController {
         return mav;
     }
 
-    @GetMapping(value = "/tables")
+    @GetMapping(value = "/")
     @ResponseBody
     public ModelAndView getTablesPage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
@@ -262,8 +262,10 @@ public class HomeController {
         LocalDate endDate = LocalDate.parse(end);
 
         List<Order> orders = orderService.getOrdersByInterval(startDate, endDate);
+        double totalCash = orders.stream().mapToDouble(Order::getTotalPrice).sum();
 
         mav.getModel().put("orders", orders);
+        mav.getModel().put("totalCash", totalCash);
         mav.getModel().put("items", productService.getAll());
 
         return mav;
@@ -281,8 +283,10 @@ public class HomeController {
         mav.getModel().put("user",userData);
 
         List<Order> orders = orderService.getOrdersItemsContains(name);
+        double totalCash = orders.stream().mapToDouble(Order::getTotalPrice).sum();
 
         mav.getModel().put("orders", orders);
+        mav.getModel().put("totalCash", totalCash);
         mav.getModel().put("items", productService.getAll());
 
         return mav;

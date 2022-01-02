@@ -34,7 +34,7 @@
                     </tr>
                     
                     <tr>
-                        <th>Address:</th>
+                        <th>Primary Address:</th>
                         <td th:text="${userDetails.addressList[0].addressLine}"></td>
                         <th>Detail:</th>
                         <td th:text="${userDetails.addressList[0].details}"></td>
@@ -43,8 +43,8 @@
                     <tr>
                         <th>Role:</th>
                         <td th:text="${userDetails.role.roleText}"></td>
-                        <th>Salary:</th>
-                        <td th:text="${userDetails.salary}"></td>
+                        <th>Birth Date:</th>
+                        <td th:text="${#dates.format(userDetails.dateOfBirth, 'dd/MM/yyyy')}"></td>
                     </tr>
                     
                     <tr>
@@ -54,12 +54,6 @@
                         <td th:text="${#dates.format(userDetails.lastLogoutDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
                     </tr>
                     
-                    <tr>
-                        <th>Birth Date:</th>
-                        <td th:text="${#dates.format(userDetails.dateOfBirth, 'dd/MM/yyyy')}"></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
                 </table>
                 <div class="controls" id="userControls">
                     <a th:onclick="'javascript:changeName('+${userDetails.employeeId}+')'" class="linkButton">Change Name</a>

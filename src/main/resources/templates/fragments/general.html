@@ -29,11 +29,11 @@
         </div>
 
         <div class="nav side-nav" th:fragment="sideNav">
-            <a class="nav-item" href="/">Home</a>
+            <a class="nav-item" href="/">Tables</a>
             <a class="nav-item" href="/users" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">Users</a>
-            <a class="nav-item" href="/tables">Tables</a>
             <a class="nav-item" href="/products">Products</a>
             <a class="nav-item" href="/orders">Orders</a>
+            <a class="nav-item" href="/insights">Insights</a>
         </div>
         
     </body>

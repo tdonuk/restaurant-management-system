@@ -11,6 +11,7 @@
             <div th:replace="fragments/general :: pageHeader(title='', userData=${user})"/>
             <div class="nav side-nav" th:replace="fragments/general :: sideNav"/>
             <div class="main">
+                <h1 class="big-title">Insights Overview</h1>
                 <div class="section" id="stats">
                     <div class="sub-section box" id="tableStats">
                         <div class="box-header">
@@ -236,13 +237,16 @@
                             <table>
                                 <tr>
                                     <th>
-                    
+                                    
                                     </th>
                                     <th>
                                         <label class="stat-title">Count</label>
                                     </th>
                                     <th>
                                         <label class="stat-title">Change</label>
+                                    </th>
+                                    <th>
+                                        <label class="stat-title">Cash</label>
                                     </th>
                                 </tr>
                                 <tr>
@@ -255,6 +259,9 @@
                                     <td>
                                         <span class="stat-content" th:text="${orderStats.getTodayPercentToYesterday()}+' (Compared to yesterday)'"></span>
                                     </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.cashToday}"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>
@@ -265,6 +272,9 @@
                                     </td>
                                     <td>
                                         <span class="stat-content" th:text="''"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.cashYesterday}"></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -277,6 +287,9 @@
                                     <td>
                                         <span class="stat-content" th:text="${orderStats.getCurrentWeekRatioToLastWeek()}+' (Compared to last week)'"></span>
                                     </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.cashCurrentWeek}"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>
@@ -287,6 +300,9 @@
                                     </td>
                                     <td>
                                         <span class="stat-content" th:text="${orderStats.getCurrentMonthRatioToLastMonth()}+' (Compared to last month)'"></span>
+                                    </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.cashCurrentMonth}"></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -299,6 +315,9 @@
                                     <td>
                                         <span class="stat-content" th:text="''"></span>
                                     </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.cashLastWeek}"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>
@@ -310,6 +329,9 @@
                                     <td>
                                         <span class="stat-content" th:text="''"></span>
                                     </td>
+                                    <td>
+                                        <span class="stat-content" th:text="${orderStats.cashLastMonth}"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>
@@ -320,6 +342,9 @@
                                     </td>
                                     <td>
                                         <span class="stat-content" th:text="''"></span>
+                                    </td>
+                                    <td>
+
                                     </td>
                                 </tr>
                             </table>
