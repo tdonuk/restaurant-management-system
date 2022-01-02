@@ -153,14 +153,16 @@ public class OrderService {
         return orderStats;
     }
 
-    public List<Order> getOrdersItemsContains(String name) {
+    public Set<Order> getOrdersItemsContains(String name) {
         List<Item> itemsWithName = itemRepository.findAllByProduct_Name(name);
 
-        if( itemsWithName.size() == 0) return List.of();
+        Set<Order> orders = new HashSet<>();
 
-        List<Order> orders = orderRepo.findOrdersByItemsContaining(itemsWithName.get(0));
+        if( itemsWithName.size() == 0) return Set.of();
 
-        orders.sort(Comparator.comparing(Order::getOrderDate));
+        for (Item item : itemsWithName) {
+            orders.addAll(orderRepo.findOrdersByItemsContaining(item));
+        }
 
         return orders;
     }

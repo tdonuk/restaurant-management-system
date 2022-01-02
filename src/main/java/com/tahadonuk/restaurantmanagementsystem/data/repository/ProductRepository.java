@@ -16,8 +16,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByItemType(ItemType type);
     boolean existsByItemType(ItemType type);
 
-    List<Product> findAllByName(String  name);
+    List<Product> findAllByName(String name);
     boolean existsByName(String name);
+
+    List<Product> findAllByNameContains(String name);
 
     int countByItemType(ItemType itemType);
 

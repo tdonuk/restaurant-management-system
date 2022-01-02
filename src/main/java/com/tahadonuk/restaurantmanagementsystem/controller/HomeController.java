@@ -10,8 +10,8 @@ import com.tahadonuk.restaurantmanagementsystem.dto.stat.ItemStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.OrderStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.TableStats;
 import com.tahadonuk.restaurantmanagementsystem.dto.stat.UserStats;
-import com.tahadonuk.restaurantmanagementsystem.service.ProductService;
 import com.tahadonuk.restaurantmanagementsystem.service.OrderService;
+import com.tahadonuk.restaurantmanagementsystem.service.ProductService;
 import com.tahadonuk.restaurantmanagementsystem.service.TableService;
 import com.tahadonuk.restaurantmanagementsystem.service.UserService;
 import com.tahadonuk.restaurantmanagementsystem.util.UserUtils;
@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class HomeController {
@@ -282,7 +283,7 @@ public class HomeController {
 
         mav.getModel().put("user",userData);
 
-        List<Order> orders = orderService.getOrdersItemsContains(name);
+        Set<Order> orders = orderService.getOrdersItemsContains(name);
         double totalCash = orders.stream().mapToDouble(Order::getTotalPrice).sum();
 
         mav.getModel().put("orders", orders);
