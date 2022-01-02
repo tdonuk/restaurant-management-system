@@ -156,6 +156,8 @@ public class OrderService {
     public List<Order> getOrdersItemsContains(String name) {
         List<Item> itemsWithName = itemRepository.findAllByProduct_Name(name);
 
+        if( itemsWithName.size() == 0) return List.of();
+
         List<Order> orders = orderRepo.findOrdersByItemsContaining(itemsWithName.get(0));
 
         orders.sort(Comparator.comparing(Order::getOrderDate));

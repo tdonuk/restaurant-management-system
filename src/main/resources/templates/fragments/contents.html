@@ -26,9 +26,9 @@
             </div>
         </div>
         <div class="sub-section" id="tablesWrapper">
-            <div th:each="table : ${tableList}" class="table-box" th:classappend="${table.status.getStatusText().toLowerCase().replaceAll(' ','-')}">
-                <span th:text="'Table '+${table.tableId}"></span>
-                <span th:text="${table.status.getStatusText()}"></span>
+            <div th:each="table : ${tableList}" class="table-box" th:onclick="'javascript:processUpdateTableStatus('+${table.tableId}+')'" th:classappend="${table.status.getStatusText().toLowerCase().replaceAll(' ','-')}">
+                <span class="table-title" th:text="'Table '+${table.tableId}"></span>
+                <span class="table-status" th:text="${table.status.getStatusText()}"></span>
             </div>
         </div>
     </div>

@@ -68,9 +68,13 @@ addOrderButton.onclick = function () {
     request.send();
 }
 
-function createUpdateTableModal() {
+function createUpdateTableModal(tableId = null) {
     let statusArray = ["Available", "Out of service", "Full"];
     let tableList = createTableIdArray();
+
+    let id;
+    if(tableId === null) id = tableList[0];
+    else id = tableId;
 
     const body = ''+
         '<table>'+
@@ -79,9 +83,9 @@ function createUpdateTableModal() {
                     '<label>Table: </label>'+
                 '</td>'+
                 '<td>' +
-                    '<div class="dropdown">' +
-                        '<span id="tableIdField" class="dropdown-text">'+tableList[0]+'</span>'+
-                        '<div class="dropdown-content">' +
+                    '<div class="dropdown" id="tableIdList">' +
+                        '<span id="tableIdField" class="dropdown-text">'+id+'</span>'+
+                        '<div class="dropdown-content" style="max-height: 300px">' +
                             createDropdownContent(tableList) +
                         '</div>'+
                     '</div>'+
@@ -175,11 +179,17 @@ refreshButton.onclick = function() {
     refreshTables();
 }
 
-updateButton.onclick = function () {
-    const modal = createUpdateTableModal();
+updateButton.onclick = processUpdateTableStatus;
+
+function processUpdateTableStatus(tableId = null) {
+    const modal = createUpdateTableModal(tableId);
     initDropdowns();
     modal.querySelector("#okButton").onclick = function (e) {
-        const id = parseInt(modal.querySelector("#tableIdField").innerText);
+        let id;
+
+        if(tableId === null) id = parseInt(modal.querySelector("#tableIdField").innerText);
+        else id = tableId;
+
         const status = modal.querySelector("#tableStatusField").innerText;
 
         modal.remove();

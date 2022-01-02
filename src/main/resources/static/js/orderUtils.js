@@ -36,7 +36,6 @@ let itemList = new Array();
 let cart;
 let itemListElement;
 let priceField;
-let cartTotalPrice;
 let tableField;
 let saveOrderButton;
 
@@ -46,7 +45,6 @@ function initCartUtils() {
      cart = document.getElementById('cart');
      itemListElement = document.getElementById("itemList");
      priceField = document.getElementById("cartPrice");
-     cartTotalPrice = document.getElementById("cartPrice");
      tableField = document.getElementById("tableNumberField");
 
      saveOrderButton = document.getElementById("saveOrderButton");
@@ -101,13 +99,13 @@ function createCartItem(item) {
 
     itemListElement.appendChild(cartItem);
 
-    updateCartPrice(item["price"]);
+    updateCartPrice(item["product"]["price"]);
 }
 
 function updateCartPrice(price) {
-    const currentPrice = parseFloat(cartTotalPrice.innerText);
+    const currentPrice = parseFloat(priceField.innerText);
 
-    cartTotalPrice.innerText = (currentPrice + price).toFixed(2);
+    priceField.innerText = (currentPrice + price).toFixed(2);
 }
 
 function saveOrder() {
@@ -192,8 +190,6 @@ function addItemToCart(itemId) {
                 product: product,
                 quantity: 1
             }
-
-            console.log(itemObj);
 
             handleQuantities(itemObj);
         } else {

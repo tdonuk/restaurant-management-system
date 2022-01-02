@@ -83,10 +83,10 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="dropdown" id="itemList">
-                                        <span class="dropdown-text" id="itemName" th:unless="${#lists.size(items)} == 0" th:text="${items[0].name}"></span>
+                                    <div th:unless="${#lists.size(items)} == 0" class="dropdown" id="itemList">
+                                        <span class="dropdown-text" id="itemName" th:text="${items[0].name}"></span>
                                         <div class="dropdown-content">
-                                            <p class="dropdown-product" th:each="product : ${items}" th:text="${product.name}"></p>
+                                            <p class="dropdown-item" th:each="product : ${items}" th:text="${product.name}"></p>
                                         </div>
                                     </div>
                                 </td>
