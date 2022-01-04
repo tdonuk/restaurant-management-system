@@ -1,6 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.security;
 
-import com.tahadonuk.restaurantmanagementsystem.data.PhoneNumber;
+import com.tahadonuk.restaurantmanagementsystem.dto.PhoneNumber;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.employee.Employee;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;

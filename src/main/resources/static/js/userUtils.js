@@ -100,10 +100,18 @@ function updatePhone(userId) {
         '<table>' +
         '    <tr>' +
         '        <th>' +
+        '            <label>Title:</label>' +
+        '        </th>' +
+        '        <td>' +
+        '            <input id="titleField" type="text"/>' +
+        '        </td>' +
+        '    </tr>' +
+        '    <tr>' +
+        '        <th>' +
         '            <label>Phone:</label>' +
         '        </th>' +
         '        <td>' +
-        '            <input id="phoneField" type="text" minlength="10"/>' +
+        '            <input id="phoneField" type="text"/>' +
         '        </td>' +
         '    </tr>' +
         '</table>';
@@ -111,15 +119,20 @@ function updatePhone(userId) {
     const modal = createModalFromBody(body, "Update Phone");
 
     modal.querySelector("#okButton").onclick = function () {
+        const title = modal.querySelector("#titleField").value;
         const phone = modal.querySelector("#phoneField").value;
-        modal.remove();
-        sendUpdatePhoneRequest(userId, phone);
-    }
-}
-function sendUpdatePhoneRequest(userId, phone) {
-    const url = "/user/"+userId+"/phone";
 
-    createRequest("post", url, showResult, phone);
+        const phoneObj = {
+            title: title,
+            number: phone
+        }
+
+        modal.remove();
+
+        const url = "/user/"+userId+"/phone";
+
+        createRequest("post", url, showResult, JSON.stringify(phoneObj));
+    }
 }
 /* - */
 
@@ -214,10 +227,10 @@ function updateAddress(userId) {
         '<table>' +
         '    <tr>' +
         '        <th>' +
-        '            <label>Street:</label>' +
+        '            <label>Address Line:</label>' +
         '        </th>' +
         '        <td>' +
-        '            <input id="streetField" type="text" minlength="1"/>' +
+        '            <input id="line1" type="text" minlength="1"/>' +
         '        </td>' +
         '    </tr>' +
         '    <tr>' +
@@ -225,7 +238,7 @@ function updateAddress(userId) {
         '            <label>Detail:</label>' +
         '        </th>' +
         '        <td>' +
-        '            <input id="detailField" type="text" minlength="1"/>' +
+        '            <input id="line2" type="text" minlength="1"/>' +
         '        </td>' +
         '    </tr>' +
         '</table>';
@@ -234,22 +247,18 @@ function updateAddress(userId) {
 
     modal.querySelector("#okButton").onclick = function () {
         const address = {
-            street: "",
-            apartment: ""
+            addressLine: "",
+            details: ""
         }
-        address.street = modal.querySelector("#streetField").value;
-        address.apartment = modal.querySelector("#detailField").value;
+        address.addressLine = modal.querySelector("#line1").value;
+        address.details = modal.querySelector("#line2").value;
 
         modal.remove();
 
-        sendUpdateAddressRequest(userId, address);
+        const url = "/user/"+userId+"/address";
+
+        createRequest("post", url, showResult, JSON.stringify(address));
     }
-}
-
-function sendUpdateAddressRequest(userId, address) {
-    const url = "/user/"+userId+"/address";
-
-    createRequest("post", url, showResult, JSON.stringify(address));
 }
 /* - */
 

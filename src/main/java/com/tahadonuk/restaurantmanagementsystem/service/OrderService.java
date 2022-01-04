@@ -110,6 +110,13 @@ public class OrderService {
         return orderRepo.countByOrderDateBetween(LocalDateTime.of(start, LocalTime.MIDNIGHT),  LocalDateTime.of(end,LocalTime.MIDNIGHT));
     }
 
+    public List<Order> getOrdersFromDateUntilNow(LocalDate date) {
+        if(date.isAfter(LocalDate.now())) {
+            return new ArrayList<>();
+        }
+        return orderRepo.findByOrderDateBetween(LocalDateTime.of(date, LocalTime.MIDNIGHT),  LocalDateTime.now());
+    }
+
     public long countOrdersFromDateUntilNow(LocalDate date) {
         if(date.isAfter(LocalDate.now())) {
             return 0;
@@ -141,11 +148,11 @@ public class OrderService {
         orderStats.setOrderCountLastMonth(countOrdersByInterval(startOfLastMonth, startOfCurrentMonth));
 
         // Total cash
-        orderStats.setCashToday(getOrdersByInterval(startOfToday,LocalDate.now()).stream().mapToDouble(Order::getTotalPrice).sum());
+        orderStats.setCashToday(getOrdersFromDateUntilNow(startOfToday).stream().mapToDouble(Order::getTotalPrice).sum());
         orderStats.setCashYesterday(getOrdersByInterval(startOfYesterday,startOfToday).stream().mapToDouble(Order::getTotalPrice).sum());
 
-        orderStats.setCashCurrentWeek(getOrdersByInterval(startOfCurrentWeek,LocalDate.now()).stream().mapToDouble(Order::getTotalPrice).sum());
-        orderStats.setCashCurrentMonth(getOrdersByInterval(startOfCurrentMonth,LocalDate.now()).stream().mapToDouble(Order::getTotalPrice).sum());
+        orderStats.setCashCurrentWeek(getOrdersFromDateUntilNow(startOfCurrentWeek).stream().mapToDouble(Order::getTotalPrice).sum());
+        orderStats.setCashCurrentMonth(getOrdersFromDateUntilNow(startOfCurrentMonth).stream().mapToDouble(Order::getTotalPrice).sum());
 
         orderStats.setCashLastWeek(getOrdersByInterval(startOfLastWeek,startOfCurrentWeek).stream().mapToDouble(Order::getTotalPrice).sum());
         orderStats.setCashLastMonth(getOrdersByInterval(startOfLastMonth,startOfCurrentMonth).stream().mapToDouble(Order::getTotalPrice).sum());

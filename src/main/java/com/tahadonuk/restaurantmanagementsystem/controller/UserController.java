@@ -1,5 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.controller;
 
+import com.tahadonuk.restaurantmanagementsystem.dto.PhoneNumber;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.employee.Employee;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
@@ -137,7 +138,7 @@ public class UserController {
 
     @PostMapping(path = "/user/{id}/phone")
     @ResponseBody
-    public Object changePhoneNumber(@PathVariable long id, @RequestBody String phone) {
+    public Object changePhoneNumber(@PathVariable long id, @RequestBody PhoneNumber phone) {
         try {
             userService.changePhoneNumber(id, phone);
             return ResponseEntity.ok(new StringResponse("Phone number changed successfully."));

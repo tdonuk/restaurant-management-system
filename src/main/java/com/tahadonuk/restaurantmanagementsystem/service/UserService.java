@@ -1,6 +1,6 @@
 package com.tahadonuk.restaurantmanagementsystem.service;
 
-import com.tahadonuk.restaurantmanagementsystem.data.PhoneNumber;
+import com.tahadonuk.restaurantmanagementsystem.dto.PhoneNumber;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.data.entity.employee.Employee;
 import com.tahadonuk.restaurantmanagementsystem.data.repository.UserRepository;
@@ -15,7 +15,10 @@ import com.tahadonuk.restaurantmanagementsystem.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,9 +27,10 @@ import java.util.List;
 public class UserService {
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     BCryptPasswordEncoder encoder;
+    @PersistenceContext
+    EntityManager entityManager;
 
     public void saveUser(Employee user) {
         if (!isExists(user.getEmail())) {
@@ -148,16 +152,24 @@ public class UserService {
         else throw new UserNotFoundException("No such user with given ID.");
     }
 
+    @Transactional
     public void changeAddress(long id, Address address) {
         if(isExists(id)) {
-            //userRepository.changeAddress(id, address);
+           Employee emp = entityManager.find(Employee.class, id);
+           emp.getAddressList().set(0, address);
+
+           entityManager.merge(emp);
         }
         else throw new UserNotFoundException("No such user with given ID.");
     }
 
-    public void changePhoneNumber(long id, String phoneNumber) throws UserNotFoundException{
+    @Transactional
+    public void changePhoneNumber(long id, PhoneNumber phoneNumber) throws UserNotFoundException{
         if(isExists(id)) {
-            //userRepository.changePhoneNumber(id,phoneNumber);
+            Employee emp = entityManager.find(Employee.class, id);
+            emp.getPhoneNumbers().set(0, phoneNumber);
+
+            entityManager.merge(emp);
         }
         else throw new UserNotFoundException("No such user with given ID.");
     }
@@ -178,6 +190,9 @@ public class UserService {
 
     public void assignRole(long id, UserRole role) throws UserNotFoundException{
         if(isExists(id)) {
+            if(userRepository.getById(id).getRole() == UserRole.ADMIN) {
+                throw new UserConflictException("Admin account can't be updated");
+            }
             userRepository.assignRole(id, role);
         }
         else throw new UserNotFoundException("No such user with given ID.");

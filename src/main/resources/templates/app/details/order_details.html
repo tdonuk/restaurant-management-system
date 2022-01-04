@@ -14,58 +14,56 @@
             <div th:replace="fragments/general :: pageHeader(title=' / Order Details', userData=${user})"/>
             <div class="nav side-nav" th:replace="fragments/general :: sideNav(navList = ${navlist})"/>
             
-            <div class="main">
-                <div class="tableWrapper">
-                    <div class="tableHeader">
-                        <h2 class="context-title" th:text="'Order '+${orderDetails.orderId}"></h2>
-                    </div>
-                    <table>
-                        <tr>
-                            <th>ID:</th>
-                            <td th:text="${orderDetails.orderId}"></td>
-                            <th>Date:</th>
-                            <td th:text="${#temporals.format(orderDetails.orderDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                        </tr>
-            
-                        <tr>
-                            <th>Table:</th>
-                            <td th:text="${orderDetails.table.tableId}"></td>
-                            <th>Price:</th>
-                            <td th:text="${orderDetails.totalPrice}"></td>
-                        </tr>
-            
-                        <tr>
-                            <th>Items</th>
-                            <th></th>
-                            <th></th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="item" th:each="item : ${orderDetails.items}" th:unless="${item.product == null}">
-                                    <span class="index" th:text="${itemStat.index+1}"></span>
-                                    <span class="item-id" th:text="'id: '+${item.product.productId}"></span>
-                                    <span class="item-name" th:text="${item.product.name}"></span>
-                                    <span class="item-unit-price" th:text="'unit: '+${item.product.price}"></span>
-                                    <span class="price-unit">₺</span>
-                                    <span class="item-quantity" th:text="'x'+${item.quantity}"></span>
-                                    <span class="item-price" th:text="'total: '+${item.product.price * item.quantity}"></span>
-                                    <span class="price-unit">₺</span>
-                                </div>
-                                <div class="item" th:each="item : ${orderDetails.items}" th:if="${item.product == null}">
-                                    <span class="index" th:text="${itemStat.index+1}"></span>
-                                    <span class="item-not-found" style="text-align: center"><i>deleted item</i></span>
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                    <div class="controls" id="orderControls">
-                        <button id="deleteOrderButton" th:onclick="'javascript:deleteOrder('+${orderDetails.orderId}+')'">Delete</button>
-                    </div>
+            <div class="main">                <div class="tableWrapper">
+                <div class="tableHeader">
+                    <h2 class="context-title" th:text="'Order '+${orderDetails.orderId}"></h2>
                 </div>
+                <table>
+                    <tr>
+                        <th>ID:</th>
+                        <td th:text="${orderDetails.orderId}"></td>
+                        <th>Date:</th>
+                        <td th:text="${#temporals.format(orderDetails.orderDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                    </tr>
+                    <tr>
+                        <th>Table:</th>
+                        <td th:text="${orderDetails.table.tableId}"></td>
+                        <th>Price:</th>
+                        <td th:text="${orderDetails.totalPrice}"></td>
+                    </tr>
+                    <tr>
+                        <th>Items</th>
+                        <th></th>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item" th:each="item : ${orderDetails.items}" th:unless="${item.product == null}">
+                                <span class="index" th:text="${itemStat.index+1}"></span>
+                                <span class="item-id" th:text="'id: '+${item.product.productId}"></span>
+                                <span class="item-name" th:text="${item.product.name}"></span>
+                                <span class="item-unit-price" th:text="'unit: '+${item.product.price}"></span>
+                                <span class="price-unit">₺</span>
+                                <span class="item-quantity" th:text="'x'+${item.quantity}"></span>
+                                <span class="item-price" th:text="'total: '+${item.product.price * item.quantity}"></span>
+                                <span class="price-unit">₺</span>
+                            </div>
+                            <div class="item" th:each="item : ${orderDetails.items}" th:if="${item.product == null}">
+                                <span class="index" th:text="${itemStat.index+1}"></span>
+                                <span class="item-not-found" style="text-align: center"><i>deleted item</i></span>
+                            </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div class="controls" id="orderControls">
+                    <button id="deleteOrderButton" th:onclick="'javascript:deleteOrder('+${orderDetails.orderId}+')'">Delete</button>
+                </div>
+            </div>
+
             </div>
         </div>
     

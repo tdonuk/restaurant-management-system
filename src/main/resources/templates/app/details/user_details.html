@@ -26,35 +26,30 @@
                             <th>Name:</th>
                             <td th:text="${userDetails.name.toString()}"></td>
                         </tr>
-        
                         <tr>
                             <th>Phone:</th>
                             <td th:text="${userDetails.phoneNumbers[0].title} + ': ' + ${userDetails.phoneNumbers[0].number}"></td>
                             <th>Email:</th>
                             <td th:text="${userDetails.email}"></td>
                         </tr>
-        
                         <tr>
                             <th>Address:</th>
                             <td th:text="${userDetails.addressList[0].addressLine}"></td>
                             <th>Detail:</th>
                             <td th:text="${userDetails.addressList[0].details}"></td>
                         </tr>
-        
                         <tr>
                             <th>Role:</th>
                             <td th:text="${userDetails.role.roleText}"></td>
                             <th>Salary:</th>
                             <td th:text="${userDetails.salary}"></td>
                         </tr>
-        
                         <tr>
                             <th>Last Login:</th>
                             <td th:text="${#dates.format(userDetails.lastLoginDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
                             <th>Last Logout:</th>
                             <td th:text="${#dates.format(userDetails.lastLogoutDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
                         </tr>
-                        
                         <tr>
                             <th>Birth Date:</th>
                             <td th:text="${#dates.format(userDetails.dateOfBirth, 'dd/MM/yyyy')}"></td>

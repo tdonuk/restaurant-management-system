@@ -1,7 +1,7 @@
 package com.tahadonuk.restaurantmanagementsystem.data.entity.employee;
 
 import com.sun.istack.NotNull;
-import com.tahadonuk.restaurantmanagementsystem.data.PhoneNumber;
+import com.tahadonuk.restaurantmanagementsystem.dto.PhoneNumber;
 import com.tahadonuk.restaurantmanagementsystem.data.UserRole;
 import com.tahadonuk.restaurantmanagementsystem.dto.Address;
 import com.tahadonuk.restaurantmanagementsystem.dto.Name;

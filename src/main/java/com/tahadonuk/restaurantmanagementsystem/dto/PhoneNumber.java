@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Embeddable;
+
 @Data
+@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
-public class ModalProperties {
+public class PhoneNumber {
     private String title;
-    private String subtitle;
-    private String message;
-    private String type;
+    private String number;
 }

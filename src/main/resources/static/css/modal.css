@@ -22,6 +22,10 @@ td {
     padding: 10px 0 !important;
 }
 
+.modal-bg table {
+    width: fit-content !important;
+}
+
 .modal-bg {
     background: rgba(0, 0, 0, 0.55);
 
